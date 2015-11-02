@@ -1,6 +1,8 @@
 package com.worksap.stm.SWARMS.entity;
 
 
+import java.util.List;
+
 import com.worksap.stm.SWARMS.dto.EmployeeDto;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +21,9 @@ public class EmployeeAccountCreationEntity {
 	private String lastName;
 	private String email;
 	private String phoneNo;
+	private List<String> roles;
+	private String storeId;
+	private String sportId;
 	
 	public EmployeeAccountCreationEntity(EmployeeDto employeeAccount) {
 		this.username = employeeAccount.getUsername();

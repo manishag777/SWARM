@@ -36,6 +36,8 @@ public class EmployeeDao {
 				ps.setString(6, employee.getPhoneNo());
 			});
 		} catch (DataAccessException e) {
+			
+			System.out.println("At EmployeeDao :" +e);
 			throw new IOException(e);
 		}
 	}

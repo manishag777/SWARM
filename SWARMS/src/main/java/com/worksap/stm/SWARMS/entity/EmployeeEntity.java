@@ -19,6 +19,9 @@ public class EmployeeEntity implements Serializable {
 	private String lastName;
 	private String email;
 	private String phoneNo;
+//	private List<String> role;
+//	private String storeId;
+//	private String officeId;
 
 	public EmployeeEntity(EmployeeDto employee) {
 		this.username = employee.getUsername();

@@ -1,73 +1,79 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-    <head>
-        <title>Hello World!</title>
-    </head>
-    <body>
-        <h1>Hello world!</h1>
-       <table id="table_id" width="100%">
-		   <thead>
-		       <tr>
-		           <th>Rendering engine</th>
-		           <th>Browser</th>
-		           <th>Platform(s)</th>
-		           <th>Engine version</th>
-		           <th>CSS grade</th>
-		       </tr>
-		   </thead>
-		   <tbody>
-		   <tr>
-		       <td colspan="5" class="dataTables_empty">Loading data from server</td>
-		   </tr>
-		   </tbody>
-		   <tfoot>
-		       <tr>
-		       <th>Rendering engine</th>
-		       <th>Browser</th>
-		       <th>Platform(s)</th>
-		       <th>Engine version</th>
-		       <th>CSS grade</th>
-		   </tr>
-		   </tfoot>
-	</table>
+ <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>AdminLTE 2 | Dashboard</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <!-- Bootstrap 3.3.5 -->
+	<link rel="stylesheet" href="resources/lib/css/select2-bootstrap.min.css"/>
+   
+    <link rel="stylesheet" href="resources/app/css/AdminLTE.min.css"/>   
     
-    	 <script src="resources/lib/js/jquery-2.1.4.min.js" type="text/javascript"></script>
-        <script src="resources/lib/js/datatables.min.js" type="text/javascript"></script>
-    	 
-    <script>
-// 	    $(document).ready(function() {
-// 	        $('#example').DataTable( {
-// 	            "ajax": "admin/test",
-// 	            type : 'POST',
-// 	            contentType : "application/json",
-// 	            "columns": [
-// 	                { "data": "name" },
-// 	                { "data": "position" },
-// 	                { "data": "office" },
-// 	                { "data": "extn" },
-// 	                { "data": "start_date" },
-// 	                { "data": "salary" }
-// 	            ]
-// 	        } );
-// 	    } );
+  </head>
 
-	  $(document).ready(function() {
-    $('#table_id').dataTable( {
-        "bProcessing": true,
-        "sAjaxSource": "application/doajax.do",
-                "fnServerData": function ( sSource, aoData, fnCallback ) {
-            $.ajax( {
-                "dataType": 'json',
-                "type": "POST",
-                "url": sSource,
-                "data": aoData,
-                "success": fnCallback
-            } );
-        }
-    } );
-} );
-    </script>
-        
-    </body>
+<body>
+
+<div class="col-md-6">
+                  <!-- USERS LIST -->
+                  <div class="box box-danger">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">Latest Members</h3>
+                      <div class="box-tools pull-right">
+                        <span class="label label-danger">8 New Members</span>
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                      </div>
+                    </div><!-- /.box-header -->
+                    <div class="box-body no-padding">
+                      <ul id = "productgrid" class="users-list clearfix">
+                        <li>
+                          <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRVZ5TkJamYsvvPxeJ_hl-JmSV2lRAvZWQ4ZkTAOUO6IHux8dbvwtooqQ" alt="User Image"/>
+                          <a class="users-list-name" href="#">Alexander Pierce</a>
+                          <span class="users-list-date">Today</span>
+                        </li>
+                        <li>
+                          <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRVZ5TkJamYsvvPxeJ_hl-JmSV2lRAvZWQ4ZkTAOUO6IHux8dbvwtooqQ" alt="User Image"/>
+                          <a class="users-list-name" href="#">Norman</a>
+                          <span class="users-list-date">Yesterday</span>
+                        </li>
+                        <li>
+                          <img src="dist/img/user7-128x128.jpg" alt="User Image"/>
+                          <a class="users-list-name" href="#">Jane</a>
+                          <span class="users-list-date">12 Jan</span>
+                        </li>
+                        <li>
+                          <img src="dist/img/user6-128x128.jpg" alt="User Image"/>
+                          <a class="users-list-name" href="#">John</a>
+                          <span class="users-list-date">12 Jan</span>
+                        </li>
+                      </ul><!-- /.users-list -->
+                    </div><!-- /.box-body -->
+                    <div class="box-footer text-center">
+                      <a href="javascript::" id = "sm_sports" class="uppercase">View All Users</a>
+                    </div><!-- /.box-footer -->
+                  </div><!--/.box -->
+                </div><!-- /.col -->
+
+              <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+
+              <script>
+
+                $("#loadMoreProduct").click(function() {
+                  Console.log("hey");	
+                  var d = document.getElementById("hello");
+                  var x = document.createElement("LI");
+                  var oImg=document.createElement("img");
+                  oImg.setAttribute('src', 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRVZ5TkJamYsvvPxeJ_hl-JmSV2lRAvZWQ4ZkTAOUO6IHux8dbvwtooqQ');
+                  x.appendChild(oImg);
+                  d.appendChild(x);
+                });
+
+              </script>
+
+</body>
+  
+
+
 </html>

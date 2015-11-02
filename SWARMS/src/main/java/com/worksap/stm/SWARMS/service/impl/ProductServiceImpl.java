@@ -22,9 +22,10 @@ import com.worksap.stm.SWARMS.entity.EmployeeListEntity;
 import com.worksap.stm.SWARMS.entity.UserAccountCreationEntity;
 import com.worksap.stm.SWARMS.exception.ServiceException;
 import com.worksap.stm.SWARMS.service.spec.EmployeeService;
+import com.worksap.stm.SWARMS.service.spec.ProductService;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private EmployeeDao employeeDao;
 	

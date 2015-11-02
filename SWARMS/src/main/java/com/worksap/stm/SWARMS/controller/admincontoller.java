@@ -37,6 +37,7 @@ public class admincontoller {
 	@RequestMapping(value = "/admin/addEmployee", method = RequestMethod.POST )
 	@ResponseBody
 	public void addUserAccount(@RequestBody EmployeeAccountCreationEntity employeeAccountCreationEntity) {
+		
 		employeeService.insert(employeeAccountCreationEntity);
 	}
 	

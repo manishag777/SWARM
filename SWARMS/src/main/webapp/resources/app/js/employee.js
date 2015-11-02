@@ -39,15 +39,15 @@ $(document).ready(function() {
 		$("#dropdown_office").prop("disabled", true);
 		$("#dropdown_sport").prop("disabled", true);
 	// Managing the employee form
-		 $("#ss_office").click(function() {
+		 $("#sm_sports").click(function() {
 			   if ($(this).is(":checked")) {
-			      $("#dropdown_office").prop("disabled", false);
+			      $("#dropdown_sport").prop("disabled", false);
 			   } else {
-			      $("#dropdown_office").prop("disabled", true);  
+			      $("#dropdown_sport").prop("disabled", true);  
 			   }
 			 });
 			 
-		 $("#sm_sports").click(function() {
+		 $("#ss_office").click(function() {
 			 	updateSportDropdown();
 		 });	 	
 			 
@@ -59,10 +59,10 @@ $(document).ready(function() {
 		 //console.log("Inside" + $("ss_office").is(":checked") + " "+ $("cashier_office").is(":checked")+" "+ $("#sm_sports").is(":checked"));
 		 if ($("#ss_office").is(":checked") || $("#cashier_office").is(":checked") ){
 			 console.log("cond1");
-		      $("#dropdown_sport").prop("disabled", false);
+		      $("#dropdown_office").prop("disabled", false);
 		   } else {
 			   console.log("cond2");
-		      $("#dropdown_sport").prop("disabled", true);  
+		      $("#dropdown_office").prop("disabled", true);  
 		   }
 	 }
 	
@@ -81,7 +81,7 @@ var addEmployee = function(evt) {
 		formData.roles = [formData.roles];
 	}
 	
-	var url = 'admins/addEmployee';
+	var url = 'admin/addEmployee';
 	//console.log("formData = "+formData);
 	
 	$.ajax({
