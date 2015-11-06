@@ -21,7 +21,14 @@ public class ProductDao {
 			+ " (pid, sport_id, name, brand, info, aval_size, aval_color, iurl)"
 			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	
+	private static final String UPDATE_PRODUCT =  "UPDATE PRODUCT SET name = ?, "
+	+" brand = ?, info = ?, aval_size = ?, aval_color = ?, iurl = ?"
+	+ "where pid = ?";
+	
 	private static final String FETCH = "SELECT * FROM product";
+	private static final String FETCH_BY_PID = "SELECT * FROM product where pid = ?";
+	
+	
 	
 	public void insert(ProductDto product) throws IOException {
 		try {
@@ -34,6 +41,25 @@ public class ProductDao {
 				ps.setString(6, product.getSizes());
 				ps.setString(7, product.getColors());
 				ps.setString(8, product.getImageUrl());
+
+			});
+		} catch (DataAccessException e) {
+			
+			System.out.println("At EmployeeDao :" +e);
+			throw new IOException(e);
+		}
+	}
+	
+	public void update(ProductDto product) throws IOException {
+		try {
+				template.update(UPDATE_PRODUCT, (ps) -> {
+				ps.setString(1, product.getProductName());
+				ps.setString(2, product.getBrandName());
+				ps.setString(3, product.getProductInfo());
+				ps.setString(4, product.getSizes());
+				ps.setString(5, product.getColors());
+				ps.setString(6, product.getImageUrl());
+				ps.setString(7, product.getProductId());
 
 			});
 		} catch (DataAccessException e) {
@@ -60,5 +86,20 @@ public List<ProductDto> getAllProduct()  {
 	
 }
 
+
+public ProductDto getProductById(String id){
+	return template.queryForObject(
+			FETCH_BY_PID,
+			(rs, rownum) -> {
+				return new ProductDto(rs.getString("pid"),
+						rs.getString("sport_id"), 
+						rs.getString("name"),
+						rs.getString("brand"),
+						rs.getString("info"),
+						rs.getString("aval_size"),
+						rs.getString("aval_color"),
+						rs.getString("iurl"));
+			},id);
+}
 
 }

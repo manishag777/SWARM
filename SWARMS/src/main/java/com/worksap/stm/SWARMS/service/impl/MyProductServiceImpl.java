@@ -1,5 +1,6 @@
 package com.worksap.stm.SWARMS.service.impl;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.worksap.stm.SWARMS.dao.ProductDao;
+import com.worksap.stm.SWARMS.dao.ProductDetailDao;
 import com.worksap.stm.SWARMS.dto.EmployeeDto;
+import com.worksap.stm.SWARMS.dto.ProductDetailDto;
 import com.worksap.stm.SWARMS.dto.ProductDto;
 import com.worksap.stm.SWARMS.entity.EmployeeAccountCreationEntity;
 import com.worksap.stm.SWARMS.entity.EmployeeFetchEntity;
@@ -23,6 +26,9 @@ public class MyProductServiceImpl implements MyProductService {
 	
 	@Autowired
 	ProductDao productDao;
+	
+	@Autowired
+	ProductDetailDao productDetailDao;
 	
 	@Transactional
 	@Override
@@ -45,6 +51,57 @@ public class MyProductServiceImpl implements MyProductService {
 		// TODO Auto-generated method stub
 		return productDao.getAllProduct();
 		
+	}
+
+
+	@Override
+	public void insertProductDetail(ProductDetailDto productDetailDto)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		
+		try {
+			productDetailDao.update(productDetailDto);
+			
+			
+		} catch (Exception e) {
+			throw new ServiceException("Cannot add user account for userId: "
+					+ productDetailDto.getProductId(), e);
+		}
+		
+		
+	}
+
+
+	@Override
+	public void update(ProductDto productDto) throws ServiceException {
+		
+		try {
+			productDao.update(productDto);		
+		} catch (Exception e) {
+			throw new ServiceException("Cannot add user account for userId: "
+					+ productDto.getProductId(), e);
+		}
+	}
+
+
+	@Override
+	public ProductDto getProductById(String id) throws ServiceException {
+		
+		return productDao.getProductById(id);	
+}
+
+
+	@Override
+	public ProductDetailDto getProductDetail(String pid, String storeId,
+			String size, String color) throws ServiceException {
+
+		try {
+			return productDetailDao.getProductDetail(pid,storeId,size,color);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	

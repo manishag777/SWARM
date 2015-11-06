@@ -16,17 +16,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
     <link rel="stylesheet" href="resources/app/css/AdminLTE.min.css"/>   
     <link rel="stylesheet" href="resources/app/css/skin-blue.min.css"/>
+    <link rel="stylesheet" href="resources/app/css/swarm.css"/>
     <link rel="stylesheet" href="resources/lib/css/datatables.min.css"/>
     <link rel="stylesheet" href="resources/lib/css/select2.min.css"/>
 	<link rel="stylesheet" href="resources/lib/css/select2-bootstrap.min.css"/>
-	<link rel="stylesheet" href="resources/app/css/swarm.css"/>
+	<link rel="stylesheet" href="resources/lib/css/bootstrap-multiselect.css" type="text/css"/>
 	
 	
+	 <style>
+      .billing-modal .modal {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        margin-left: 15%;
+        display: block;
+        z-index: 1;
+        width: 70%;
+      }
+      .example-modal .modal {
+        background: transparent !important;
+      }
+      
+      </style>
+
   </head>
     
   <body class="hold-transition skin-blue sidebar-mini">
-  
-  
     <div class="wrapper">
 
       <!-- Main Header -->
@@ -212,179 +227,181 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <section class="content-header">
-         	<div class="container" id="layout">
-		<div class="row">
-			
-		<div class="col-md-12 productGrid">
-                  <!-- USERS LIST -->
-                  <div class="box box-danger">
-                    <div class="box-header with-border">
-                      <h3 class="box-title">Products</h3>
-                      <div class="box-tools pull-right">
-                      	<button type="button" class="btn btn-default btn-md"
-							data-toggle="modal" id = "top-add-button" data-target="#product-add-modal">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
-							<span >Add</span>
-						</button>
-<!--                         <span class="label label-danger">8 New Members</span> -->
-<!--                         <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button> -->
-<!--                         <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button> -->
-                      </div>
-                    </div><!-- /.box-header -->
-                    <div class="box-body no-padding">
-                     <ul id = "productList" class="users-list clearfix"/>  <!--   // dynamically adding the products -->
-                    </div><!-- /.box-body -->
-<!--                     <div class="box-footer text-center"> -->
-<!--                       <a href="javascript::" id = "loadMoreProduct" class="uppercase">View All Users</a> -->
-<!--                     </div>/.box-footer -->
-                  </div><!--/.box -->
-                </div><!-- /.col -->
-		
-		</div>
-	
-
-		<div class="modal fade" id="product-add-modal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" data-mode="add">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">Add new product</h4>
-					
-				</div>
-				<div class="modal-body">
-					<form id="product-form">
-						<div class="form-group">
-							<label for="id">Product Serial Number</label> <input name="productId"
-								type="text" class="form-control" id="wproductId"/>
-						</div>
-						
-						<div class="form-group">
-							<label for="name">Product Name</label> <input name="productName"
-								type="text" class="form-control" id="wproductName"/>
-						</div>
-						
-						<div class="form-group">
-							<label for="brand">Brand</label> <input name="brandName"
-								type="text" class="form-control" id="wbrandName"/>
-						</div>
-						
-						<div class="form-group">
-							<label for="brand">Product Details</label> <input name="productInfo"
-								type="text" class="form-control" id="wproductInfo"/>
-						</div>
-						
-						<div class="form-group">
-							<label for="size">Size</label> <input name="sizes"
-								type="text" class="form-control" id="wsizes"/>
-						</div>
-						
-						<div class="form-group">
-							<label for="color">Color</label> <input name="colors"
-								type="text" class="form-control" id="wcolors"/>
-						</div>
-						
-						<div class="form-group">
-							<label for="iurl">Image Url</label> <input name="imageUrl"
-								type="text" class="form-control" id="wimageUrl"/>
-						</div>
-					</form>
-					
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button id="product-save-button" type="button" class="btn btn-primary">Save</button>
-				</div>
-			</div>
-		</div>
-	</div>	
-
-
-<!-- Product Detail Modal -->
-
-		<div class="modal fade" id="product-detail-add-modal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" data-mode="add">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">Distribute product among the stores</h4>
-				</div>
-				<div class="modal-body">
-					<form id="product-detail-form">
-						<div class="form-group">
-							<label for="id">Product Serial Number</label> <input name="productId"
-								type="text" class="form-control" id="productId" readonly="readonly"/>
-						</div>
-						
-						<div class="form-group">
-							<label for="Size">Size</label> 
-								<select id="dropdown_size" class="form-control" name="size">
-								<option value="ND" selected = "selected">Not Defined</option>
-							</select>
-						</div>
-						
-						<div class="form-group">
-							<label for="Color">Color</label> 
-								<select id="dropdown_color" class="form-control" name="color">
-								<option value="ND" selected = "selected">Not Defined</option>
-						  		<option value="blue">Blue</option>
-						  		<option value="black">Black</option>
-							</select>
-						</div>
-						
-						<div class="form-group">
-							<label for="brand">Store</label> 
-								<select id="dropdown_store" class="form-control" name="storeId">
-								<option value="" selected = "selected">Select Store</option>
-						  		<option value="ranchi">Ranchi</option>
-						  		<option value="ramgarh">Ramgarh</option>
-							</select>
-						</div>
-						
-						<div class="form-group">
-							<label for="id">Cost Price</label> <input name="price"
-								type="number" class="form-control" id="price" />
-						</div>
-						
-						<div class="form-group">
-							<label for="id">Increment product qunatity by</label> <input name="qty"
-								type="number" class="form-control" id="qty" />
-						</div>
-						
-						
-						
-					</form>
-					
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button id="product-detail-add-button" type="button" class="btn btn-primary">Save</button>
-				</div>
-			</div>
-		</div>
-	</div>	
-
-
-
-</div>
-	
-	 
-        </section>
+       
 
         <!-- Main content -->
         <section class="content">
-
+			<h> Hello World </h>
           <!-- Your Page Content Here -->
-
+          <div class="billing-modal" >
+            <div class="modal modal-primary">
+              <div class="">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <div class = "row">
+	                    <div class="form-group col-lg-2">
+		                    <input name="cid" type="text" class="form-control cid"  id="cid" placeholder = "Id of existing customer" />
+		                 </div>
+		                 
+<!-- 	                    <button type="button" id = "addCustomer" class="btn btn-outline pull-left" data-target="#customer-modal" >Or add new customer</button> -->
+	                    <button type="button" id = "addCustomer" class="btn btn-default btn-md"
+					data-toggle="modal" data-target="#customer-modal">
+					<span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
+					<span >Add New Customer</span>
+				</button>
+                     </div>
+                     <div class = "customer-info-div" id = "customer-info-div">  
+                       	<h class="customer-info" id = "customer-info"></h>
+                    </div>
+                    
+                  </div>
+                  <div class="modal-body">
+                     <div class="row">
+            			<div class="col-xs-12">
+              				<div class="box">
+			                    <div class="box-body table-responsive no-padding">
+			                  		<table class="table table-hover" id = "billing-table">
+			                    
+				                    	<tr class = "billing_table">
+				                    		<td style= 'width: 4%'>
+				                    			<Button  id ='addRow'> + </Button>
+				         			 
+				                    		</td>
+				                    		<td style= 'width: 11%'> pid </td>
+				                    		<td style= 'width: 20%' > Name </td>
+				                    		<td style= 'width: 10%'> Size </td>
+				                    		<td style= 'width: 10%'> Color </td>
+				                    		<td style= 'width: 10%'> Qty. </td>
+				                    		<td style= 'width: 10%'> Price </td>
+				                    		<td style= 'width: 10%'> Dicount </td>
+				                    		<td style= 'width: 15%'> Amount </td>
+				                    	</tr>
+				                    	                
+			                     </table>
+			                    </div>
+                  		</div>
+                  		<div>
+                  		<div class=" row form-group col-lg-2 pull-right">
+                  			<table>
+	                  			<tr>
+	                  				<td style="padding-right:10px"> <font color = "white">Total</font></td>
+	                  				<td><input name='pid' type='number' id = 'total' class='  form-control pid' disabled="disabled" /></td>
+	                  			</tr>
+                  			</table>
+                  		</div>
+                  			
+                  		</div>
+                  		
+                  	</div>
+                  </div>
+                  </div>
+                  
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Save</button>
+                    <button type="button" id = "payment" class="btn btn-outline">Payment </button>
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+          </div><!-- /.example-modal -->
+		
+		<div class="modal " id="customer-modal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-mode="add">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Add new customer</h4>
+				</div>
+				<div class="modal-body">
+					<form id="customer-form">
+						
+							<div class=" col-lg-6 form-group">
+								<label for="id">First Name</label> <input name="firstName"
+									type="text" class="form-control" id="firstName"
+									placeholder="First Name" />
+							</div>
+						
+							<div class=" col-lg-6 form-group">
+								<label for="id">Last Name</label> <input name="lastName"
+									type="text" class="form-control" id="lastName"
+									placeholder="Last Name" />
+							</div>
+											
+						<div class="col-lg-6 form-group">
+							<label for="email">Email Id</label> <input name="emailId"
+								type="email" class="form-control" id="emailId"
+								placeholder="Email Id"/>
+						</div>
+						
+						<div class="form-group col-lg-6">
+							<label for="phoneno">Phone No</label> <input name="phoneNo"
+								type="tel" class="form-control" id="phoneNo"
+								placeholder="Phone No."/>
+						</div>
+						
+						<div class="form-group col-lg-6">
+							<label for="interest">Sport Interest</label>
+							<select class="form-control" name="sportsInterest" id = "sportsInterest" multiple="multiple">
+								<option value="tennis">Tennis</option>
+								<option value="cricket" selected="selected">Cricket</option>
+								<option value="football" selected="selected">Football</option>
+							</select>
+						</div>
+						
+						<div class="form-group col-lg-6">
+							<label for="gender">Gender</label>
+							<select id="gender" class="form-control" name="gender">
+								<option value="1">Female</option>
+								<option value="2" selected="selected">Male</option>
+								<option value="3" selected="selected">Other</option>
+							</select>
+						</div>
+						
+						<div class="form-group col-lg-6">
+							<label for="dob">Date of Birth</label> 
+							<input name="dob" id="dob" type="text" class="date-picker form-control"  placeholder="dd/mm/yy"/>
+						</div>
+						
+						<div class="form-group col-lg-6">
+							<label for="pincode">Pin Code</label> 
+							<input name="pinCode" id="pinCode" type="text" class="form-control"  placeholder="pincode"/>
+						</div>
+						
+						<div class="form-group col-lg-6">
+							<label for="city">City</label> 
+							<input name="city" id="city" type="text" class="form-control"  placeholder="city"/>
+						</div>
+						
+						<div class="form-group col-lg-6">
+							<label for="state">State</label> 
+							<input name="state" id="state" type="text" class="form-control"  placeholder="state"/>
+						</div>
+						
+						<div class="form-group col-lg-6">
+							<label for="country">Country</label> 
+							<input name="country" id="country" type="text" class="form-control"  placeholder="country"/>
+						</div>
+						
+						
+						
+						
+					</form>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button id="customer-save-button" type="button" class="btn btn-primary">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+		
+		
+		
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 
@@ -415,7 +432,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="resources/app/js/common.js" type="text/javascript"></script>
     
     <script src="resources/lib/js/datatables.min.js" type="text/javascript"></script>
-    
-    <script src="resources/app/js/product.js" type="text/javascript"></script>
-  </body>
+    <script src="resources/lib/js/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="resources/app/js/customer.js" type="text/javascript"></script>
+    <script src="resources/app/js/gift-card-payment.js" type="text/javascript"></script>
+ 	
+   </body>
   </html>
+  
+  
+  

@@ -1,0 +1,9 @@
+
+#outer_giftcard_div {
+  width: 100%;
+  text-align: center;
+}
+
+#inner_giftcard_div {
+  display: inline-block;
+}

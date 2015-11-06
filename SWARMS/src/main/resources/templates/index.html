@@ -10,70 +10,44 @@
 	<link rel="stylesheet" href="resources/lib/css/select2-bootstrap.min.css"/>
    
     <link rel="stylesheet" href="resources/app/css/AdminLTE.min.css"/>   
+    <link rel="stylesheet" href="resources/app/css/customer.css"/>   
     
   </head>
 
 <body>
+	<!-- Button to trigger modal -->
+<a href="#myModal" role="button" class="btn" data-toggle="modal">Launch demo modal</a>
+ 
+<!-- Modal -->
+<div id="myModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Modal header</h3>
+  </div>
+  <div class="modal-body">
+    <div id="datetimepicker1" class="input-append date">
+      <input data-format="dd/MM/yyyy hh:mm:ss" type="text"></input>
+      <span class="add-on"><i data-time-icon="icon-time" data-date-icon="icon-calendar"></i></span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+    <script src="resources/lib/js/datatables.min.js" type="text/javascript"></script>
+    <script src="resources/lib/js/bootstrap-datepicker.js" type="text/javascript"></script>
 
-<div class="col-md-6">
-                  <!-- USERS LIST -->
-                  <div class="box box-danger">
-                    <div class="box-header with-border">
-                      <h3 class="box-title">Latest Members</h3>
-                      <div class="box-tools pull-right">
-                        <span class="label label-danger">8 New Members</span>
-                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                        <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                      </div>
-                    </div><!-- /.box-header -->
-                    <div class="box-body no-padding">
-                      <ul id = "productgrid" class="users-list clearfix">
-                        <li>
-                          <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRVZ5TkJamYsvvPxeJ_hl-JmSV2lRAvZWQ4ZkTAOUO6IHux8dbvwtooqQ" alt="User Image"/>
-                          <a class="users-list-name" href="#">Alexander Pierce</a>
-                          <span class="users-list-date">Today</span>
-                        </li>
-                        <li>
-                          <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRVZ5TkJamYsvvPxeJ_hl-JmSV2lRAvZWQ4ZkTAOUO6IHux8dbvwtooqQ" alt="User Image"/>
-                          <a class="users-list-name" href="#">Norman</a>
-                          <span class="users-list-date">Yesterday</span>
-                        </li>
-                        <li>
-                          <img src="dist/img/user7-128x128.jpg" alt="User Image"/>
-                          <a class="users-list-name" href="#">Jane</a>
-                          <span class="users-list-date">12 Jan</span>
-                        </li>
-                        <li>
-                          <img src="dist/img/user6-128x128.jpg" alt="User Image"/>
-                          <a class="users-list-name" href="#">John</a>
-                          <span class="users-list-date">12 Jan</span>
-                        </li>
-                      </ul><!-- /.users-list -->
-                    </div><!-- /.box-body -->
-                    <div class="box-footer text-center">
-                      <a href="javascript::" id = "sm_sports" class="uppercase">View All Users</a>
-                    </div><!-- /.box-footer -->
-                  </div><!--/.box -->
-                </div><!-- /.col -->
+<script type="text/javascript">
 
-              <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+	$(document).ready(function () {
+		 $('#datetimepicker1').datetimepicker({
+			    language: 'pt-BR'
+			  });
+	}
 
-              <script>
-
-                $("#loadMoreProduct").click(function() {
-                  Console.log("hey");	
-                  var d = document.getElementById("hello");
-                  var x = document.createElement("LI");
-                  var oImg=document.createElement("img");
-                  oImg.setAttribute('src', 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRVZ5TkJamYsvvPxeJ_hl-JmSV2lRAvZWQ4ZkTAOUO6IHux8dbvwtooqQ');
-                  x.appendChild(oImg);
-                  d.appendChild(x);
-                });
-
-              </script>
-
+</script>
+	
 </body>
-  
-
 
 </html>
+

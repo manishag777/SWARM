@@ -3,7 +3,6 @@ package com.worksap.stm.SWARMS.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,16 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.worksap.stm.SWARMS.dto.ProductDetailDto;
 import com.worksap.stm.SWARMS.dto.ProductDto;
-import com.worksap.stm.SWARMS.entity.EmployeeEntity;
-import com.worksap.stm.SWARMS.entity.EmployeeFetchEntity;
-import com.worksap.stm.SWARMS.entity.EmployeeListEntity;
-import com.worksap.stm.SWARMS.service.spec.EmployeeService;
 import com.worksap.stm.SWARMS.service.spec.MyProductService;
-import com.worksap.stm.SWARMS.service.spec.ProductService;
 
-//import com.worksap.stm.SWARMS.dto.ProductDto;
-//import com.worksap.stm.SWARMS.service.spec.ProductService;
 
 @Controller
 public class salesManagerController {
@@ -40,9 +33,26 @@ public class salesManagerController {
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST )
 	@ResponseBody
-	public void addUserAccount(@RequestBody ProductDto productDto) {	
+	public void addProduct(@RequestBody ProductDto productDto) {	
 		myProductService.insert(productDto);
 	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/editProduct", method = RequestMethod.POST )
+	@ResponseBody
+	public void editProduct(@RequestBody ProductDto productDto) {	
+		myProductService.update(productDto);
+	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/addProductDetail", method = RequestMethod.POST )
+	@ResponseBody
+	public void addUserAccount(@RequestBody ProductDetailDto productDetailDto) {	
+		myProductService.insertProductDetail(productDetailDto);
+	}
+	
+	
+	
 	
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/getAllProduct", method = RequestMethod.GET)
