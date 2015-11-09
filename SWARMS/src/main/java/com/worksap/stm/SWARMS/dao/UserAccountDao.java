@@ -23,7 +23,6 @@ public class UserAccountDao {
 	
 	public UserAccountDto getByUsername(String username) {
 		
-			
 			return jdbcTemplate.queryForObject(sql, (rs,rownum) ->{
 			UserAccountDto userAccountDto = new UserAccountDto();
 			userAccountDto.setUsername(rs.getString("name"));

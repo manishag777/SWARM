@@ -20,9 +20,9 @@ $(document).ready(function() {
 			    },
 				
 			    dataSrc : "employeeEntities",
-			    xhrFields: {
-				      withCredentials: true
-				   }
+//			    xhrFields: {
+//				      withCredentials: true
+//				   }
 			},
 			
 			columns: [

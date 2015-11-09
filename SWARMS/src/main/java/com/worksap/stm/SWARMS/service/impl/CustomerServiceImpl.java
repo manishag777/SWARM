@@ -46,4 +46,17 @@ public class CustomerServiceImpl implements CustomerService {
 		
 	}
 
+	@Override
+	public void updateGiftCardId(int custId, int giftCardId)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		try {
+			customerDao.updateGiftCardId(custId,giftCardId);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 }

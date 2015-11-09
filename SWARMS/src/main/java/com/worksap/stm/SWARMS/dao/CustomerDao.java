@@ -40,7 +40,9 @@ public class CustomerDao {
 	private static final String UPDATE_CUSTOMER =  "UPDATE CUSTOMER SET firstname = ?, "
 	+" lastname = ?, email = ?, phoneno = ?, gender = ?, pincode = ?, city = ?, state = ?, country = ?"
 	+ "where id = ?";
-
+	
+	private static final String UPDATE_GIFTCARD =  "UPDATE CUSTOMER SET giftcard_id = ? "
+			+ "where id = ?";
 	
 	public int insert(CustomerDto customer) throws IOException {
 		try {
@@ -144,6 +146,23 @@ public class CustomerDao {
 				throw new IOException(e);
 			}
 	
+	}
+
+	public void updateGiftCardId(int custId, int giftCardId) throws IOException {
+		// TODO Auto-generated method stub
+		
+		try {
+			template.update(UPDATE_GIFTCARD, (ps) -> {
+			ps.setInt(2, custId);
+			ps.setInt(1,giftCardId);
+			
+		});
+	} catch (DataAccessException e) {
+		
+		System.out.println("At CustomerDao :" +e);
+		throw new IOException(e);
+	}
+		
 	}
 	
 }

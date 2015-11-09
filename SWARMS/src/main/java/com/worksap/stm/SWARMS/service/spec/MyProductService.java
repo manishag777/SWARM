@@ -8,6 +8,9 @@ import com.worksap.stm.SWARMS.dto.ProductDetailDto;
 import com.worksap.stm.SWARMS.dto.ProductDto;
 import com.worksap.stm.SWARMS.entity.EmployeeFetchEntity;
 import com.worksap.stm.SWARMS.entity.EmployeeListEntity;
+import com.worksap.stm.SWARMS.entity.ProductFetchEntity;
+import com.worksap.stm.SWARMS.entity.ProductFilterEntity;
+import com.worksap.stm.SWARMS.entity.ProductProfitEntity;
 import com.worksap.stm.SWARMS.exception.ServiceException;
 
 
@@ -19,4 +22,7 @@ public interface MyProductService {
 	ProductDto getProductById(String id) throws ServiceException;
 	void insertProductDetail(ProductDetailDto productDetailDto) throws ServiceException;
 	ProductDetailDto getProductDetail(String pid, String storeId, String size, String color) throws ServiceException;
+	List<ProductFetchEntity> getProductListEntity(ProductFilterEntity productFilterEntity ) throws ServiceException;
+	void upateProfitMargin(ProductProfitEntity productProfitEntity)  throws ServiceException;
+	
 }

@@ -1,6 +1,6 @@
 var modifyStatus = "add";
-var total = 0;
-//var custId;
+var idParentMap = new Object();
+var idProductDetailMap = new Object();
 $(document).ready(function () {
 	 var status = 0;
 	 
@@ -8,8 +8,8 @@ $(document).ready(function () {
 		 $('#dob').datepicker({
 		     dateFormat: 'dd-mm-yy',     
 		 });
+		 $("#payment").click(serializeProductInfo);
 		 
-		
 		var custId = 0;
 		$('#customer-save-button').click(updateCustomer);
 		addRow();
@@ -61,10 +61,13 @@ var addRow = function(evt){
 			  +      		"<td style= 'width: 15%'>" 
 			  +      		"<input name='amount' type='number' class='form-control amount'  disabled  />"	
 			  +	 			"</td>"
+			  +				"<td style= 'display:none;'>" 
+			  +      		"<input name='id' type='number' class='form-control pid'  />"	
+			  +	 			"</td>"
 	 
 			var table = document.getElementById("billing-table");
 			var row = table.insertRow(-1);
-			row.innerHTML = rowHTML;		 
+			row.innerHTML = rowHTML;
 			
 			$('.pid').keyup(function(e){
 			if(e.keyCode == 13)
@@ -121,6 +124,7 @@ var getProductDetails = function(parent){
 	var size =  parent.children().eq(3).children().val();
 	var color =  parent.children().eq(4).children().val();
 	var qty = parent.children().eq(5).children().val();
+	
 	console.info("pid = "+pid +" size = "+size+ "color = "+color);
 	 var url = 'getProductDetails';		
 		$.ajax({
@@ -130,9 +134,29 @@ var getProductDetails = function(parent){
 			contentType : "application/json",
 			success : function(data) {
 				clearAll(parent);
-				console.info(data);
+			//	console.info("typeof = " +typeof(idParentMap[data.id]));
+				
+				var myObj = idParentMap[data.id];
+				
+				console.info(myObj);
+				var status = 0;
+				if(!isRealValue(myObj)){
+					console.info("Hey I m undefined");
+				}
+				else
+				{
+					parent = idParentMap[data.id];
+					qty = parseInt(qty) + parseInt(parent.children().eq(5).children().val());
+					console.info("Oldqty = " + total+ " newQty = "+qty);
+					if(qty <  data.qty ) 
+						total = total - parent.children().eq(8).children().val();
+					console.info("total = " + total);
+					status = 1;
+
+				}
 				if(qty > data.qty){
-					AlertForQuantityIsNotSufficient(data.qty, parent);
+					AlertForQuantityIsNotSufficient(status, data.qty, parent);
+					//return;
 				}
 				else{
 					var cp = data.price;
@@ -145,7 +169,13 @@ var getProductDetails = function(parent){
 					parent.children().eq(6).children().val(sp);
 					parent.children().eq(7).children().val(disc);
 					parent.children().eq(8).children().val(amt);
-					total = total+amt;
+					parent.children().eq(9).children().val(data.id);
+					total = total + amt ;
+					idParentMap[data.id] = parent;
+					idProductDetailMap[data.id] = data;
+					//idParentMap[data.id] = null;
+
+					console.info(idParentMap[2]);
 					grandTotal();
 				}
 			},
@@ -157,11 +187,12 @@ var getProductDetails = function(parent){
 		});
 }
 
-var AlertForQuantityIsNotSufficient = function(qty,parent){
+var AlertForQuantityIsNotSufficient = function(status, qty, parent){
 	
 	if(qty==0) alert("Sorry! Product is not Available");
 	else alert("Sorry! Available product quantity is only "+ qty);
-	clearAll(parent);
+	if(status==0)  //checking if same product is repeating
+		clearAll(parent);
 }
 
 var grandTotal = function(){
@@ -184,6 +215,15 @@ var getProductForGivenPid = function(parent, pid){
 				parent.children().eq(5).children().prop('disabled',false);
 				updateDropDown(parent.children().eq(3).children(),data.sizes);
 				updateDropDown(parent.children().eq(4).children(),data.colors);
+				var val = parent.children().eq(9).children().val();
+				if(val!=0){
+					idParentMap[val] = null;
+					idProductDetailMap[val] = null;
+				}
+				parent.children().eq(9).children().val(0);
+				
+				console.info(idParentMap);
+				
 			},
 			error : function(){
 				console.info("At error");
@@ -193,6 +233,14 @@ var getProductForGivenPid = function(parent, pid){
 				parent.children().eq(5).children().prop('disabled',true);
 				updateDropDown(parent.children().eq(3).children(),null);
 				updateDropDown(parent.children().eq(4).children(),null);
+				var val = parent.children().eq(9).children().val();
+				if(val!=0){
+					idParentMap[val] = null;
+					idProductDetailMap[val] = null;
+				}
+				parent.children().eq(9).children().val(0);
+				console.info(idParentMap);
+
 				
 			}
 		}).done(function() {
@@ -209,6 +257,15 @@ var clearAll = function(parent){
 	parent.children().eq(6).children().val('');
 	parent.children().eq(7).children().val('');
 	parent.children().eq(8).children().val('');
+	var val = parent.children().eq(9).children().val();
+	if(val!=0){
+		idParentMap[val] = null;
+		idProductDetailMap[val] = null;
+	}
+	parent.children().eq(9).children().val(0);
+	console.info(idParentMap);
+
+
 	grandTotal();
 }
 
@@ -353,12 +410,40 @@ var displayCutomerInfo = function(status, data, id){
 		div.innerHTML = "<h>Enter valid customer id</h>";
 	
 	
-	
-	
-
 }
 
-
- 
- 
- 
+var serializeProductInfo = function(){
+	
+	if(custId==0 ||  custId==null || custId =='0' || custId =='')
+	{
+		alert("Insert valid customer");
+		return;
+	}
+	
+	
+	var count = 0;
+	$.each( idParentMap, function(index,value){
+		var objectData = new Object();
+		objectData['id'] = -1;
+		objectData['orderID'] = -1;
+		objectData ['pid'] = idProductDetailMap[index].id;
+		objectData ['qty'] = idParentMap[index].children().eq(5).children().val();
+		objectData ['cp'] = idProductDetailMap[index].price;
+		objectData ['margin'] = idProductDetailMap[index].margin;
+		objectData ['discount'] = idProductDetailMap[index].discount;
+		productDetailArray.push(objectData);
+		count ++;
+		//console.info(objectData);
+		});
+	if(count==0){
+		alert("No product selected");
+		return;
+	}
+	
+	$('#payment-modal').modal('show');
+	
+	orderDto = new Object();
+	orderDto['custId'] = custId;
+	orderDto['subTotal'] = total;
+	orderDto['storeId'] = 'ranchi';  // change it later 
+}

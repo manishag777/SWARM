@@ -13,11 +13,15 @@ import org.springframework.web.servlet.ModelAndView;
 import com.worksap.stm.SWARMS.dto.CustomerDto;
 import com.worksap.stm.SWARMS.dto.GiftCardDetailDto;
 import com.worksap.stm.SWARMS.dto.GiftCardDto;
+import com.worksap.stm.SWARMS.dto.OrderDto;
 import com.worksap.stm.SWARMS.dto.ProductDetailDto;
 import com.worksap.stm.SWARMS.dto.ProductDto;
+import com.worksap.stm.SWARMS.entity.OrderEntity;
 import com.worksap.stm.SWARMS.service.spec.CustomerRelationService;
 import com.worksap.stm.SWARMS.service.spec.CustomerService;
+import com.worksap.stm.SWARMS.service.spec.GiftCardService;
 import com.worksap.stm.SWARMS.service.spec.MyProductService;
+import com.worksap.stm.SWARMS.service.spec.OrderService;
 
 @Controller
 public class CashierController {
@@ -30,6 +34,14 @@ public class CashierController {
 	
 	@Autowired
 	CustomerRelationService customerRelationService;
+	
+	@Autowired
+	OrderService orderService;
+	
+	@Autowired
+	GiftCardService giftCardService;
+	
+	
 
 	
 	@RequestMapping("/manageCustomer")
@@ -80,13 +92,43 @@ public class CashierController {
 		System.out.println(id);
 		return customerService.getCustomerById(id);
 	}
-	
-	
-	
+		
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/giftCardStatusByCustomerId", method = RequestMethod.GET )
 	@ResponseBody
 	public GiftCardDetailDto getGiftCardSpecification(@RequestParam("id") int id) {	
 		return customerRelationService.getGiftCardSpecification(id);
 	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/saveOrderDetail", method = RequestMethod.POST )
+	@ResponseBody
+	public void saveOrderDetail(@RequestBody OrderEntity orderEntity) {	
+		int orderId =  orderService.saveOrder(orderEntity.getOrderDto());
+		orderService.saveOrderDetailList(orderEntity.getOrderDetailDtoList(),orderId);
+		GiftCardDetailDto giftCardDetailDto = orderEntity.getGiftCardDetailDto();
+		
+		if(giftCardDetailDto.getId() == -1){
+			int giftCardId = giftCardService.insertGiftCard(giftCardDetailDto);
+			customerService.updateGiftCardId(orderEntity.getOrderDto().getCustId(),giftCardId);
+
+		}
+		else{
+			giftCardService.updateGiftCard(giftCardDetailDto);
+		}
+		System.out.println(giftCardDetailDto.getId());
+		
+		
+		
+	}
+	
+//	@PreAuthorize("hasAuthority('MD')")
+//	@RequestMapping(value = "/saveOrderDto", method = RequestMethod.POST )
+//	@ResponseBody
+//	public void saveOrderDto(@RequestBody OrderDto orderDto) {	
+//		int orderId =  orderService.saveOrder(orderDto);
+//		//orderService.saveOrderDetailList(orderEntity.getOrderDetailDtoList(),orderId);
+//	}
+	
+	
 }

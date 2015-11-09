@@ -15,6 +15,9 @@ import com.worksap.stm.SWARMS.dto.ProductDto;
 import com.worksap.stm.SWARMS.entity.EmployeeAccountCreationEntity;
 import com.worksap.stm.SWARMS.entity.EmployeeFetchEntity;
 import com.worksap.stm.SWARMS.entity.EmployeeListEntity;
+import com.worksap.stm.SWARMS.entity.ProductFetchEntity;
+import com.worksap.stm.SWARMS.entity.ProductFilterEntity;
+import com.worksap.stm.SWARMS.entity.ProductProfitEntity;
 import com.worksap.stm.SWARMS.exception.ServiceException;
 import com.worksap.stm.SWARMS.service.spec.EmployeeService;
 import com.worksap.stm.SWARMS.service.spec.MyProductService;
@@ -101,6 +104,33 @@ public class MyProductServiceImpl implements MyProductService {
 			
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+
+	@Override
+	public List<ProductFetchEntity> getProductListEntity(
+			ProductFilterEntity productFilterEntity) throws ServiceException {
+		try {
+			return productDetailDao.ProductFetchEntityList(productFilterEntity);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+
+
+	@Override
+	public void upateProfitMargin(ProductProfitEntity productProfitEntity)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		try {
+			productDetailDao.upateProfitMargin(productProfitEntity);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	

@@ -1,4 +1,7 @@
 var custId = 0;
+var total = 0;
+var productDetailArray = [];
+var orderDto = new Object();
 
 
 var switchActiveTab = function(id) {
@@ -42,5 +45,10 @@ jQuery.fn.serializeObject = function() {
 
 	return objectData;
 };
+
+function isRealValue(obj){
+	 return obj && obj !== "null" && obj!== "undefined";
+}
+
 
 

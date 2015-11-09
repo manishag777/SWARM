@@ -42,7 +42,7 @@ public class admincontoller {
 	}
 	
 	@PreAuthorize("hasAuthority('MD')")
-	@RequestMapping(value = "/admin/returnEmployeData", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/returnEmployeData", method = RequestMethod.POST)
 	@ResponseBody
 	public EmployeeListEntity returnEmployeData(@RequestBody EmployeeFetchEntity entity) {
 		System.out.println("/admin/returnEmployeData = ");

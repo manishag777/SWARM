@@ -8,15 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ProductDetailDto {
+public class OrderDto {
 	int id;
-	String productId;
+	int custId;
+	int subTotal;
+	int gcDiscount;
 	String storeId;
-	String size;
-	String color;
-	int price;
-	int qty;
-	int margin;
-	int discount;
-	int warningQty;
 }

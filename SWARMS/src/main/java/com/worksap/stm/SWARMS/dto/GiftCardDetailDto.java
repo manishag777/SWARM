@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class GiftCardDetailDto {
 	private int id;
 	private int amt;
-	private Date expiry;
+	private String expiry;
 }

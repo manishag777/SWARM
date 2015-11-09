@@ -8,6 +8,7 @@ public interface CustomerService {
 
 	int insert(CustomerDto customerDto)throws ServiceException;
 	CustomerDto getCustomerById(String id) throws ServiceException;
-	void update (CustomerDto customerDto)throws ServiceException; 
+	void update (CustomerDto customerDto)throws ServiceException;
+	void updateGiftCardId(int custId, int giftCardId)throws ServiceException;
 	
 }
