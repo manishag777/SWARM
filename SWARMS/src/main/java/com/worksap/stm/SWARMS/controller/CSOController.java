@@ -61,6 +61,17 @@ public class CSOController {
 		System.out.println(templateMailDto);
 		
 	try {
+			String tag = templateMailDto.getTagText();
+			if(tag.charAt(0)=='$'){
+				int index = tag.indexOf('#');
+				//int length = index-1;
+				String oldTag = tag.substring(1, index);
+				String newTag = tag.substring(index+1);
+				System.out.println(oldTag+" "+newTag);
+				templateMailDao.removeTemplate(oldTag);
+				templateMailDto.setTagText(newTag);
+
+			}
 			templateMailDao.insertTemplate(templateMailDto);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

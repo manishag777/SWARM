@@ -22,9 +22,17 @@ public class TemplateMailDao {
 			+ " VALUES (?, ?, ?)";
 	private static final String UPDATE_TEMPLATE = "UPDATE template_mail set subject = ?, body = ? where tag = ?";
 	
+	private static final String REMOVE_TEMPLATE = "DELETE FROM template_mail where tag = ?";
+	
 	private static final String GET_TEMPLATE = "SELECT * FROM template_mail where tag =? ";
 	
 	private static final String GET_ALL_TEMPLATE = "SELECT * FROM template_mail";
+	
+	public void removeTemplate(String tag)throws IOException{
+		template.update(REMOVE_TEMPLATE,(ps)->{
+			ps.setString(1, tag);
+		});
+	}
 	
 	public void insertTemplate(TemplatMailDto templatMailDto ) throws IOException{
 		try {

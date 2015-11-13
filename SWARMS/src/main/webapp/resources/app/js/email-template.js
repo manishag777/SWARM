@@ -1,18 +1,33 @@
+var oldTag="";
+
 $(document).ready(function() {
 	var initPage = function() {
 		 $("#save-template").click(function() {
 			 	saveEmailTemplate();
 		 });
 		 
+		 $("#create_template").click(function() {
+			 oldTag="";
+		var editor = '<label for="body">Body</label>'
+					+ '<textarea class="textarea form-control" id="textarea-id" name="bodyText"  placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>'
+
+		document.getElementById('textarea-div').innerHTML = editor;
+	    $("#textarea-id").wysihtml5();
+	    $("#subjectId").val('');
+		$("#tag").val('');
+			 
+		 });
+		 
+		 
 		 fetchAllTemplates();
 	}
 	
 	initPage();
-
 });
 
 var saveEmailTemplate = function(){
 	var formData = $('#template-form').serializeObject();
+	formData.tagText = oldTag+"#"+formData.tagText;  
 	delete formData._wysihtml5_mode;
 	var url = 'addTemplateMail';	
 	
@@ -53,11 +68,8 @@ var fetchAllTemplates = function(){
 var createTemplate = function(data){
 	
 	
-	for (var i = 0; i < 5; i++) {
-		//console.info(data[i].bodyText);
-		$( "#template-modal-list" ).append( htmlModal(data[0]));
-	//	document.getElementById('mailSubject').innerHTML = data[i].subjectText;
-	//	document.getElementById('mailBody').innerHTML = data[i].bodyText;
+	for (var i = 0; i < data.length; i++) {
+		$( "#template-modal-list" ).append( htmlModal(data[i]));
 	}
 	
 }
@@ -124,11 +136,16 @@ var openEditModal = function(prm1, prm2, prm3){
 	$('#template-modal').modal('show');
 	$("#subjectId").val(prm2);
 	$("#tag").val(prm1);
-	var editorp = $('#textarea-id').data("wysihtml5").editor;
+	//var editorp = $('#textarea-id').data("wysihtml5").editor;
+	var editor = '<label for="body">Body</label>'
+				+ '<textarea class="textarea form-control" id="textarea-id" name="bodyText"  placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">ghhg</textarea>'
+
+	document.getElementById('textarea-div').innerHTML = editor;
+	$("#textarea-id").val(prm3);  
+    $("#textarea-id").wysihtml5();
+    oldTag = "$"+prm1;
 	
-	editorp.observe("load", function() {
-	       console.log("loaded");
-	     });
+	
 		
 }
 
