@@ -10,5 +10,6 @@ public interface CustomerService {
 	CustomerDto getCustomerById(String id) throws ServiceException;
 	void update (CustomerDto customerDto)throws ServiceException;
 	void updateGiftCardId(int custId, int giftCardId)throws ServiceException;
+	void updateEmailId(int custId, String emailId) throws ServiceException;
 	
 }

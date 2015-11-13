@@ -18,6 +18,8 @@ import com.worksap.stm.SWARMS.entity.EmployeeListEntity;
 import com.worksap.stm.SWARMS.entity.ProductFetchEntity;
 import com.worksap.stm.SWARMS.entity.ProductFilterEntity;
 import com.worksap.stm.SWARMS.entity.ProductProfitEntity;
+import com.worksap.stm.SWARMS.entity.ProductSearchFetchEntity;
+import com.worksap.stm.SWARMS.entity.ProductSearchFilterEntity;
 import com.worksap.stm.SWARMS.exception.ServiceException;
 import com.worksap.stm.SWARMS.service.spec.EmployeeService;
 import com.worksap.stm.SWARMS.service.spec.MyProductService;
@@ -132,6 +134,14 @@ public class MyProductServiceImpl implements MyProductService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+
+	@Override
+	public List<ProductSearchFetchEntity> returnFilteredProducts(
+			ProductSearchFilterEntity productSearchFilterEntity) {
+		
+		return productDetailDao.returnFilteredProducts(productSearchFilterEntity);
 	}
 	
 	

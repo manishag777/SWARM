@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.worksap.stm.SWARMS.dao.OrderDao;
 import com.worksap.stm.SWARMS.dao.OrderDetailDao;
+import com.worksap.stm.SWARMS.dao.ProductDetailDao;
 import com.worksap.stm.SWARMS.dto.OrderDetailDto;
 import com.worksap.stm.SWARMS.dto.OrderDto;
 import com.worksap.stm.SWARMS.exception.ServiceException;
@@ -22,6 +23,8 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	OrderDao orderDao;
 	
+	@Autowired
+	ProductDetailDao productDetailDao;
 	
 	@Override
 	public int saveOrder(OrderDto orderDto) throws ServiceException {
@@ -41,6 +44,9 @@ public class OrderServiceImpl implements OrderService {
 		
 		try {
 			 orderDetailDao.insert(OrderDetailDtoList,orderId);
+			 for(int i=0; i<OrderDetailDtoList.size(); i++){
+				 productDetailDao.upateQuantity(OrderDetailDtoList.get(i));
+			 }
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

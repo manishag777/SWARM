@@ -59,4 +59,19 @@ public class CustomerServiceImpl implements CustomerService {
 		
 	}
 
+	
+
+	@Override
+	public void updateEmailId(int custId, String emailId)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		try {
+			customerDao.updateEmailId(custId, emailId);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 }

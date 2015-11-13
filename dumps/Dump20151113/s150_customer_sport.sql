@@ -16,37 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `product_detail`
+-- Table structure for table `customer_sport`
 --
 
-DROP TABLE IF EXISTS `product_detail`;
+DROP TABLE IF EXISTS `customer_sport`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `product_detail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pid` varchar(50) NOT NULL,
-  `store_id` varchar(50) NOT NULL,
-  `size` varchar(50) DEFAULT 'undefined',
-  `color` varchar(50) DEFAULT 'undefined',
-  `price` int(11) NOT NULL,
-  `margin` int(11) DEFAULT '25',
-  `discount` int(11) DEFAULT '0',
-  `warning_qty` int(11) DEFAULT '0',
-  `qty` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `cust_pid` (`pid`,`store_id`,`size`,`color`),
-  CONSTRAINT `product_detail_ibfk_1` FOREIGN KEY (`pid`) REFERENCES `product` (`pid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+CREATE TABLE `customer_sport` (
+  `cust_id` int(11) NOT NULL,
+  `sport_id` varchar(50) NOT NULL,
+  UNIQUE KEY `cust_sport` (`cust_id`,`sport_id`),
+  KEY `sport_id` (`sport_id`),
+  CONSTRAINT `customer_sport_ibfk_1` FOREIGN KEY (`cust_id`) REFERENCES `customer` (`id`),
+  CONSTRAINT `customer_sport_ibfk_2` FOREIGN KEY (`sport_id`) REFERENCES `sport` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `product_detail`
+-- Dumping data for table `customer_sport`
 --
 
-LOCK TABLES `product_detail` WRITE;
-/*!40000 ALTER TABLE `product_detail` DISABLE KEYS */;
-INSERT INTO `product_detail` VALUES (1,'1-2-3','ranchi','small','black',12,25,0,0,60);
-/*!40000 ALTER TABLE `product_detail` ENABLE KEYS */;
+LOCK TABLES `customer_sport` WRITE;
+/*!40000 ALTER TABLE `customer_sport` DISABLE KEYS */;
+INSERT INTO `customer_sport` VALUES (9,'cricket'),(14,'football'),(15,'football'),(9,'tennis'),(10,'tennis'),(11,'tennis'),(12,'tennis'),(13,'tennis'),(17,'tennis'),(18,'tennis'),(19,'tennis');
+/*!40000 ALTER TABLE `customer_sport` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -58,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-06 18:45:49
+-- Dump completed on 2015-11-13 19:50:36

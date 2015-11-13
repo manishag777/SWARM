@@ -16,27 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `store`
+-- Table structure for table `profit`
 --
 
-DROP TABLE IF EXISTS `store`;
+DROP TABLE IF EXISTS `profit`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `store` (
-  `id` varchar(50) NOT NULL,
+CREATE TABLE `profit` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
+  `margin` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `store`
+-- Dumping data for table `profit`
 --
 
-LOCK TABLES `store` WRITE;
-/*!40000 ALTER TABLE `store` DISABLE KEYS */;
-INSERT INTO `store` VALUES ('gola','Gola'),('ramgarh','Ramgarh'),('ranchi','Ranchi');
-/*!40000 ALTER TABLE `store` ENABLE KEYS */;
+LOCK TABLES `profit` WRITE;
+/*!40000 ALTER TABLE `profit` DISABLE KEYS */;
+INSERT INTO `profit` VALUES (1,'low',10),(2,'moderate',20),(3,'high',30),(4,'Default',25);
+/*!40000 ALTER TABLE `profit` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-06 18:45:49
+-- Dump completed on 2015-11-13 19:50:37

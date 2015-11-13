@@ -17,6 +17,9 @@ public class OrderDetailDao {
 	@Autowired
 	private JdbcTemplate template;
 	
+	@Autowired
+	private ProductDetailDao productDetailDao;
+	
 	private static final String INSERT_ORDER_DETAIL = "INSERT INTO order_detail"
 			+ " (order_id, pid, qty, cp, margin, discount)"
 			+ " VALUES (?, ?, ?, ?, ?, ?)";
@@ -36,6 +39,7 @@ public class OrderDetailDao {
 						ps.setInt(4, orderDetailDtoList.get(i).getCp());
 						ps.setInt(5, orderDetailDtoList.get(i).getMargin());
 						ps.setInt(6, orderDetailDtoList.get(i).getDiscount());
+						
 					}
 
 					@Override
@@ -43,6 +47,8 @@ public class OrderDetailDao {
 						return orderDetailDtoList.size();
 					}
 				});
+			 
+			 
 			 				
 		} catch (DataAccessException e) {
 			

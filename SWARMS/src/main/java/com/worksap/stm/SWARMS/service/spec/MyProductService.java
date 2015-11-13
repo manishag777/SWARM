@@ -11,6 +11,8 @@ import com.worksap.stm.SWARMS.entity.EmployeeListEntity;
 import com.worksap.stm.SWARMS.entity.ProductFetchEntity;
 import com.worksap.stm.SWARMS.entity.ProductFilterEntity;
 import com.worksap.stm.SWARMS.entity.ProductProfitEntity;
+import com.worksap.stm.SWARMS.entity.ProductSearchFetchEntity;
+import com.worksap.stm.SWARMS.entity.ProductSearchFilterEntity;
 import com.worksap.stm.SWARMS.exception.ServiceException;
 
 
@@ -24,5 +26,7 @@ public interface MyProductService {
 	ProductDetailDto getProductDetail(String pid, String storeId, String size, String color) throws ServiceException;
 	List<ProductFetchEntity> getProductListEntity(ProductFilterEntity productFilterEntity ) throws ServiceException;
 	void upateProfitMargin(ProductProfitEntity productProfitEntity)  throws ServiceException;
+	List<ProductSearchFetchEntity> returnFilteredProducts(
+			ProductSearchFilterEntity productSearchFilterEntity);
 	
 }

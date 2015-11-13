@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.worksap.stm.SWARMS.dao.ProductDetailDao;
+import com.worksap.stm.SWARMS.dto.CustomerDto;
 import com.worksap.stm.SWARMS.dto.ProductDetailDto;
 import com.worksap.stm.SWARMS.dto.ProductDto;
 import com.worksap.stm.SWARMS.dto.ProfitDto;
@@ -25,7 +26,9 @@ import com.worksap.stm.SWARMS.entity.EmployeeEntity;
 import com.worksap.stm.SWARMS.entity.EmployeeListEntity;
 import com.worksap.stm.SWARMS.entity.ProductFetchEntity;
 import com.worksap.stm.SWARMS.entity.ProductFilterEntity;
+import com.worksap.stm.SWARMS.entity.ProductListEntity;
 import com.worksap.stm.SWARMS.entity.ProductProfitEntity;
+import com.worksap.stm.SWARMS.service.spec.EmailService;
 import com.worksap.stm.SWARMS.service.spec.MyProductService;
 
 
@@ -38,9 +41,12 @@ public class salesManagerController {
 	@Autowired
 	private ProductDetailDao  productDetailDao;
 	
+	@Autowired
+	private EmailService  emailService;
+	
 	
 	@RequestMapping("/manageProduct")
-    public ModelAndView helloAjaxTest() {
+    public ModelAndView manageProduct() {
 		System.out.println("you called salesManager");
         return new ModelAndView("product-management", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
 
@@ -53,19 +59,7 @@ public class salesManagerController {
 		myProductService.insert(productDto);
 	}
 	
-	@PreAuthorize("hasAuthority('MD')")
-	@RequestMapping(value = "/editProduct", method = RequestMethod.POST )
-	@ResponseBody
-	public void editProduct(@RequestBody ProductDto productDto) {	
-		myProductService.update(productDto);
-	}
-	
-	@PreAuthorize("hasAuthority('MD')")
-	@RequestMapping(value = "/addProductDetail", method = RequestMethod.POST )
-	@ResponseBody
-	public void addUserAccount(@RequestBody ProductDetailDto productDetailDto) {	
-		myProductService.insertProductDetail(productDetailDto);
-	}
+
 	
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/getAllProduct", method = RequestMethod.GET)
@@ -81,15 +75,7 @@ public class salesManagerController {
         return new ModelAndView("profit-marking", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
     }
 	
-	@Data
-	@AllArgsConstructor
-	@NoArgsConstructor
-	public class ProductListEntity {
-		private int draw;
-		private int recordsTotal;
-		private int recordsFiltered;
-		private List<ProductFetchEntity> employeeEntities; 
-	}
+	
 	
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/returnProductData", method = RequestMethod.POST)
@@ -123,8 +109,36 @@ public class salesManagerController {
 		}
 	}
 	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/editProduct", method = RequestMethod.POST )
+	@ResponseBody
+	public void editProduct(@RequestBody ProductDto productDto) {	
+		myProductService.update(productDto);
 	
+		
+	}
 	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/addProductDetail", method = RequestMethod.POST )
+	@ResponseBody
+	public void addProductDetail(@RequestBody ProductDetailDto productDetailDto) {	
+		myProductService.insertProductDetail(productDetailDto);
+		System.out.println("Qty = " +productDetailDto.getQty());
+		if(productDetailDto.getQty()>0){
+			List<CustomerDto> list = emailService.getListOfCustomerDtoForAvailableProduct(productDetailDto);
+			System.out.println("CustomerDtoList Size = " +list.size());
+			for(int i=0; i<list.size(); i++){
+				System.out.println(list.get(i));
+			}
+			new Thread(new Runnable() {
+			    public void run() {
+			        //Do whatever
+			    	emailService.mailing(list);
+			    }
+			}).start();
+			
+		}
+	}
 	
 	
 }

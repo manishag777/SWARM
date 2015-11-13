@@ -164,7 +164,7 @@ var getProductDetails = function(parent){
 					var sp = (data.margin)*0.01*cp + cp;
 					var disc = (data.discount)*(sp);
 					var amt = (sp-disc)*qty;
-					console.info("sp = "+sp +" disc = "+disc+ "amt = "+amt);
+					console.info("sp = "+sp +" mp = "+marginPercentage+ "amt = "+amt);
 					parent.children().eq(5).children().val(qty);
 					parent.children().eq(6).children().val(sp);
 					parent.children().eq(7).children().val(disc);

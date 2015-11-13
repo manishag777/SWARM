@@ -44,6 +44,9 @@ public class CustomerDao {
 	private static final String UPDATE_GIFTCARD =  "UPDATE CUSTOMER SET giftcard_id = ? "
 			+ "where id = ?";
 	
+	private static final String UPDATE_EMAIL =  "UPDATE CUSTOMER SET email = ? where id = ?";
+			
+	
 	public int insert(CustomerDto customer) throws IOException {
 		try {
 				template.update(INSERT_CUSTOMER, (ps) -> {
@@ -164,5 +167,19 @@ public class CustomerDao {
 	}
 		
 	}
-	
+
+	public void updateEmailId(int custId, String emailId) throws IOException {
+		
+		try {
+			//System.out.println("Updating emaild Id :" +e);
+			template.update(UPDATE_EMAIL, (ps) -> {
+			ps.setInt(2, custId );
+			ps.setString(1, emailId);
+			});
+		}
+	    catch(Exception e){
+	    	System.out.println("At CustomerDao :" +e);
+			throw new IOException(e);
+	    }
+	}
 }

@@ -6,6 +6,7 @@ $(document).ready(function() {
 		$('#product-save-button').click(updateProduct);
 		$('#product-detail-add-button').click(addProductDetail);
 		$('#top-add-button').click(addProduct);
+		//$('#editTemplate').click(editTemplate);
 		displayProductInGrid();
 	}
 	initPage();
@@ -16,16 +17,11 @@ $(document).ready(function() {
 
 var addProductDetail = function(evt) {
 	var formData = $('#product-detail-form').serializeObject();
-	
-	// modify role object to become an object if only one is selected
 	console.info(formData);
-//	if (typeof(formData.roles) === 'string') {
-//		formData.roles = [formData.roles];
-//	}
-	
 	var url = 'addProductDetail';
-	//console.log("formData = "+formData);
-	
+	formData.productId = $("#productId").val();
+	console.log("formData = "+formData);
+	console.log(formData);
 	$.ajax({
 		url : url,
 		data : JSON.stringify(formData),
@@ -74,13 +70,16 @@ var addProduct = function(element) {
 var updateProduct = function(){
 	
 	var url = 'addProduct';
-	if(modifyStatus.localeCompare("add")==0)
+	var formData = $('#product-form').serializeObject();
+	if(modifyStatus.localeCompare("add")==0){
 		url = 'addProduct';
+	}
 	else if(modifyStatus.localeCompare("edit")==0){
 		url = 'editProduct';
+		formData.productId = $('wproductId');
 	}
 	console.info("At edit Product, url = " +url);
-	var formData = $('#product-form').serializeObject();
+	
 	// modify role object to become an object if only one is selected
 	console.info(formData);
 	if (typeof(formData.roles) === 'string') {

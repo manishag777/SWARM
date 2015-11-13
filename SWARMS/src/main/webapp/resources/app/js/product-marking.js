@@ -1,9 +1,8 @@
 $(document).ready(function() {
-	console.log("Hey Manish");
 	var initPage = function() {		
 		
 		 var datatable = $('#product-table').DataTable({
-			'serverSide' : true,
+			'serverSide' : false,
 			'ajax' : {
 				url : 'returnProductData',
 				type : 'POST',
@@ -28,7 +27,6 @@ $(document).ready(function() {
 			columns: [
 			          { data: 'pid' },
 			          { data: 'name' },
-			          { data: 'type' },
 			          { data: 'brand' },
 			          { data: 'color' },
 			          {data: 'size'  },
@@ -38,65 +36,18 @@ $(document).ready(function() {
 					sort: "true"
 		});
 		 
-//		 $.ajax({
-//				url : 'offices',
-//				type : 'POST',
-//				contentType : "application/json",
-//				data: JSON.stringify({ draw: 0, start: 0, length: 10})
-//			}).done(function(data) {
-//				var officeSelects = $('.office-selects');
-//				$.each(data.offices, function(i, office) {
-//					$.each(officeSelects, function(i, select) {
-//						$(select).append($('<option data-display = "' + office.name + '" value="' + office.id + '">' + office.name + '</li>'));
-//					});
-//				});
-//			});
+
 		
 		fetchProfitList();
+		$('#profit-group-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
+
 		
 	}
 	initPage();
 });
 
 
-//var loadTable = function(){
-//	var datatable = $('#product-table').DataTable({
-//			//'serverSide' : true,
-//			'ajax' : {
-//				url : 'returnProductData',
-//				type : 'POST',
-//				contentType : "application/json",
-//				data: function ( d ) {
-//					// send only data required by backend API
-//					delete(d.columns);
-//					delete(d.order);
-//					delete(d.search);
-//					d.groupType = $('#profit-group-filter').val();
-//					d.storeFilter = $('#store-filter').val();
-//					console.info("json = " +  JSON.stringify(d));	
-//			      return JSON.stringify(d);
-//			    },
-//				
-//			    dataSrc : "employeeEntities",
-//	//		    xhrFields: {
-//	//			      withCredentials: true
-//	//			   }
-//			},
-//			
-//			columns: [
-//			          { data: 'pid' },
-//			          { data: 'name' },
-//			          { data: 'type' },
-//			          { data: 'brand' },
-//			          { data: 'color' },
-//			          {data: 'size'  },
-//			          {data: 'margin'}
-//					],
-//					select: "single",
-//					sort: "true"
-//		});
-//		
-//}
+
 
 var myFunction = function(select, pid, color, size){
 	//console.info("value = "+vari.value);
@@ -142,7 +93,6 @@ var fetchProfitList = function(){
 				opt.innerHTML = data[i].name +"("+ data[i].margin+"%)";
 				select.appendChild(opt);
 			}
-			 $('#profit-group-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
 			
 		},
 	}).done(function() {

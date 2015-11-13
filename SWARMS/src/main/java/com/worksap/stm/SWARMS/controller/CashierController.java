@@ -33,13 +33,13 @@ public class CashierController {
 	 private MyProductService productService;
 	
 	@Autowired
-	CustomerRelationService customerRelationService;
+	private CustomerRelationService customerRelationService;
 	
 	@Autowired
-	OrderService orderService;
+	private OrderService orderService;
 	
 	@Autowired
-	GiftCardService giftCardService;
+	private GiftCardService giftCardService;
 	
 	
 
@@ -111,11 +111,11 @@ public class CashierController {
 		if(giftCardDetailDto.getId() == -1){
 			int giftCardId = giftCardService.insertGiftCard(giftCardDetailDto);
 			customerService.updateGiftCardId(orderEntity.getOrderDto().getCustId(),giftCardId);
-
 		}
 		else{
 			giftCardService.updateGiftCard(giftCardDetailDto);
 		}
+		
 		System.out.println(giftCardDetailDto.getId());
 		
 		

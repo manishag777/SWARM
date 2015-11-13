@@ -1,0 +1,41 @@
+#s_name {
+    margin-top:15px;
+    display:inline-block;
+}
+
+#searchProductButton {
+  margin-top:50px;
+  margin-left:50px;
+}
+
+/* table.display tbody tr:nth-child(even):hover td{ */
+/*     background-color: red !important; */
+/* } */
+
+/* table.display tbody tr:nth-child(odd):hover td { */
+/*     background-color: blue !important; */
+/* } */
+
+td.details-control {
+    background: url('../../details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('../../details_close.png') no-repeat center center;
+}
+
+
+
+
+ tr:hover td{
+    background-color: #D4FFAA !important;
+}
+
+tr.table-header {
+	background-color: #4D4DFF !important;
+	color : white;
+}
+
+/* .row_selected td { */
+/*     background-color: black !important; Add !important to make sure override datables base styles */
+/*  } */
