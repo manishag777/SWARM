@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class ProductSearchFilterEntity {
-	//private int groupType;
-	//private String storeFilter;
+
+	private String pid;
+	private String brand;
+	private String name;
 	private int draw;
 	private int start;
 	private int length;

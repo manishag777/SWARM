@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.9, for osx10.9 (x86_64)
 --
--- Host: 172.26.147.131    Database: s150
+-- Host: 127.0.0.1    Database: s150
 -- ------------------------------------------------------
--- Server version	5.6.26
+-- Server version	5.7.9
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,33 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `wishlist`
+-- Table structure for table `customer_sport`
 --
 
-DROP TABLE IF EXISTS `wishlist`;
+DROP TABLE IF EXISTS `customer_sport`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `wishlist` (
-  `pd_id` int(11) NOT NULL,
+CREATE TABLE `customer_sport` (
   `cust_id` int(11) NOT NULL,
-  `price` int(11) DEFAULT NULL,
-  `enable_price_down` tinyint(4) DEFAULT NULL,
-  `enable_product_available` tinyint(4) DEFAULT NULL,
-  UNIQUE KEY `pd_cust` (`pd_id`,`cust_id`),
-  KEY `cust_id` (`cust_id`),
-  CONSTRAINT `wishlist_ibfk_1` FOREIGN KEY (`pd_id`) REFERENCES `product_detail` (`id`),
-  CONSTRAINT `wishlist_ibfk_2` FOREIGN KEY (`cust_id`) REFERENCES `customer` (`id`)
+  `sport_id` varchar(50) NOT NULL,
+  UNIQUE KEY `cust_sport` (`cust_id`,`sport_id`),
+  KEY `sport_id` (`sport_id`),
+  CONSTRAINT `customer_sport_ibfk_1` FOREIGN KEY (`cust_id`) REFERENCES `customer` (`id`),
+  CONSTRAINT `customer_sport_ibfk_2` FOREIGN KEY (`sport_id`) REFERENCES `sport` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `wishlist`
+-- Dumping data for table `customer_sport`
 --
 
-LOCK TABLES `wishlist` WRITE;
-/*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
-INSERT INTO `wishlist` VALUES (1,1,12,0,1),(1,3,12,0,1),(1,4,20,0,1),(6,1,12,0,1),(6,3,12,0,1),(7,4,12,0,1),(12,1,30,1,1);
-/*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
+LOCK TABLES `customer_sport` WRITE;
+/*!40000 ALTER TABLE `customer_sport` DISABLE KEYS */;
+INSERT INTO `customer_sport` VALUES (9,'cricket'),(14,'football'),(15,'football'),(9,'tennis'),(10,'tennis'),(11,'tennis'),(12,'tennis'),(13,'tennis'),(17,'tennis'),(18,'tennis'),(19,'tennis');
+/*!40000 ALTER TABLE `customer_sport` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-13 19:50:37
+-- Dump completed on 2015-11-15 23:40:19

@@ -25,7 +25,7 @@ public class ProductDao {
 	+" brand = ?, info = ?, aval_size = ?, aval_color = ?, iurl = ?"
 	+ "where pid = ?";
 	
-	private static final String FETCH = "SELECT * FROM product";
+	private static final String FETCH = "SELECT * FROM product where sport_id like ?";
 	private static final String FETCH_BY_PID = "SELECT * FROM product where pid = ?";
 	
 	
@@ -34,7 +34,7 @@ public class ProductDao {
 		try {
 				template.update(INSERT_PRODUCT, (ps) -> {
 				ps.setString(1, product.getProductId());
-				ps.setString(2, "cricket");		//change it later according to the manager type
+				ps.setString(2, product.getSportId());		//change it later according to the manager type
 				ps.setString(3, product.getProductName());
 				ps.setString(4, product.getBrandName());
 				ps.setString(5, product.getProductInfo());
@@ -69,7 +69,10 @@ public class ProductDao {
 		}
 	}
 	
-public List<ProductDto> getAllProduct()  {
+public List<ProductDto> getAllProduct(String sport_id)  {
+		
+	 if(sport_id.equals("0"))
+		 sport_id="%";
 		
 		return template.query(
 				FETCH,
@@ -82,7 +85,7 @@ public List<ProductDto> getAllProduct()  {
 							rs.getString("aval_size"),
 							rs.getString("aval_color"),
 							rs.getString("iurl"));
-				});
+				},sport_id);
 	
 }
 

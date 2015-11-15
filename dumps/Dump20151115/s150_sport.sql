@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.9, for osx10.9 (x86_64)
 --
--- Host: 172.26.147.131    Database: s150
+-- Host: 127.0.0.1    Database: s150
 -- ------------------------------------------------------
--- Server version	5.6.26
+-- Server version	5.7.9
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,29 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `giftcard_specification`
+-- Table structure for table `sport`
 --
 
-DROP TABLE IF EXISTS `giftcard_specification`;
+DROP TABLE IF EXISTS `sport`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `giftcard_specification` (
-  `issue_amt` int(11) NOT NULL,
-  `amount1` int(11) NOT NULL,
-  `threshold_amt` int(11) NOT NULL,
-  `amount2` int(11) NOT NULL,
-  `expiry_extension` int(11) NOT NULL
+CREATE TABLE `sport` (
+  `id` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `giftcard_specification`
+-- Dumping data for table `sport`
 --
 
-LOCK TABLES `giftcard_specification` WRITE;
-/*!40000 ALTER TABLE `giftcard_specification` DISABLE KEYS */;
-INSERT INTO `giftcard_specification` VALUES (200,10,100,10,12);
-/*!40000 ALTER TABLE `giftcard_specification` ENABLE KEYS */;
+LOCK TABLES `sport` WRITE;
+/*!40000 ALTER TABLE `sport` DISABLE KEYS */;
+INSERT INTO `sport` VALUES ('cricket','Cricket'),('football','Football'),('others','Others'),('tennis','Tennis');
+/*!40000 ALTER TABLE `sport` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-13 19:50:37
+-- Dump completed on 2015-11-15 23:40:19

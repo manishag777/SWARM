@@ -52,9 +52,9 @@ public class MyProductServiceImpl implements MyProductService {
 
 
 	@Override
-	public List<ProductDto> getAllProduct() throws ServiceException {
+	public List<ProductDto> getAllProduct(String sport_id) throws ServiceException {
 		// TODO Auto-generated method stub
-		return productDao.getAllProduct();
+		return productDao.getAllProduct(sport_id);
 		
 	}
 

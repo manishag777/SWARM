@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.worksap.stm.SWARMS.dao.TextSearchProductDao;
 import com.worksap.stm.SWARMS.dto.WishListDto;
 import com.worksap.stm.SWARMS.entity.ProductProfitEntity;
 import com.worksap.stm.SWARMS.entity.ProductSearchFetchListEntity;
@@ -30,6 +31,10 @@ public class SalesStaffController {
 	@Autowired
 	private CustomerService customerService;
 	
+	@Autowired
+	private TextSearchProductDao textSearchProductDao;
+
+	
 	
 	
 	@RequestMapping("/searchProduct")
@@ -37,15 +42,7 @@ public class SalesStaffController {
         return new ModelAndView("search-product");
     }
 	
-	@PreAuthorize("hasAuthority('MD')")
-	@RequestMapping(value = "/returnFilteredProducts", method = RequestMethod.POST)
-	@ResponseBody
-	public ProductSearchFetchListEntity returnFilteredProducts(@RequestBody ProductSearchFilterEntity productSearchFilterEntity) {
-		//System.out.println("productFilterEntity = " + productFilterEntity.getGroupType());
-		return new ProductSearchFetchListEntity(2,2,2,myProductService.returnFilteredProducts(productSearchFilterEntity));
-			
-	}
-	
+		
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/addWishList", method = RequestMethod.POST)
 	@ResponseBody
@@ -62,4 +59,27 @@ public class SalesStaffController {
 		System.out.println(id +" " + emailId);
 		customerService.updateEmailId(id,emailId);
 	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/returnFilteredProducts", method = RequestMethod.POST)
+	@ResponseBody
+	public ProductSearchFetchListEntity returnFilteredProducts(@RequestBody ProductSearchFilterEntity productSearchFilterEntity) {
+		//System.out.println("productFilterEntity = " + productFilterEntity.getGroupType());
+		//return new ProductSearchFetchListEntity(2,2,2,myProductService.returnFilteredProducts(productSearchFilterEntity));
+		return new ProductSearchFetchListEntity(2,2,2,textSearchProductDao.searchProductByFilter(productSearchFilterEntity));	
+	}
+	
+//	@PreAuthorize("hasAuthority('MD')")
+//	@RequestMapping(value = "/searchProductByFilter", method = RequestMethod.GET )
+//	@ResponseBody
+//	public void searchProductByFilter(@RequestParam("pid") String pid, @RequestParam("name") String name, @RequestParam("brand") String brand ) {	
+//
+//		System.out.println(pid + " "+ name+" "+brand);
+//		textSearchProductDao.searchProductByFilter(pid,name,brand);
+//		//return customerService.getCustomerById(id);
+//		//return productDetailDao.fetchPrice(pid, color, size, storeId);
+//	}
+	
+		
+	
 }

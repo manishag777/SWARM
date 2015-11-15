@@ -17,8 +17,11 @@ $(document).ready(function() {
 					delete(d.columns);
 					delete(d.order);
 					delete(d.search);
+					d.pid = $("#s_pid").val();
+					d.name = $("#s_name").val();
+					d.brand = $("#s_brand").val();
 					console.info("json = " +  JSON.stringify(d));	
-			      return JSON.stringify(d);
+			        return JSON.stringify(d);
 			    },
 				
 			    dataSrc : "productSearchFetchEntities",
@@ -62,6 +65,7 @@ $(document).ready(function() {
 					select: "single",
 					sort: "true"
 		});
+		 
 		 
 		
 		// Array to track the ids of the details displayed rows
@@ -114,7 +118,31 @@ $(document).ready(function() {
 			    else{
 			    	selected_checkboxcount--;
 			    }
-			}); 
+			});
+			
+		//	$('#profit-group-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
+			
+			$('#s_pid').keyup(function(e){
+				if(e.keyCode == 13)
+				{
+					$('#product-table').dataTable().fnReloadAjax(); 
+				}	
+			});
+
+			$('#s_pid').keyup(function(e){
+				if(e.keyCode == 13)
+				{
+					$('#product-table').dataTable().fnReloadAjax(); 
+				}	
+			});
+
+			$('#s_name').keyup(function(e){
+				if(e.keyCode == 13)
+				{
+					$('#product-table').dataTable().fnReloadAjax(); 
+				}	
+			});
+
 			
 
 		
@@ -287,4 +315,38 @@ var displayCutomerInfo = function(status, data, id){
 function validateEmail(email) {
     var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     return re.test(email);
+}
+
+function onSearchPressed(){
+	
+	$('#product-table').dataTable().fnReloadAjax(); 
+//	console.info("InSearchPressed");
+//	var pid = $("#s_pid").val();
+//	var name = $("#s_name").val();
+//	var brand = $("#s_brand").val();
+//	
+//	var url = 'searchProductByFilter';		
+//	$.ajax({
+//		url : url,
+//		data : {"pid" : pid, "name" : name, "brand" : brand},
+//		type : 'GET',
+//		contentType : "application/json",
+//		success : function(data) {
+//			console.info(data);
+//			//displayCutomerInfo(1,data,id);
+//			//Obj.custId = id;
+//			
+//		},
+//		error: function(){
+//			console.info("error");
+//			//displayCutomerInfo(0,"",id);
+//		}
+//	}).done(function() {
+//		console.log("Done adding");
+//		
+//		//$('#customer-modal').modal('hide');
+//		//$('#employee-table').dataTable().fnReloadAjax();		
+//	});
+
+		
 }

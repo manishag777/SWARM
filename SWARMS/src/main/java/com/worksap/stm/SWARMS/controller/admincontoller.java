@@ -68,44 +68,6 @@ public class admincontoller {
 		//System.out.println(" size of list = " + employeeListEntity.getEmployeeEntities().size() + " draw = "+employeeListEntity.getDraw() + " recordsTotal = " + employeeListEntity.getRecordsTotal() + "recordsFiltered = " + employeeListEntity.getRecordsFiltered());
 		return list;
 	}
-	
-	@PreAuthorize("hasAuthority('MD')")
-	 @RequestMapping(value="/application/doajax.do", method = RequestMethod.POST)
-	    public @ResponseBody String doAjax() {
-	 
-	        //Create the response, a well formed JSON including Datatables required vars.
-	        //e.g.
-	        String str = "{  \"sEcho\": 2 ," +
-	            "   \"iTotalRecords\": 2," +
-	            "   \"iTotalDisplayRecords\": 2," +
-	            "   \"aaData\": [" +
-	            "       [" +
-	            "           \"Gecko\"," +
-	            "           \"Firefox 1.0\"," +
-	            "           \"Win 98+ / OSX.2+\"," +
-	            "           \"1.7\"," +
-	            "           \"A\"" +
-	            "       ]," +
-	            "       [" +
-	            "           \"Gecko\"," +
-	            "           \"Firefox 1.5\"," +
-	            "           \"Win 98+ / OSX.2+\"," +
-	            "           \"1.8\"," +
-	            "           \"A\"" +
-	            "       ]" +
-	            "   ]" +
-	            "}";
-	        
-	      /*  List<TestEntity> list = new ArrayList<TestEntity>();
-			list.add(new TestEntity());
-			list.add(new TestEntity());
-			list.add(new TestEntity());*/
-			//TestListEntity TestListEntity = new TestListEntity();
-			//System.out.println(" size of list = " + employeeListEntity.getEmployeeEntities().size() + " draw = "+employeeListEntity.getDraw() + " recordsTotal = " + employeeListEntity.getRecordsTotal() + "recordsFiltered = " + employeeListEntity.getRecordsFiltered());
-			//return list;
-	 
-	        return str;
-	    }
-	
+		
 	
 }

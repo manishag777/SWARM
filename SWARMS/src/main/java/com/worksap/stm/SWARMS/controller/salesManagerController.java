@@ -14,14 +14,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.worksap.stm.SWARMS.dao.ProductDetailDao;
+import com.worksap.stm.SWARMS.dao.SportDao;
+import com.worksap.stm.SWARMS.dao.TextSearchProductDao;
 import com.worksap.stm.SWARMS.dto.CustomerDto;
 import com.worksap.stm.SWARMS.dto.ProductDetailDto;
 import com.worksap.stm.SWARMS.dto.ProductDto;
 import com.worksap.stm.SWARMS.dto.ProfitDto;
+import com.worksap.stm.SWARMS.dto.SportDto;
 import com.worksap.stm.SWARMS.entity.EmployeeEntity;
 import com.worksap.stm.SWARMS.entity.EmployeeListEntity;
 import com.worksap.stm.SWARMS.entity.ProductFetchEntity;
@@ -44,6 +48,9 @@ public class salesManagerController {
 	@Autowired
 	private EmailService  emailService;
 	
+	@Autowired
+	private SportDao  sportDao;
+		
 	
 	@RequestMapping("/manageProduct")
     public ModelAndView manageProduct() {
@@ -64,8 +71,8 @@ public class salesManagerController {
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/getAllProduct", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ProductDto> returnEmployeData() {
-		return myProductService.getAllProduct();
+	public List<ProductDto> returnEmployeData(@RequestParam("sport_id") String sport_id) {
+		return myProductService.getAllProduct(sport_id);
 	}
 
 	
@@ -96,19 +103,7 @@ public class salesManagerController {
 			
 	}
 	
-	@PreAuthorize("hasAuthority('MD')")
-	@RequestMapping(value = "/fetchProfitList", method = RequestMethod.GET)
-	@ResponseBody
-	public List<ProfitDto> fetchProfitList() {
-		try {
-			return productDetailDao.ProductprofitDtoList();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
+		
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/editProduct", method = RequestMethod.POST )
 	@ResponseBody
@@ -133,12 +128,49 @@ public class salesManagerController {
 			new Thread(new Runnable() {
 			    public void run() {
 			        //Do whatever
-			    	emailService.mailing(list);
+			    	emailService.mailing(list, productDetailDto);
 			    }
 			}).start();
 			
 		}
 	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getPrice", method = RequestMethod.GET )
+	@ResponseBody
+	public int getPrice(@RequestParam("pid") String pid, @RequestParam("color") String color, @RequestParam("size") String size,@RequestParam("storeId") String storeId ) {	
+		System.out.println(pid + " "+ color+" "+size+" "+storeId);
+		//return customerService.getCustomerById(id);
+		return productDetailDao.fetchPrice(pid, color, size, storeId);
+	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/fetchProfitList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ProfitDto> fetchProfitList() {
+		try {
+			return productDetailDao.ProductprofitDtoList();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/fetchSportList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<SportDto> fetchSportList() {
+		try {
+			return sportDao.fetchSportList();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+		
 	
 	
 }

@@ -8,6 +8,7 @@ $(document).ready(function () {
 		 $('#dob').datepicker({
 		     dateFormat: 'dd-mm-yy',     
 		 });
+		 
 		 $("#payment").click(serializeProductInfo);
 		 
 		var custId = 0;

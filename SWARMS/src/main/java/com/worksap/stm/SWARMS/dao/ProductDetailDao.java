@@ -27,11 +27,16 @@ public class ProductDetailDao {
 	@Autowired
 	private JdbcTemplate template;
 	
+	
+	
 	private static final String INSERT_PRODUCT_DETAIL = "INSERT INTO product_detail "
 			+ " (pid, store_id, size, color, price, qty)"
 			+ " VALUES (?, ?, ?, ?, ?, ?)";
 	
 	private static final String PRODUCT_COUNT = "SELECT COUNT(*) FROM product_detail WHERE pid = ? and store_id = ? and size = ? and color = ?" ;
+	
+	private static final String FETCH_PRICE = "SELECT price FROM product_detail WHERE pid = ? and store_id = ? and size = ? and color = ?";
+
 	
 	private static final String UPDATE_PRODUCT = "UPDATE product_detail SET qty = qty + ?, price = ? WHERE pid = ? and store_id = ? and size = ? and color = ?";
 	
@@ -240,6 +245,18 @@ public class ProductDetailDao {
 					return customer;
 				});
 	}
+
+	public int fetchPrice(String pid, String color, String size, String storeId) {
+		// TODO Auto-generated method stub
+		try{
+			return template.queryForObject(FETCH_PRICE ,new Object[]{pid,storeId,size,color}, Integer.class);
+		}
+		catch(Exception e){
+			return -1;
+		}
+	}
+
+	
 	
 	
 }

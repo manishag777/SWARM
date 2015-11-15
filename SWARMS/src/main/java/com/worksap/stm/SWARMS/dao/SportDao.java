@@ -11,6 +11,9 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.worksap.stm.SWARMS.dto.ProfitDto;
+import com.worksap.stm.SWARMS.dto.SportDto;
+
 
 @Repository
 public class SportDao {
@@ -20,6 +23,9 @@ public class SportDao {
 	
 	private static final String INSERT = "INSERT INTO employee_sport (username, sport_id) "
 			+ " VALUES (? , ?)";
+	
+	private static final String FETCH_SPORT = "SELECT * FROM sport ";
+
 	
 	public void insertEmployeeSport(String username, String sportId) throws IOException  {
 		try {
@@ -32,7 +38,15 @@ public class SportDao {
 		throw new IOException(e);
 	}
 	}
-
+	
+	public List<SportDto>fetchSportList() throws IOException{
+		List<SportDto> sportDtoList = template.query (FETCH_SPORT,
+				(rs,rownum) ->{
+			return new SportDto(rs.getString("id"), rs.getString("name")); 
+		});
+		
+		return sportDtoList;
+	}
 
 
 }

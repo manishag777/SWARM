@@ -20,7 +20,7 @@ import com.worksap.stm.SWARMS.exception.ServiceException;
 public interface MyProductService {
 	void insert(ProductDto productDto) throws ServiceException;
 	void update(ProductDto productDto) throws ServiceException;
-	List<ProductDto> getAllProduct() throws ServiceException;
+	List<ProductDto> getAllProduct(String sport_id) throws ServiceException;
 	ProductDto getProductById(String id) throws ServiceException;
 	void insertProductDetail(ProductDetailDto productDetailDto) throws ServiceException;
 	ProductDetailDto getProductDetail(String pid, String storeId, String size, String color) throws ServiceException;

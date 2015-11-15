@@ -11,5 +11,5 @@ public interface EmailService {
 	List<CustomerDto> getListOfCustomerDtoForAvailableProduct(ProductDetailDto productDetailDto)
 			throws ServiceException;
 	
-	public void mailing(List<CustomerDto> customerDtoList);
+	public void mailing(List<CustomerDto> customerDtoList, ProductDetailDto productDetailDto);
 }

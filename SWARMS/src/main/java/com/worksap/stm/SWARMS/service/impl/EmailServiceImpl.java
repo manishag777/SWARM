@@ -39,7 +39,8 @@ public class EmailServiceImpl implements EmailService {
 		return productDetailDao.getListOfCustomerDtoForAvailableProduct(productDetailDto);
 	}
 	
-	public void mailing(List<CustomerDto> customerDtoList){
+	@Override
+	public void mailing(List<CustomerDto> customerDtoList, ProductDetailDto productDetailDto){
 		final String username = "text2manish@gmail.com";
 		final String password = "sifqsoqmhaxymuxy";
 		Properties props = new Properties();
@@ -75,11 +76,8 @@ public class EmailServiceImpl implements EmailService {
 				message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(emailId));
 				message.setSubject(templatMailDto.getSubjectText());
-				/*message.setText("<b>Dear Mail Crawler</b>,"
-						
-				+ "\n\n No spam to my email, please!");*/
-				String content = "<b>Hello" + name +"</b>" ;
-				message.setContent(templatMailDto.getBodyText(), "text/html; charset=utf-8");
+				String content =  convertTemplateMail(templatMailDto.getBodyText(), customerDtoList.get(i), productDetailDto);
+				message.setContent(content, "text/html; charset=utf-8");
 				Transport.send(message);
 				System.out.println("Done");
 		}
@@ -87,5 +85,24 @@ public class EmailServiceImpl implements EmailService {
 		catch (MessagingException e){
 				throw new RuntimeException(e);
 			}
+	}
+	
+	private String convertTemplateMail(String mailText, CustomerDto customerDto, ProductDetailDto productDetailDto){
+		
+		String cust_name = customerDto.getFirstName();
+		if(customerDto.getLastName()!=null)
+			cust_name += customerDto.getLastName();
+		String pdt_name = "productName";
+		String color = productDetailDto.getColor();
+		String size = productDetailDto.getSize();
+		String price = "20";
+		System.out.println(mailText.replaceAll("cust_name", cust_name));
+		mailText = mailText.replaceAll("%cust_name", cust_name);
+		mailText = mailText.replaceAll("%pdt_name", pdt_name);
+		mailText = mailText.replaceAll("%color", color);
+		mailText = mailText.replaceAll("%size", size);
+		mailText = mailText.replaceAll("%price", price);
+		System.out.println(mailText);
+		return mailText;
 	}
 }

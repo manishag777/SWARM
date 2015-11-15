@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.9, for osx10.9 (x86_64)
 --
--- Host: 172.26.147.131    Database: s150
+-- Host: 127.0.0.1    Database: s150
 -- ------------------------------------------------------
--- Server version	5.6.26
+-- Server version	5.7.9
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,28 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `giftcard`
+-- Table structure for table `employee_store`
 --
 
-DROP TABLE IF EXISTS `giftcard`;
+DROP TABLE IF EXISTS `employee_store`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `giftcard` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `expiry` date NOT NULL,
-  `amt` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+CREATE TABLE `employee_store` (
+  `username` varchar(50) NOT NULL,
+  `store_id` varchar(50) NOT NULL,
+  UNIQUE KEY `username_id` (`username`,`store_id`),
+  KEY `store_id` (`store_id`),
+  CONSTRAINT `employee_store_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `store` (`id`),
+  CONSTRAINT `employee_store_ibfk_2` FOREIGN KEY (`username`) REFERENCES `employee` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `giftcard`
+-- Dumping data for table `employee_store`
 --
 
-LOCK TABLES `giftcard` WRITE;
-/*!40000 ALTER TABLE `giftcard` DISABLE KEYS */;
-INSERT INTO `giftcard` VALUES (1,'2016-11-12',100),(2,'2016-11-09',20),(3,'2016-11-09',20),(4,'2016-11-09',20),(5,'2016-11-09',30);
-/*!40000 ALTER TABLE `giftcard` ENABLE KEYS */;
+LOCK TABLES `employee_store` WRITE;
+/*!40000 ALTER TABLE `employee_store` DISABLE KEYS */;
+INSERT INTO `employee_store` VALUES ('lohit','ranchi');
+/*!40000 ALTER TABLE `employee_store` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-13 19:50:36
+-- Dump completed on 2015-11-15 23:40:20
