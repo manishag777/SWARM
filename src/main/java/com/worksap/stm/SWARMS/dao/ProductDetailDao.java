@@ -42,6 +42,9 @@ public class ProductDetailDao {
 	
 	private static final String FETCH_PRODUCT_DETAIL = "SELECT * FROM product_detail pd INNER JOIN profit p ON pd.profit_id = p.id  WHERE pid = ? and store_id = ? and size = ? and color = ? " ;
 	
+	private static final String FETCH_PRODUCT_DETAIL_BYID = "SELECT pd.*, name, brand FROM product_detail pd inner join product p on pd.pid = p.pid  where pd.id = ?";
+
+	
 	private static final String FETCH_PRODUCT_ENTITY = "SELECT pd.profit_id profit_id, pd.pid pid, pd.size size, pd.color color, p.name name, p.brand brand FROM "
 			+ "product_detail pd INNER JOIN product p on pd.pid = p.pid where profit_id = ?";
 	
@@ -54,7 +57,8 @@ public class ProductDetailDao {
 	private static final String FETCH_MARGIN_GROUP = "SELECT * FROM profit ";
 	private static final String UPDATE_PROFIT_MARGIN = "UPDATE product_detail SET profit_id  = ? WHERE pid = ? and store_id = ? and size = ? and color = ?";
 	private static final String UPDATE_QTY = "UPDATE product_detail SET qty  = qty - ? WHERE id = ?";
-	
+	private static final String UPDATE_QTY_WQTY_BYID = "UPDATE product_detail SET qty  = qty + ?, warning_qty = ? WHERE id = ?";
+
 	private static final String FETCH_CUSTOMER_LIST_FOR_AVAILABLE_PRODUCT = "SELECT cust_id, firstName, lastName, email FROM product_detail pd INNER JOIN wishlist wl ON pd.id = wl.pd_id"
 			+ " INNER JOIN customer c ON c.id = wl.cust_id "
 			+ "where pd.pid = ? and store_id = ? and size = ? and color = ?";
@@ -124,8 +128,7 @@ public class ProductDetailDao {
 	}
 	
 	public List<ProductFetchEntity> ProductFetchEntityList(ProductFilterEntity productFilterEntity) throws IOException {
-		
-		
+
 		List<ProfitDto> profitDtoList = ProductprofitDtoList();
 		String SQL_QUERY;
 		if(productFilterEntity.getGroupType()<=0){
@@ -159,17 +162,40 @@ public class ProductDetailDao {
 	 });
 	}
 	
-	public void upateQuantity(OrderDetailDto orderDetailDto) throws IOException {
-		// TODO Auto-generated method stub
-		
+	public ProductFetchEntity upateQuantity(OrderDetailDto orderDetailDto) throws IOException {
+
 		System.out.println(orderDetailDto);
+		
 		template.update(UPDATE_QTY, (ps) -> {
 			ps.setInt(1, orderDetailDto.getQty());
 			ps.setInt(2,orderDetailDto.getPid());
 			
-	 });
+		});
+		return fetchProductDetailByPid(orderDetailDto.getPid());
+		
+		
+		
 	}
-
+	
+	public ProductFetchEntity fetchProductDetailByPid(int id) throws IOException {
+		
+		return template.queryForObject(FETCH_PRODUCT_DETAIL_BYID, (rs,column)->{
+			ProductFetchEntity productFetchEntity = new ProductFetchEntity();
+			productFetchEntity.setName(rs.getString("name"));
+			productFetchEntity.setId(rs.getInt("id"));
+			productFetchEntity.setQty(rs.getInt("qty"));
+			productFetchEntity.setWqty(rs.getInt("warning_qty"));
+			productFetchEntity.setPid(rs.getString("pid"));
+			productFetchEntity.setBrand(rs.getString("brand"));
+			productFetchEntity.setColor(rs.getString("color"));
+			productFetchEntity.setSize(rs.getString("size"));
+			return productFetchEntity;
+			
+		},id);
+	}
+	
+	
+	
 	private ProductFetchEntity getProductFetchEntityList(ResultSet rs, List<ProfitDto> profitDtoList){
 		
 		try{
@@ -254,6 +280,16 @@ public class ProductDetailDao {
 		catch(Exception e){
 			return -1;
 		}
+	}
+
+	public void updateProductQty(int id, int wq, int pq) {
+
+		template.update(UPDATE_QTY_WQTY_BYID, (ps)->{
+			ps.setInt(1,pq);
+			ps.setInt(2,wq);
+			ps.setInt(3,id);
+		});
+	
 	}
 
 	

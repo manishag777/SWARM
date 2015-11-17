@@ -16,30 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user`
+-- Table structure for table `notification`
 --
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `notification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
+CREATE TABLE `notification` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
-  `firstname` varchar(50) NOT NULL,
-  `lastname` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `address` varchar(200) NOT NULL,
-  PRIMARY KEY (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `message` text NOT NULL,
+  `seen` tinyint(4) DEFAULT '0',
+  `post_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `notification`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('mandeep','mandeep','singh','502b7dfff6fb4dc619b4933e1cb122df34605430','punjab'),('manish','manish','agrawal','abdf933375ec9351a3291e2c827182eebe93847c','jharkhand'),('piyush','piyush','dane','7caf4fada912172ae38c6555f73b0fcf5f41c218','mp');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+LOCK TABLES `notification` WRITE;
+/*!40000 ALTER TABLE `notification` DISABLE KEYS */;
+INSERT INTO `notification` VALUES (5,'manish','Bas Vampire Super Batting Legguard, Youth&KG&3234&14&24&black',1,'2015-11-17 13:57:43'),(7,'manish','PSC Scorer Kashmir Willow Cricket Bat, Short Handle&DSCS&1-2-3&5&small&blue',0,'2015-11-17 14:04:26'),(8,'manish','SG Super League Batting Gloves&Sanspareils Greenlands&23234&9&Men RH&black ',0,'2015-11-17 14:06:08'),(9,'manish','SG Super League Batting Gloves&Sanspareils Greenlands&23234&10&Men RH&white',0,'2015-11-17 14:08:01');
+/*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-16 21:14:11
+-- Dump completed on 2015-11-17 22:13:24

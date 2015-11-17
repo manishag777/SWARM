@@ -17,4 +17,7 @@ public class ProductFetchEntity {
 	String color;
 	String size;
 	String margin;
+	int id;  //Id of product-detail
+	int qty;
+	int wqty;
 }

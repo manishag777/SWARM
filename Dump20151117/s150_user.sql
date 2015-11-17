@@ -16,30 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `employee_sport`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `employee_sport`;
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `employee_sport` (
+CREATE TABLE `user` (
   `username` varchar(50) NOT NULL,
-  `sport_id` varchar(50) NOT NULL,
-  UNIQUE KEY `username_id` (`username`,`sport_id`),
-  KEY `sport_id` (`sport_id`),
-  CONSTRAINT `employee_sport_ibfk_1` FOREIGN KEY (`sport_id`) REFERENCES `sport` (`id`),
-  CONSTRAINT `employee_sport_ibfk_2` FOREIGN KEY (`username`) REFERENCES `employee` (`username`)
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `address` varchar(200) NOT NULL,
+  PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `employee_sport`
+-- Dumping data for table `user`
 --
 
-LOCK TABLES `employee_sport` WRITE;
-/*!40000 ALTER TABLE `employee_sport` DISABLE KEYS */;
-INSERT INTO `employee_sport` VALUES ('johnsson','cricket'),('lohit','tennis'),('mahesh','tennis');
-/*!40000 ALTER TABLE `employee_sport` ENABLE KEYS */;
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('mandeep','mandeep','singh','502b7dfff6fb4dc619b4933e1cb122df34605430','punjab'),('manish','manish','agrawal','abdf933375ec9351a3291e2c827182eebe93847c','jharkhand'),('piyush','piyush','dane','7caf4fada912172ae38c6555f73b0fcf5f41c218','mp');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-16 21:14:11
+-- Dump completed on 2015-11-17 22:13:23

@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.worksap.stm.SWARMS.dao.NotificationDao;
 import com.worksap.stm.SWARMS.dao.ProductDetailDao;
 import com.worksap.stm.SWARMS.dao.SportDao;
 import com.worksap.stm.SWARMS.dao.TextSearchProductDao;
 import com.worksap.stm.SWARMS.dto.CustomerDto;
+import com.worksap.stm.SWARMS.dto.NotificationDto;
 import com.worksap.stm.SWARMS.dto.ProductDetailDto;
 import com.worksap.stm.SWARMS.dto.ProductDto;
 import com.worksap.stm.SWARMS.dto.ProfitDto;
@@ -50,7 +52,9 @@ public class salesManagerController {
 	
 	@Autowired
 	private SportDao  sportDao;
-		
+	
+	@Autowired
+	private NotificationDao notificationDao;
 	
 	@RequestMapping("/manageProduct")
     public ModelAndView manageProduct() {
@@ -169,8 +173,47 @@ public class salesManagerController {
 			return null;
 		}
 	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getNotifications", method = RequestMethod.GET)
+	@ResponseBody
+	public List<NotificationDto> getNotification() {
+		try {
+			return notificationDao.getNotification();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getProductDetailById", method = RequestMethod.GET)
+	@ResponseBody
+	public ProductFetchEntity getProductDetailById( @RequestParam("id") String id) {
+		try {
+			return productDetailDao.fetchProductDetailByPid(Integer.parseInt(id));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/updateProductQty", method = RequestMethod.GET)
+	@ResponseBody
+	public void updateProductQty( @RequestParam("id") String id, @RequestParam("wq") String wq, @RequestParam("ipq") String ipq,  @RequestParam("nid") String nid, @RequestParam("status") String status) {
+		System.out.println("id = "+id + "wq = "+wq + "ipq ="+ipq + "nid ="+nid + "status = "+ status);
+		int op = Integer.parseInt(status);
+		if(op==3)
+			productDetailDao.updateProductQty(Integer.parseInt(id), Integer.parseInt(wq), Integer.parseInt(ipq));
+		if(op==3 || op ==2)
+			notificationDao.deleteNotification(Integer.parseInt(nid));
+		if(op==1)
+			notificationDao.updateSeenStatus(Integer.parseInt(nid));
 
 		
-	
-	
+	}	
 }

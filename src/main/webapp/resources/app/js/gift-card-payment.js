@@ -184,7 +184,6 @@ var processPayment = function(){
 var payTheAmount = function(){
 	
 	var object = new Object();
-	orderDto['gcDiscount'] = 10;
 	orderDto['id'] = -1 ;
 	object['orderDto'] = orderDto;
 	object['orderDetailDtoList'] = productDetailArray;

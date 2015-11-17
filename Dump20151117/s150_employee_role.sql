@@ -16,31 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `employee`
+-- Table structure for table `employee_role`
 --
 
-DROP TABLE IF EXISTS `employee`;
+DROP TABLE IF EXISTS `employee_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `employee` (
+CREATE TABLE `employee_role` (
   `username` varchar(50) NOT NULL,
-  `firstname` varchar(50) NOT NULL,
-  `lastname` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `phoneno` varchar(15) NOT NULL,
-  PRIMARY KEY (`username`)
+  `role` varchar(50) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  UNIQUE KEY `username_role` (`username`,`role`),
+  CONSTRAINT `employee_role_ibfk_1` FOREIGN KEY (`username`) REFERENCES `employee` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `employee`
+-- Dumping data for table `employee_role`
 --
 
-LOCK TABLES `employee` WRITE;
-/*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` VALUES ('johnsson','jhonsson','baby','6848d756da66e55b42f79c0728e351ad','yo@g.com','565644'),('lohit','','','3e5baabb435facf0aa87d58858118bdd','',''),('mahesh','mahesh','babu','37d1703157da260a648d24613032bc8f','',''),('mandeep','Manish','Agrawal','2865a5b14e5a70273a7d311bfc150f4f','magrawal6055@gmail.com','9103-6636'),('mandeepmoh','f','sss','2865a5b14e5a70273a7d311bfc150f4f','ffe','ee'),('manish','Manish','Agrawal','1bac0a5858ac8406c02374b9e36a4e72','magrawal6055@gmail.com','+65-91036635'),('mohan','mohan','chand','aeda6d66c337fa09f185719baa2334f9','mohan@gmail.com','89078456734'),('piyush','Piyush','Dane','70bb67c31f32594966075a9f74b0858a','piyush@gmail.com','+65-91036634'),('ravi','ravi','bopara','80334ba77903a4c0ffaedb50d57695c8','ffe','');
-/*!40000 ALTER TABLE `employee` ENABLE KEYS */;
+LOCK TABLES `employee_role` WRITE;
+/*!40000 ALTER TABLE `employee_role` DISABLE KEYS */;
+INSERT INTO `employee_role` VALUES ('johnsson','cashier',1),('johnsson','sm',1),('lohit','cashier',1),('lohit','sm',1),('mahesh','sm',1),('mahesh','ss',1),('mandeep','CSO',1),('mandeep','SM',1),('manish','MD',1),('piyush','SM',1);
+/*!40000 ALTER TABLE `employee_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-16 21:14:11
+-- Dump completed on 2015-11-17 22:13:23

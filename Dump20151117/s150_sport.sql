@@ -16,30 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `customer_sport`
+-- Table structure for table `sport`
 --
 
-DROP TABLE IF EXISTS `customer_sport`;
+DROP TABLE IF EXISTS `sport`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `customer_sport` (
-  `cust_id` int(11) NOT NULL,
-  `sport_id` varchar(50) NOT NULL,
-  UNIQUE KEY `cust_sport` (`cust_id`,`sport_id`),
-  KEY `sport_id` (`sport_id`),
-  CONSTRAINT `customer_sport_ibfk_1` FOREIGN KEY (`cust_id`) REFERENCES `customer` (`id`),
-  CONSTRAINT `customer_sport_ibfk_2` FOREIGN KEY (`sport_id`) REFERENCES `sport` (`id`)
+CREATE TABLE `sport` (
+  `id` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `customer_sport`
+-- Dumping data for table `sport`
 --
 
-LOCK TABLES `customer_sport` WRITE;
-/*!40000 ALTER TABLE `customer_sport` DISABLE KEYS */;
-INSERT INTO `customer_sport` VALUES (9,'cricket'),(25,'cricket'),(31,'cricket'),(32,'cricket'),(33,'cricket'),(34,'cricket'),(35,'cricket'),(36,'cricket'),(37,'cricket'),(14,'football'),(15,'football'),(25,'football'),(31,'football'),(32,'football'),(33,'football'),(34,'football'),(35,'football'),(36,'football'),(37,'football'),(9,'tennis'),(10,'tennis'),(11,'tennis'),(12,'tennis'),(13,'tennis'),(17,'tennis'),(18,'tennis'),(19,'tennis'),(22,'tennis'),(23,'tennis'),(24,'tennis'),(28,'tennis');
-/*!40000 ALTER TABLE `customer_sport` ENABLE KEYS */;
+LOCK TABLES `sport` WRITE;
+/*!40000 ALTER TABLE `sport` DISABLE KEYS */;
+INSERT INTO `sport` VALUES ('cricket','Cricket'),('football','Football'),('others','Others'),('tennis','Tennis');
+/*!40000 ALTER TABLE `sport` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-16 21:14:10
+-- Dump completed on 2015-11-17 22:13:23

@@ -283,8 +283,6 @@ var clearAll = function(parent){
 	
 	 console.info("modifyStatus=" + modifyStatus);
 	 
-	
-	 
 	 var formData = $('#customer-form').serializeObject();
 	 console.info(formData);
 	 
@@ -434,6 +432,7 @@ var serializeProductInfo = function(){
 	
 	
 	var count = 0;
+	productDetailArray = [];
 	$.each( idParentMap, function(index,value){
 		var objectData = new Object();
 		objectData['id'] = -1;

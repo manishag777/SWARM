@@ -16,27 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `sport`
+-- Table structure for table `wishlist`
 --
 
-DROP TABLE IF EXISTS `sport`;
+DROP TABLE IF EXISTS `wishlist`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sport` (
-  `id` varchar(50) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `wishlist` (
+  `pd_id` int(11) NOT NULL,
+  `cust_id` int(11) NOT NULL,
+  `price` int(11) DEFAULT NULL,
+  `enable_price_down` tinyint(4) DEFAULT NULL,
+  `enable_product_available` tinyint(4) DEFAULT NULL,
+  UNIQUE KEY `pd_cust` (`pd_id`,`cust_id`),
+  KEY `cust_id` (`cust_id`),
+  CONSTRAINT `wishlist_ibfk_1` FOREIGN KEY (`pd_id`) REFERENCES `product_detail` (`id`),
+  CONSTRAINT `wishlist_ibfk_2` FOREIGN KEY (`cust_id`) REFERENCES `customer` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `sport`
+-- Dumping data for table `wishlist`
 --
 
-LOCK TABLES `sport` WRITE;
-/*!40000 ALTER TABLE `sport` DISABLE KEYS */;
-INSERT INTO `sport` VALUES ('cricket','Cricket'),('football','Football'),('others','Others'),('tennis','Tennis');
-/*!40000 ALTER TABLE `sport` ENABLE KEYS */;
+LOCK TABLES `wishlist` WRITE;
+/*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
+INSERT INTO `wishlist` VALUES (1,1,12,0,1),(1,3,12,0,1),(1,4,20,0,1),(6,1,12,0,1),(6,3,12,0,1),(7,4,12,0,1),(12,1,30,1,1);
+/*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-16 21:14:11
+-- Dump completed on 2015-11-17 22:13:24
