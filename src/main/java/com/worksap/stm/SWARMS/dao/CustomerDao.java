@@ -29,8 +29,8 @@ public class CustomerDao {
 	private JdbcTemplate template;
 	
 	private static final String INSERT_CUSTOMER = "INSERT INTO customer "
-			+ " (firstname, lastname, email, phoneno, dob, gender, pincode, city, state, country, referrerId)"
-			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+			+ " (firstname, lastname, email, phoneno, dob, gender, pincode, city, state, country, referrerId, lng, lat)"
+			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
 	
 	private static final String FETCH_BY_ID = "SELECT * FROM customer where id = ?";
 	private static final String FETCH_SPORTS_BY_ID = "SELECT * FROM customer_sport where cust_id = ?";
@@ -38,7 +38,7 @@ public class CustomerDao {
 	private static final String INSERT_CUSTOMER_SPORT = "INSERT INTO customer_sport(cust_id, sport_id) VALUES (?, ?)";
 	
 	private static final String UPDATE_CUSTOMER =  "UPDATE CUSTOMER SET firstname = ?, "
-	+" lastname = ?, email = ?, phoneno = ?, gender = ?, pincode = ?, city = ?, state = ?, country = ?"
+	+" lastname = ?, email = ?, phoneno = ?, gender = ?, pincode = ?, city = ?, state = ?, country = ?, lng = ?, lat = ?"
 	+ "where id = ?";
 	
 	private static final String UPDATE_GIFTCARD =  "UPDATE CUSTOMER SET giftcard_id = ? "
@@ -47,7 +47,27 @@ public class CustomerDao {
 	private static final String UPDATE_EMAIL =  "UPDATE CUSTOMER SET email = ? where id = ?";
 	
 	private static final String UPDATE_ISNEWCUSTOMER =  "UPDATE CUSTOMER SET isNewCustomer = ? where id = ?";
-
+	
+	private static final String GET_ALL_CUSTOMER_FOR_CLUSTERING =  "SELECT * from CUSTOMER where lng IS NOT NULL AND lat is NOT NULL";
+	
+	
+	public List<CustomerDto> getAllCustomer() throws IOException{
+		
+		try{
+			return template.query(GET_ALL_CUSTOMER_FOR_CLUSTERING, (rs,column)->{
+				CustomerDto cdto = new CustomerDto();
+				cdto.setId(rs.getInt("id")+"");
+				cdto.setLng(rs.getDouble("lng"));
+				cdto.setLat(rs.getDouble("lat"));
+				return cdto;
+				
+ 			});
+		}
+		catch(Exception e){
+			System.out.println("At CustomerDao :" +e);
+			throw new IOException(e);
+		}
+	}
 	
 	public int insert(CustomerDto customer) throws IOException {
 		try {
@@ -66,7 +86,13 @@ public class CustomerDao {
 					ps.setInt(11, customer.getReferrerId());
 				else 
 					ps.setObject(11, null);
+				
+				ps.setDouble(12, customer.getLng());
+				ps.setDouble(13, customer.getLat());
+
 				});
+				
+				
 				
 	 
 			 int id = template.queryForObject(
@@ -134,10 +160,12 @@ public class CustomerDao {
 	}
 	
 	public void update(CustomerDto customer) throws IOException {
-		
+			
+			System.out.println(customer);
 		
 		
 			try {
+				
 					template.update(UPDATE_CUSTOMER, (ps) -> {
 					ps.setString(1, customer.getFirstName());
 					ps.setString(2, customer.getLastName());
@@ -145,14 +173,19 @@ public class CustomerDao {
 					ps.setString(4, Utilities.formatString(customer.getPhoneNo()));
 					ps.setInt(5, customer.getGender());
 					ps.setInt(6, customer.getPinCode());
-					ps.setString(7, customer.getCity());
-					ps.setString(8, customer.getState());
-					ps.setString(9, customer.getCountry());
-					ps.setString(10, customer.getId());
+					ps.setString(7, Utilities.formatString(customer.getCity()));
+					ps.setString(8, Utilities.formatString(customer.getState()));
+					ps.setString(9, Utilities.formatString(customer.getCountry()));
+					ps.setDouble(10, customer.getLng());
+					ps.setDouble(11, customer.getLat());
+					ps.setString(12, customer.getId());
+					
+					System.out.println("custmoetr"+customer);
+
 				});
 			} catch (DataAccessException e) {
 				
-				System.out.println("At EmployeeDao :" +e);
+				System.out.println("At customerDao :" +e);
 				throw new IOException(e);
 			}
 	

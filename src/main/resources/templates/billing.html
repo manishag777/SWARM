@@ -324,7 +324,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					<form id="customer-form">
 						
 							<div class=" col-lg-6 form-group">
-								<label for="id">First Name</label> <input name="firstName"
+								<label for="id">First Name<span style="color:red">*</span></label> <input name="firstName"
 									type="text" class="form-control" id="firstName"
 									placeholder="First Name" />
 							</div>
@@ -342,7 +342,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						</div>
 						
 						<div class="form-group col-lg-6">
-							<label for="phoneno">Phone No</label> <input name="phoneNo"
+							<label for="phoneno">Phone No</label><span  style="color:red">*</span><input name="phoneNo"
 								type="tel" class="form-control" id="phoneNo"
 								placeholder="Phone No."/>
 						</div>
@@ -371,8 +371,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						</div>
 						
 						<div class="form-group col-lg-6">
-							<label for="pincode">Pin Code</label> 
-							<input name="pinCode" id="pinCode" type="text" class="form-control"  placeholder="pincode"/>
+							<label for="pincode">Pin Code <span id="pincode-span"/></label> 
+							<input name="pinCode" id="pinCode" type="number" class="form-control"  placeholder="pincode"/>
 						</div>
 						
 						<div class="form-group col-lg-6">
@@ -387,7 +387,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						
 						<div class="form-group col-lg-6">
 							<label for="country">Country</label> 
-							<input name="country" id="country" type="text" class="form-control"  placeholder="country"/>
+							<input name="country" id="country" type="text" class="form-control" value = "India" placeholder="country" readonly="readonly"/>
 						</div>
 						
 						<div class="form-group col-lg-6">
@@ -508,6 +508,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="resources/lib/js/bootstrap-datepicker.js" type="text/javascript"></script>
     <script src="resources/app/js/customer.js" type="text/javascript"></script>
     <script src="resources/app/js/gift-card-payment.js" type="text/javascript"></script>
+ 	<script src="resources/app/js/geo-locations.js" type="text/javascript"></script>
  	
    </body>
   </html>

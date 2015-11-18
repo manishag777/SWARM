@@ -20,10 +20,12 @@ public class Utilities {
 			return null;
 		}
 	}
-public static String formatString(String x){
-	if(x=="null" || x.equals(""))
-		return null;
 	
-	else return x;
-}
+	public static String formatString(String x){
+		if(x=="null" || x.equals(""))
+			return null;
+		
+		else return x;
+	}
+	
 }

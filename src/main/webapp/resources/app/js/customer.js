@@ -2,6 +2,8 @@ var modifyStatus = "add";
 var idParentMap = new Object();
 var idProductDetailMap = new Object();
 var notEligible = true;
+var pincode;
+var geometry;
 
 $(document).ready(function () {
 	 var status = 0;
@@ -280,13 +282,15 @@ var clearAll = function(parent){
 
  var updateCustomer = function(evt) {
 
-	
 	 console.info("modifyStatus=" + modifyStatus);
 	 
 	 var formData = $('#customer-form').serializeObject();
 	 console.info(formData);
-	 
-	 
+	 if(isRealValue(pincode)){
+		 formData.pinCode = pincode;
+		 formData.lat = geometry.lat;
+		 formData.lng = geometry.lng;
+	 }
 	 
 	 if (typeof(formData.sportsInterest) === 'string') {
 			formData.sportsInterest = [formData.sportsInterest];

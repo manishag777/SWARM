@@ -24,5 +24,6 @@ public class CustomerDto {
 	private String country;
 	private int referrerId;
 	private int isNewCustomer;
+	private double lat, lng;
 	
 }

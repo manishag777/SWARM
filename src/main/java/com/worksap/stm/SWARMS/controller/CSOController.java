@@ -1,6 +1,8 @@
 package com.worksap.stm.SWARMS.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.worksap.stm.SWARMS.dao.CustomerDao;
 import com.worksap.stm.SWARMS.dao.TemplateMailDao;
 import com.worksap.stm.SWARMS.dto.CustomerDto;
 import com.worksap.stm.SWARMS.dto.GiftCardDto;
 import com.worksap.stm.SWARMS.service.spec.CustomerRelationService;
+import com.worksap.stm.SWARMS.utils.KmeanClustering;
 import com.worksap.stm.SWARMS.dto.TemplatMailDto;
 
 
@@ -28,10 +32,22 @@ public class CSOController {
 	@Autowired
 	TemplateMailDao templateMailDao;
 	
+	@Autowired
+	CustomerDao customerDao;
+	
+	@Autowired
+	KmeanClustering kmeanClustering;
+	
 	@RequestMapping("/manageGiftCard")
     public ModelAndView helloAjaxTest() {
 		System.out.println("you called CSO");
         return new ModelAndView("gift-card-specification", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
+    }
+	
+	@RequestMapping("/suggestionForOpeningNewStore")
+    public ModelAndView suggestionForOpeningNewStore() {
+		System.out.println("you called CSO");
+        return new ModelAndView("store-opening-suggestion", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
     }
 	
 	@PreAuthorize("hasAuthority('MD')")
@@ -85,6 +101,26 @@ public class CSOController {
 	public List<TemplatMailDto> fetchAllTemplates() {	
 		return templateMailDao.fetchAllTemplates();
 	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/fetchClusterCustomerDto", method = RequestMethod.GET )
+	@ResponseBody
+	public ArrayList<HashSet<CustomerDto> > fetchClusterCustomerDto() {	
+		
+		try {
+			List<CustomerDto> customerDtoList = customerDao.getAllCustomer();
+			/*for(int i=0; i<customerDtoList.size(); i++){
+				System.out.println(customerDtoList.get(i));
+			}*/
+			return kmeanClustering.findKMeanCluster(customerDtoList, 2);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 	
 	
 }

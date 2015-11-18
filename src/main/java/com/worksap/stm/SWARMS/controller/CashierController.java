@@ -57,6 +57,8 @@ public class CashierController {
 	@RequestMapping(value = "/addCustomer", method = RequestMethod.POST )
 	@ResponseBody
 	public int addCustomer(@RequestBody CustomerDto customerDto) {	
+		System.out.println(customerDto);
+		//return 5;
 		return customerService.insert(customerDto);
 	}
 	
@@ -64,6 +66,7 @@ public class CashierController {
 	@RequestMapping(value = "/editCustomer", method = RequestMethod.POST )
 	@ResponseBody
 	public void editCustomer(@RequestBody CustomerDto customerDto) {	
+		System.out.println(customerDto);
 		customerService.update(customerDto);
 	}
 	
@@ -89,7 +92,7 @@ public class CashierController {
 	@RequestMapping(value = "/getCustomerInfoById", method = RequestMethod.GET )
 	@ResponseBody
 	public CustomerDto GetCustomerInfoById(@RequestParam("id") String id) {	
-		System.out.println(id);
+		//System.out.println(id);
 		return customerService.getCustomerById(Integer.parseInt(id));
 	}
 		

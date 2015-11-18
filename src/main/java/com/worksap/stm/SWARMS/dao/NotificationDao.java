@@ -18,7 +18,7 @@ public class NotificationDao{
 	public static String INSERT_NOTIFICATION = "INSERT INTO notification (username, message) VALUES(?,?)";
 	public static String GET_NOTIFICATION = "SELECT * FROM notification ORDER BY seen, post_time ";
 	public static String DELETE_NOTIFICATION = "DELETE FROM notification where id = ?";
-	public static String UPDATE_SEEN_STATUS =  "UPDATE notification set seen = 1 where id = ?";
+	public static String UPDATE_SEEN_STATUS =  "UPDATE notification set seen = 1, post_time = post_time where id = ?";
 
 	
 	

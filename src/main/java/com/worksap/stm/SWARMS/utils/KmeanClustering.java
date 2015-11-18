@@ -1,0 +1,168 @@
+package com.worksap.stm.SWARMS.utils;
+
+import java.util.*;
+
+import org.springframework.stereotype.Repository;
+
+import com.worksap.stm.SWARMS.dto.CustomerDto;
+
+
+
+@Repository
+public class KmeanClustering {
+	
+	int NITER = 100;
+	private class Geometry{
+		public double lng, lat;
+		Geometry(double lng, double lat){
+			this.lng = lng;
+			this.lat = lat;
+		}
+		
+		@Override
+		public String toString(){
+			return lng+"_"+lat ;
+		}
+		
+	}
+
+	
+	public ArrayList<HashSet<CustomerDto> > findKMeanCluster(List<CustomerDto> customerDtoList, int k){
+		
+		ArrayList<HashSet<CustomerDto> > result = new ArrayList<>();
+		ArrayList<Geometry> centroids = new ArrayList<>();
+		ArrayList<Geometry> remainingCentroidSet = new ArrayList<>();
+		int n = customerDtoList.size();
+		// Intializing the variable
+	
+		
+		for(int i=1; i<n;i++){
+			remainingCentroidSet.add(new Geometry(customerDtoList.get(i).getLng(), customerDtoList.get(i).getLat()));
+		}
+		
+		Geometry g = new Geometry(customerDtoList.get(0).getLng(), customerDtoList.get(0).getLat());
+		centroids.add(g);
+		
+	
+		//Intializing the initial centroids
+		for(int i=0; i<k; i++){
+			Geometry centroid = findCentroid(centroids);
+			double maxDist = distance(centroid,remainingCentroidSet.get(0));
+			int maxIndex = 0;
+			for(int j=1; j<remainingCentroidSet.size(); j++){
+				double dist = distance(centroid,remainingCentroidSet.get(j));
+				if(dist>maxDist){
+					maxIndex = j;
+					maxDist = dist;
+				}
+			}
+			
+			centroids.add(remainingCentroidSet.get(maxIndex));
+			remainingCentroidSet.remove(maxIndex);
+		}
+		
+		int iter = 0;
+		while(iter < NITER){
+			ArrayList<HashSet<CustomerDto> > temp_result = new ArrayList<>();
+			
+			for(int i=0; i<k; i++){
+				temp_result.add(new HashSet<>());
+			}
+			for(int i=0; i<n; i++){
+				Geometry currentGeometry = new Geometry(customerDtoList.get(i).getLng(), customerDtoList.get(i).getLat());
+				double minDist =   distance(currentGeometry, centroids.get(0));
+				int minIndex = 0;
+				for(int j=1; j<k; j++){
+					double dist =  distance(currentGeometry, centroids.get(j));
+					if(dist <= minDist){
+						minIndex = j;
+						minDist = dist;
+					}
+				}
+				if(iter<5)
+					System.out.println("i = "+i + "minIndex = "+minIndex+" dist=     "+minDist);
+				temp_result.get(minIndex).add(customerDtoList.get(i));
+			}
+			
+			ArrayList<Geometry> temp_centroids = new ArrayList<>();
+			for(int j = 0; j<k ; j++){
+				temp_centroids.add(findCentroid(temp_result.get(j)));
+			}
+			
+			boolean sameCentroid = true;
+			if(iter < 5){
+				System.out.println(temp_centroids);
+			}
+				
+			for(int j=0; j<k; j++){
+				if(Math.abs(temp_centroids.get(j).lng - centroids.get(j).lng) > 0.00000001 || Math.abs(temp_centroids.get(j).lat - centroids.get(j).lat) > 0.00000001)
+					sameCentroid = false;
+				
+				 centroids.get(j).lng = temp_centroids.get(j).lng;
+				 centroids.get(j).lat = temp_centroids.get(j).lat;
+			}
+			
+			if(sameCentroid){
+				System.out.println("iter = "+iter);
+				return temp_result;
+			}
+			iter++;
+		
+			if(iter==NITER){
+				System.out.println("iter = "+iter);
+				return temp_result;
+			}
+		}
+	
+		return null;
+	
+	}
+	
+	
+	
+	
+	private Geometry findCentroid(ArrayList<Geometry> gset){
+		
+		int length = gset.size();
+		Geometry output = new Geometry(0,0);
+		for(Geometry g : gset){
+			output.lng +=(g.lng/length);
+			output.lat +=(g.lat/length);
+		}
+		
+		return output;
+	}
+	
+	private Geometry findCentroid(HashSet<CustomerDto> gset){
+		
+		int length = gset.size();
+		Geometry output = new Geometry(0,0);
+		for(CustomerDto g : gset){
+			output.lng +=(g.getLng()/length);
+			output.lat +=(g.getLat()/length);
+		}
+		
+		return output;
+	}
+	
+	private static double distance(Geometry g1, Geometry g2) {
+		double theta = g1.lng - g2.lng;
+		double dist = Math.sin(deg2rad(g1.lat)) * Math.sin(deg2rad(g2.lat)) + Math.cos(deg2rad(g1.lat)) * Math.cos(deg2rad(g2.lat)) * Math.cos(deg2rad(theta));
+		dist = Math.acos(dist);
+		dist = rad2deg(dist);
+		dist = dist * 60 * 1.1515*1.609344;
+		 // distance in kilometer
+		return (dist);
+	}
+
+	private static double deg2rad(double deg) {
+		return (deg * Math.PI / 180.0);
+	}
+	
+	private static double rad2deg(double rad) {
+		return (rad * 180 / Math.PI);
+	}
+	
+	
+	
+}
