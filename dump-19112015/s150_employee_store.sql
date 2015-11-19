@@ -16,29 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `giftcard_specification`
+-- Table structure for table `employee_store`
 --
 
-DROP TABLE IF EXISTS `giftcard_specification`;
+DROP TABLE IF EXISTS `employee_store`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `giftcard_specification` (
-  `issue_amt` int(11) NOT NULL,
-  `amount1` int(11) NOT NULL,
-  `threshold_amt` int(11) NOT NULL,
-  `amount2` int(11) NOT NULL,
-  `expiry_extension` int(11) NOT NULL
+CREATE TABLE `employee_store` (
+  `username` varchar(50) NOT NULL,
+  `store_id` varchar(50) NOT NULL,
+  UNIQUE KEY `username_id` (`username`,`store_id`),
+  KEY `store_id` (`store_id`),
+  CONSTRAINT `employee_store_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `store` (`id`),
+  CONSTRAINT `employee_store_ibfk_2` FOREIGN KEY (`username`) REFERENCES `employee` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `giftcard_specification`
+-- Dumping data for table `employee_store`
 --
 
-LOCK TABLES `giftcard_specification` WRITE;
-/*!40000 ALTER TABLE `giftcard_specification` DISABLE KEYS */;
-INSERT INTO `giftcard_specification` VALUES (200,10,100,10,12);
-/*!40000 ALTER TABLE `giftcard_specification` ENABLE KEYS */;
+LOCK TABLES `employee_store` WRITE;
+/*!40000 ALTER TABLE `employee_store` DISABLE KEYS */;
+INSERT INTO `employee_store` VALUES ('lohit','ranchi');
+/*!40000 ALTER TABLE `employee_store` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-17 22:13:23
+-- Dump completed on 2015-11-19 19:38:32

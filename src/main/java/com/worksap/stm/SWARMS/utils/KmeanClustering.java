@@ -2,9 +2,13 @@ package com.worksap.stm.SWARMS.utils;
 
 import java.util.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.worksap.stm.SWARMS.dao.StoreDao;
 import com.worksap.stm.SWARMS.dto.CustomerDto;
+import com.worksap.stm.SWARMS.dto.StoreDto;
+import com.worksap.stm.SWARMS.entity.CustomerClusterEntity;
 
 
 
@@ -12,26 +16,17 @@ import com.worksap.stm.SWARMS.dto.CustomerDto;
 public class KmeanClustering {
 	
 	int NITER = 100;
-	private class Geometry{
-		public double lng, lat;
-		Geometry(double lng, double lat){
-			this.lng = lng;
-			this.lat = lat;
-		}
-		
-		@Override
-		public String toString(){
-			return lng+"_"+lat ;
-		}
-		
-	}
-
+	int unusedIndex = 0;;
+	@Autowired
+	StoreDao storeDao;
 	
-	public ArrayList<HashSet<CustomerDto> > findKMeanCluster(List<CustomerDto> customerDtoList, int k){
+	List<StoreDto> storeDtoList;
+	public CustomerClusterEntity findKMeanCluster(List<CustomerDto> customerDtoList, int k){
 		
 		ArrayList<HashSet<CustomerDto> > result = new ArrayList<>();
 		ArrayList<Geometry> centroids = new ArrayList<>();
 		ArrayList<Geometry> remainingCentroidSet = new ArrayList<>();
+		 storeDtoList = storeDao.getAllStore();
 		int n = customerDtoList.size();
 		// Intializing the variable
 	
@@ -45,7 +40,7 @@ public class KmeanClustering {
 		
 	
 		//Intializing the initial centroids
-		for(int i=0; i<k; i++){
+		for(int i=1; i<k; i++){
 			Geometry centroid = findCentroid(centroids);
 			double maxDist = distance(centroid,remainingCentroidSet.get(0));
 			int maxIndex = 0;
@@ -104,13 +99,17 @@ public class KmeanClustering {
 			
 			if(sameCentroid){
 				System.out.println("iter = "+iter);
-				return temp_result;
+				ArrayList<Integer> mappedArray = mapStoreToCluster(centroids);
+				return new CustomerClusterEntity(temp_result,centroids,generateRadiusList(centroids,temp_result),storeDtoList, mappedArray,unusedIndex);
+				
 			}
 			iter++;
 		
 			if(iter==NITER){
 				System.out.println("iter = "+iter);
-				return temp_result;
+				ArrayList<Integer> mappedArray = mapStoreToCluster(centroids);
+				return new CustomerClusterEntity(temp_result,centroids,generateRadiusList(centroids,temp_result),storeDtoList,mappedArray, unusedIndex);
+				//return temp_result;
 			}
 		}
 	
@@ -163,6 +162,54 @@ public class KmeanClustering {
 		return (rad * 180 / Math.PI);
 	}
 	
+	private ArrayList<Double> generateRadiusList(ArrayList<Geometry> centroids, ArrayList<HashSet<CustomerDto>> result ){
+		
+		ArrayList<Double> radius = new ArrayList<Double>();
+		for(int i=0; i<centroids.size(); i++){
+			HashSet<CustomerDto> customerDtoSet = result.get(i);
+			Double dist = 0.0;
+			for(CustomerDto cdto : customerDtoSet ){
+				Geometry g = new Geometry(cdto.getLng(), cdto.getLat());
+				Double ldist = distance(centroids.get(i),g);
+				if(ldist>dist)
+					dist = ldist;
+			}
+			radius.add(dist);
+		}
+		
+		return radius;
+	}
 	
+	private ArrayList<Integer> mapStoreToCluster(ArrayList<Geometry> centroids){
+		
+		ArrayList<Geometry> remainingCentroidSet = new ArrayList<>();
+		ArrayList<Integer> indexList = new ArrayList<>();
+		ArrayList<Integer> result = new ArrayList<>();
+		
+		for(int i=0; i<centroids.size();i++){
+			remainingCentroidSet.add(new Geometry(centroids.get(i).lng, centroids.get(i).lat ));
+			indexList.add(i);
+		}
+		
+		for(int i=0; i<storeDtoList.size(); i++){
+			Geometry currentGeometry = new Geometry(storeDtoList.get(i).getLng(), storeDtoList.get(i).getLat());
+			double minDist =   distance(currentGeometry, remainingCentroidSet.get(0));
+			int minIndex = 0;
+			for(int j=1; j<remainingCentroidSet.size(); j++){
+				double dist =  distance(currentGeometry, remainingCentroidSet.get(j));
+				if(dist <= minDist){
+					minIndex = j;
+					minDist = dist;
+				}
+			}
+			result.add(indexList.get(minIndex));
+			indexList.remove(minIndex);
+			remainingCentroidSet.remove(minIndex);
+		}
+		unusedIndex = indexList.get(0);
+		
+		return result;
+		
+	}
 	
 }

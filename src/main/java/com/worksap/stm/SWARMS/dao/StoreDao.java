@@ -1,11 +1,15 @@
 package com.worksap.stm.SWARMS.dao;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.worksap.stm.SWARMS.dto.StoreDto;
 
 @Repository
 public class StoreDao {
@@ -27,6 +31,13 @@ public class StoreDao {
 		throw new IOException(e);
 	}
 	}
-
+	
+	//hardcoded later it will be implemented properly
+	public List<StoreDto> getAllStore(){
+		StoreDto s1 = new StoreDto("connaught Place",28.629041, 77.223657);
+		List<StoreDto> storeList = new ArrayList<>();
+		storeList.add(s1);
+		return storeList;
+	}
 
 }

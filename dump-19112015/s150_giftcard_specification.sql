@@ -16,30 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user`
+-- Table structure for table `giftcard_specification`
 --
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `giftcard_specification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
-  `username` varchar(50) NOT NULL,
-  `firstname` varchar(50) NOT NULL,
-  `lastname` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `address` varchar(200) NOT NULL,
-  PRIMARY KEY (`username`)
+CREATE TABLE `giftcard_specification` (
+  `issue_amt` int(11) NOT NULL,
+  `amount1` int(11) NOT NULL,
+  `threshold_amt` int(11) NOT NULL,
+  `amount2` int(11) NOT NULL,
+  `expiry_extension` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `giftcard_specification`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('mandeep','mandeep','singh','502b7dfff6fb4dc619b4933e1cb122df34605430','punjab'),('manish','manish','agrawal','abdf933375ec9351a3291e2c827182eebe93847c','jharkhand'),('piyush','piyush','dane','7caf4fada912172ae38c6555f73b0fcf5f41c218','mp');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+LOCK TABLES `giftcard_specification` WRITE;
+/*!40000 ALTER TABLE `giftcard_specification` DISABLE KEYS */;
+INSERT INTO `giftcard_specification` VALUES (200,10,100,10,12);
+/*!40000 ALTER TABLE `giftcard_specification` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-17 22:13:23
+-- Dump completed on 2015-11-19 19:38:30

@@ -21,6 +21,7 @@ import com.worksap.stm.SWARMS.dto.GiftCardDto;
 import com.worksap.stm.SWARMS.service.spec.CustomerRelationService;
 import com.worksap.stm.SWARMS.utils.KmeanClustering;
 import com.worksap.stm.SWARMS.dto.TemplatMailDto;
+import com.worksap.stm.SWARMS.entity.CustomerClusterEntity;
 
 
 @Controller
@@ -105,7 +106,7 @@ public class CSOController {
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/fetchClusterCustomerDto", method = RequestMethod.GET )
 	@ResponseBody
-	public ArrayList<HashSet<CustomerDto> > fetchClusterCustomerDto() {	
+	public CustomerClusterEntity fetchClusterCustomerDto() {	
 		
 		try {
 			List<CustomerDto> customerDtoList = customerDao.getAllCustomer();

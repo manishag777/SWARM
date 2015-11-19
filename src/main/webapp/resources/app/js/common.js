@@ -2,6 +2,7 @@ var custId = 0;
 var total = 0;
 var productDetailArray = [];
 var orderDto = new Object();
+var gmc_cust = ['#ff245b', '#2663ff', '#26e6ff', '#26ff47', '#ff7226'];
 
 
 var switchActiveTab = function(id) {

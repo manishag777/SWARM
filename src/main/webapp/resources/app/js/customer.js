@@ -286,6 +286,7 @@ var clearAll = function(parent){
 	 
 	 var formData = $('#customer-form').serializeObject();
 	 console.info(formData);
+	 console.info(pincode);
 	 if(isRealValue(pincode)){
 		 formData.pinCode = pincode;
 		 formData.lat = geometry.lat;
@@ -301,7 +302,7 @@ var clearAll = function(parent){
 	 
 	 if(modifyStatus.localeCompare("add")==0){
 		 console.info("add");
-		 var url = 'addCustomer';
+		 var url = 'addCustomers';
 		 formData["id"] = -1;
 	 }
 	 else if(modifyStatus.localeCompare("edit")==0) {

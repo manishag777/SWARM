@@ -59,6 +59,7 @@ public class CustomerDao {
 				cdto.setId(rs.getInt("id")+"");
 				cdto.setLng(rs.getDouble("lng"));
 				cdto.setLat(rs.getDouble("lat"));
+				cdto.setPinCode(rs.getInt("pinCode"));
 				return cdto;
 				
  			});

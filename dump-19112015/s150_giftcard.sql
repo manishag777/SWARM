@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: localhost    Database: sys
+-- Host: localhost    Database: s150
 -- ------------------------------------------------------
 -- Server version	5.7.9-log
 
@@ -16,29 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `sys_config`
+-- Table structure for table `giftcard`
 --
 
-DROP TABLE IF EXISTS `sys_config`;
+DROP TABLE IF EXISTS `giftcard`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sys_config` (
-  `variable` varchar(128) NOT NULL,
-  `value` varchar(128) DEFAULT NULL,
-  `set_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `set_by` varchar(128) DEFAULT NULL,
-  PRIMARY KEY (`variable`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `giftcard` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `expiry` date NOT NULL,
+  `amt` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `sys_config`
+-- Dumping data for table `giftcard`
 --
 
-LOCK TABLES `sys_config` WRITE;
-/*!40000 ALTER TABLE `sys_config` DISABLE KEYS */;
-INSERT INTO `sys_config` VALUES ('diagnostics.allow_i_s_tables','OFF','2015-11-16 06:48:56',NULL),('diagnostics.include_raw','OFF','2015-11-16 06:48:56',NULL),('ps_thread_trx_info.max_length','65535','2015-11-16 06:48:56',NULL),('statement_performance_analyzer.limit','100','2015-11-16 06:48:56',NULL),('statement_performance_analyzer.view',NULL,'2015-11-16 06:48:56',NULL),('statement_truncate_len','64','2015-11-16 06:48:56',NULL);
-/*!40000 ALTER TABLE `sys_config` ENABLE KEYS */;
+LOCK TABLES `giftcard` WRITE;
+/*!40000 ALTER TABLE `giftcard` DISABLE KEYS */;
+INSERT INTO `giftcard` VALUES (1,'2016-11-16',0),(2,'2016-11-09',20),(3,'2016-11-09',20),(4,'2016-11-09',20),(5,'2016-11-16',130),(6,'2016-11-16',60),(7,'2016-11-16',90),(8,'2016-11-16',60),(9,'2016-11-16',60),(10,'2016-11-17',2680),(11,'2016-11-17',780),(12,'2016-11-16',130),(13,'2016-11-17',1740),(14,'2016-11-17',950),(15,'2016-11-17',30);
+/*!40000 ALTER TABLE `giftcard` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-17 22:13:22
+-- Dump completed on 2015-11-19 19:38:29

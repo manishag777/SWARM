@@ -16,31 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `employee`
+-- Table structure for table `profit`
 --
 
-DROP TABLE IF EXISTS `employee`;
+DROP TABLE IF EXISTS `profit`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `employee` (
-  `username` varchar(50) NOT NULL,
-  `firstname` varchar(50) NOT NULL,
-  `lastname` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `phoneno` varchar(15) NOT NULL,
-  PRIMARY KEY (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `profit` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `margin` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `employee`
+-- Dumping data for table `profit`
 --
 
-LOCK TABLES `employee` WRITE;
-/*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` VALUES ('johnsson','jhonsson','baby','6848d756da66e55b42f79c0728e351ad','yo@g.com','565644'),('lohit','','','3e5baabb435facf0aa87d58858118bdd','',''),('mahesh','mahesh','babu','37d1703157da260a648d24613032bc8f','',''),('mandeep','Manish','Agrawal','2865a5b14e5a70273a7d311bfc150f4f','magrawal6055@gmail.com','9103-6636'),('mandeepmoh','f','sss','2865a5b14e5a70273a7d311bfc150f4f','ffe','ee'),('manish','Manish','Agrawal','1bac0a5858ac8406c02374b9e36a4e72','magrawal6055@gmail.com','+65-91036635'),('mohan','mohan','chand','aeda6d66c337fa09f185719baa2334f9','mohan@gmail.com','89078456734'),('piyush','Piyush','Dane','70bb67c31f32594966075a9f74b0858a','piyush@gmail.com','+65-91036634'),('ravi','ravi','bopara','80334ba77903a4c0ffaedb50d57695c8','ffe','');
-/*!40000 ALTER TABLE `employee` ENABLE KEYS */;
+LOCK TABLES `profit` WRITE;
+/*!40000 ALTER TABLE `profit` DISABLE KEYS */;
+INSERT INTO `profit` VALUES (1,'low',10),(2,'moderate',20),(3,'high',30),(4,'Default',25);
+/*!40000 ALTER TABLE `profit` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-17 22:13:24
+-- Dump completed on 2015-11-19 19:38:31

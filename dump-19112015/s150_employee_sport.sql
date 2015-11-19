@@ -16,30 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `employee_store`
+-- Table structure for table `employee_sport`
 --
 
-DROP TABLE IF EXISTS `employee_store`;
+DROP TABLE IF EXISTS `employee_sport`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `employee_store` (
+CREATE TABLE `employee_sport` (
   `username` varchar(50) NOT NULL,
-  `store_id` varchar(50) NOT NULL,
-  UNIQUE KEY `username_id` (`username`,`store_id`),
-  KEY `store_id` (`store_id`),
-  CONSTRAINT `employee_store_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `store` (`id`),
-  CONSTRAINT `employee_store_ibfk_2` FOREIGN KEY (`username`) REFERENCES `employee` (`username`)
+  `sport_id` varchar(50) NOT NULL,
+  UNIQUE KEY `username_id` (`username`,`sport_id`),
+  KEY `sport_id` (`sport_id`),
+  CONSTRAINT `employee_sport_ibfk_1` FOREIGN KEY (`sport_id`) REFERENCES `sport` (`id`),
+  CONSTRAINT `employee_sport_ibfk_2` FOREIGN KEY (`username`) REFERENCES `employee` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `employee_store`
+-- Dumping data for table `employee_sport`
 --
 
-LOCK TABLES `employee_store` WRITE;
-/*!40000 ALTER TABLE `employee_store` DISABLE KEYS */;
-INSERT INTO `employee_store` VALUES ('lohit','ranchi');
-/*!40000 ALTER TABLE `employee_store` ENABLE KEYS */;
+LOCK TABLES `employee_sport` WRITE;
+/*!40000 ALTER TABLE `employee_sport` DISABLE KEYS */;
+INSERT INTO `employee_sport` VALUES ('johnsson','cricket'),('lohit','tennis'),('mahesh','tennis');
+/*!40000 ALTER TABLE `employee_sport` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-17 22:13:24
+-- Dump completed on 2015-11-19 19:38:32

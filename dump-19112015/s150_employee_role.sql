@@ -16,27 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `store`
+-- Table structure for table `employee_role`
 --
 
-DROP TABLE IF EXISTS `store`;
+DROP TABLE IF EXISTS `employee_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `store` (
-  `id` varchar(50) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `employee_role` (
+  `username` varchar(50) NOT NULL,
+  `role` varchar(50) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  UNIQUE KEY `username_role` (`username`,`role`),
+  CONSTRAINT `employee_role_ibfk_1` FOREIGN KEY (`username`) REFERENCES `employee` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `store`
+-- Dumping data for table `employee_role`
 --
 
-LOCK TABLES `store` WRITE;
-/*!40000 ALTER TABLE `store` DISABLE KEYS */;
-INSERT INTO `store` VALUES ('gola','Gola'),('ramgarh','Ramgarh'),('ranchi','Ranchi');
-/*!40000 ALTER TABLE `store` ENABLE KEYS */;
+LOCK TABLES `employee_role` WRITE;
+/*!40000 ALTER TABLE `employee_role` DISABLE KEYS */;
+INSERT INTO `employee_role` VALUES ('johnsson','cashier',1),('johnsson','sm',1),('lohit','cashier',1),('lohit','sm',1),('mahesh','sm',1),('mahesh','ss',1),('mandeep','CSO',1),('mandeep','SM',1),('manish','MD',1),('piyush','SM',1);
+/*!40000 ALTER TABLE `employee_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-17 22:13:24
+-- Dump completed on 2015-11-19 19:38:29
