@@ -2,6 +2,7 @@ package com.worksap.stm.SWARMS.dao;
 
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import com.worksap.stm.SWARMS.entity.ProductFetchEntity;
 import com.worksap.stm.SWARMS.entity.ProductProfitEntity;
 import com.worksap.stm.SWARMS.entity.ProductSearchFetchEntity;
 import com.worksap.stm.SWARMS.entity.ProductSearchFilterEntity;
+import com.worksap.stm.SWARMS.entity.ProfitMarkingEntity;
 import com.worksap.stm.SWARMS.utils.Utilities;
 
 @Repository
@@ -63,6 +65,7 @@ public class ProductDetailDao {
 			+ " INNER JOIN customer c ON c.id = wl.cust_id "
 			+ "where pd.pid = ? and store_id = ? and size = ? and color = ?";
 	
+	private static final String FETCH_PROFIT_MARKING_ENTITY = "SELECT pd.id id, ms.* from product_detail pd inner join marking_status ms on pd.id = ms.pid ";
 	
 	public void insert(ProductDetailDto product) throws IOException {
 		try {
@@ -119,6 +122,7 @@ public class ProductDetailDao {
 		}
 	
 	public List<ProfitDto>ProductprofitDtoList() throws IOException{
+
 		List<ProfitDto> profitDtoList = template.query (FETCH_MARGIN_GROUP,
 				(rs,rownum) ->{
 			return new ProfitDto(rs.getInt("id"), rs.getString("name"), rs.getInt("margin")); 
@@ -128,6 +132,7 @@ public class ProductDetailDao {
 	}
 	
 	public List<ProductFetchEntity> ProductFetchEntityList(ProductFilterEntity productFilterEntity) throws IOException {
+
 
 		List<ProfitDto> profitDtoList = ProductprofitDtoList();
 		String SQL_QUERY;
@@ -194,9 +199,8 @@ public class ProductDetailDao {
 		},id);
 	}
 	
-	
-	
 	private ProductFetchEntity getProductFetchEntityList(ResultSet rs, List<ProfitDto> profitDtoList){
+
 		
 		try{
 			ProductFetchEntity productFetchEntity = new ProductFetchEntity();
@@ -291,8 +295,60 @@ public class ProductDetailDao {
 		});
 	
 	}
+	
+	public HashMap<Integer,String> getAllMarking(){
+		
+		String sqlQuery = "select * from profit";
+		HashMap<Integer, String> hm = new HashMap<>();
+		
+		template.query(sqlQuery,(rs,column)->{
+			hm.put(rs.getInt("id"), rs.getString("name"));
+			return null;
+			
+		});
+		
+		return hm;
+		
+			
+		
+	}
+	
+	public List<ProfitMarkingEntity> getProfitMarkingList() throws IOException{
+		HashMap<Integer, String> hm = getAllMarking();
+		return template.query(FETCH_PROFIT_MARKING_ENTITY,(rs,column)->{
+			ProfitMarkingEntity profitMarkingEntity = new ProfitMarkingEntity();
 
+			profitMarkingEntity.setId(rs.getInt("id"));
+			profitMarkingEntity.setPreviousDate(rs.getString("ldate"));
+			profitMarkingEntity.setPreviousMarking(hm.get(rs.getInt("lmarking")));
+			profitMarkingEntity.setCurrentDate(rs.getString("cdate"));
+			profitMarkingEntity.setCurrentMarking(hm.get(rs.getInt("cmarking")));
+			int selected=rs.getInt(rs.getInt("cmarking")); 
+			String parameter1 = " \""+rs.getInt("id")+  "\"";
+			
+			try{
+				List<ProfitDto> profitDtoList = ProductprofitDtoList();
+				String s  = "<select onchange='myFunction(this,"+parameter1+")'>";
+				
+				for(int i=0; i<profitDtoList.size(); i++){
+					if(selected == profitDtoList.get(i).getId() )
+						s += "<option value="+profitDtoList.get(i).getId()+" selected>"+profitDtoList.get(i).getName() +"</option>" ;
+					else
+						s += "<option value="+profitDtoList.get(i).getId()+">"+profitDtoList.get(i).getName() +"</option>" ;
+				}
+				s+= "</select>" ;
+				profitMarkingEntity.setMarkingFilter(s);
+				
+			}
+			catch(Exception e){
+				
+			}
+			return profitMarkingEntity;
+		});
+		
+		//return null;
 	
-	
-	
+	}
+
+		
 }

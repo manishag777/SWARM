@@ -511,15 +511,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	             </div><!-- /.col -->
 	             
 	              <div class="col-md-8 col-sm-12 col-xs-12">
-	              		<div class="btn-group" id = "earning-button-grp" data-toggle="buttons">
-			                <label class="btn btn-default">
-			                    <input type="radio" name="abc" onClick = "radioClicked()" value="1" checked="checked" /> Line
-			                </label> 
-			                <label class="btn btn-default">
-			                    <input type="radio"  name="abc" onClick = "radioClicked()" value="2" /> Bar
-		                	</label> 
-	           			 </div>
-						<div class="chart" id="earning-line-chart" style="height: 300px;"></div>
+	              	
+	              	<div class="btn-group" role="group" aria-label="...">
+  						<button type="button" id = "buttonA" class="btn btn-default active">Left</button>
+  						<button type="button" id = "buttonB" class="btn btn-default">Middle</button>
+	              	</div>
+	              
+	              		
+	              								
+	              <div class="chart" id="earning-line-chart" style="height: 300px;"></div>
 	             </div><!-- /.col -->
 	             
 	              <div class="col-md-4 col-sm-12 col-xs-12">
@@ -580,8 +580,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script type="text/javascript" src="resources/lib/js/morris.min.js"></script>
  	<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
  	<script type="text/javascript" src="resources/app/js/md-sales-report.js" ></script>
- 	    <script src="resources/app/js/md-sales-report.js" type="text/javascript"></script>
- 	
+ 	<script src="resources/app/js/md-sales-report.js" type="text/javascript"></script>
+ 	    
 
    </body>
   </html>

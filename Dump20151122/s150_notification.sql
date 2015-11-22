@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.9, for osx10.9 (x86_64)
 --
--- Host: localhost    Database: s150
+-- Host: 127.0.0.1    Database: s150
 -- ------------------------------------------------------
--- Server version	5.7.9-log
+-- Server version	5.7.9
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,28 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `template_mail`
+-- Table structure for table `notification`
 --
 
-DROP TABLE IF EXISTS `template_mail`;
+DROP TABLE IF EXISTS `notification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `template_mail` (
-  `tag` varchar(50) NOT NULL,
-  `subject` text NOT NULL,
-  `body` text NOT NULL,
-  PRIMARY KEY (`tag`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `notification` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `message` text NOT NULL,
+  `seen` tinyint(4) DEFAULT '0',
+  `post_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `template_mail`
+-- Dumping data for table `notification`
 --
 
-LOCK TABLES `template_mail` WRITE;
-/*!40000 ALTER TABLE `template_mail` DISABLE KEYS */;
-INSERT INTO `template_mail` VALUES ('#discount','discount','<p>fdd</p>'),('product_availabilty','Your product is available in the store','<p>Dear %cust_name,</p><p>Thank you for visiting the store. The product you saw on the day {date} is available in the store.</p><p>Product details:</p><p>Name : %pdt_name</p><p>Color : %color</p><p>Size : %size</p><p>Price after discount : %price</p><p>Thanks</p><p>Chief of Sales Officer</p><p>Manish Agrawal</p>');
-/*!40000 ALTER TABLE `template_mail` ENABLE KEYS */;
+LOCK TABLES `notification` WRITE;
+/*!40000 ALTER TABLE `notification` DISABLE KEYS */;
+INSERT INTO `notification` VALUES (5,'manish','Bas Vampire Super Batting Legguard, Youth&KG&3234&14&24&black',1,'2015-11-17 13:57:43'),(7,'manish','PSC Scorer Kashmir Willow Cricket Bat, Short Handle&DSCS&1-2-3&5&small&blue',1,'2015-11-18 02:16:38'),(8,'manish','SG Super League Batting Gloves&Sanspareils Greenlands&23234&9&Men RH&black ',1,'2015-11-17 14:06:08'),(9,'manish','SG Super League Batting Gloves&Sanspareils Greenlands&23234&10&Men RH&white',1,'2015-11-18 02:16:54');
+/*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-19 19:38:32
+-- Dump completed on 2015-11-22 22:30:31

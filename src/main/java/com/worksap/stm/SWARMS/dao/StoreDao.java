@@ -20,6 +20,8 @@ public class StoreDao {
 	private static final String INSERT = "INSERT INTO employee_store (username, store_id) "
 			+ " VALUES (? , ?)";
 	
+	private static final String fetchAllStore = "SELECT * FROM store" ;
+	
 	public void insertEmployeeSport(String username, String storeId) throws IOException  {
 		try {
 			template.update(INSERT, (ps) -> {
@@ -39,5 +41,18 @@ public class StoreDao {
 		storeList.add(s1);
 		return storeList;
 	}
+	
+	public List<StoreDto> fetchStoreDto(){
+		
+		return template.query(fetchAllStore,(rs,column)->{
+			StoreDto storeDto = new StoreDto();
+			storeDto.setId(rs.getString("id"));
+			storeDto.setName(rs.getString("name"));
+			return storeDto;
+		});
+		
+	}
+	
+	
 
 }

@@ -62,12 +62,28 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	UserAuthenticationSuccessHandler successHandler = new UserAuthenticationSuccessHandler();
 
+//	@Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable()
+//            .authorizeRequests()
+//            	.antMatchers("/resources/**", "/").permitAll()
+//                .and()
+//            .formLogin()
+//            	.successHandler(successHandler)
+//                .loginPage("/login")
+//                .permitAll()
+//                .and()
+//                .logout().permitAll();
+//            
+//    }
+	
+	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
             .authorizeRequests()
-            	.antMatchers("/resources/**", "/").permitAll()
-                .and()
+            	.antMatchers("/resources/**", "/login/**").permitAll()
+            	.anyRequest().authenticated().and()
             .formLogin()
             	.successHandler(successHandler)
                 .loginPage("/login")
@@ -76,6 +92,17 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().permitAll();
             
     }
+//	
+//	@Override
+//	protected void configure(HttpSecurity http) throws Exception {
+//		http.csrf().requireCsrfProtectionMatcher(csrfRequestMatcher).and()
+//				.authorizeRequests().antMatchers("/resources/**", "/login/**")
+//				.permitAll().anyRequest().authenticated().and().formLogin()
+//				.loginPage("/login").failureUrl("/login")
+//				.usernameParameter("userId").permitAll().and().logout()
+//				.logoutUrl("/logout").logoutSuccessUrl("/login").permitAll();
+//	}
+//
 	
 //	@Override
 //    protected void configure(HttpSecurity http) throws Exception {

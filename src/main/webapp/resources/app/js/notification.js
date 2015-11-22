@@ -13,7 +13,7 @@ $(document).ready(function () {
 
 
 var notificationBlock = function(data){
-	console.log(data.message);
+//	console.log(data.message);
 	var variableArray = data.message.split("&");    //parameter would be form of name&brand&pid&id&size&color
 	
 	var li = document.createElement("li");
@@ -65,7 +65,7 @@ var openNotificationDialog = function(idParam, nids){
 
 var fetchNotification = function(){
 	//count--;
-	console.log(count);
+	//console.log(count);
 	
 	
 	$.ajax({
@@ -87,7 +87,7 @@ var fetchNotification = function(){
 
 var updateNotificationPanel = function(data){
 	
-	console.log(data);
+	//console.log(data);
 	if(isRealValue(data)){
 		var unseenCount = data.length;
 		document.getElementById('out-of-stock-warning').innerHTML = unseenCount;

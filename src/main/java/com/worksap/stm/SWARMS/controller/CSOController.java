@@ -1,12 +1,19 @@
 package com.worksap.stm.SWARMS.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +22,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.worksap.stm.SWARMS.dao.CustomerDao;
+import com.worksap.stm.SWARMS.dao.EmployeeDao;
 import com.worksap.stm.SWARMS.dao.TemplateMailDao;
 import com.worksap.stm.SWARMS.dto.CustomerDto;
+import com.worksap.stm.SWARMS.dto.EmployeeDto;
 import com.worksap.stm.SWARMS.dto.GiftCardDto;
 import com.worksap.stm.SWARMS.service.spec.CustomerRelationService;
 import com.worksap.stm.SWARMS.utils.KmeanClustering;
@@ -37,19 +46,70 @@ public class CSOController {
 	CustomerDao customerDao;
 	
 	@Autowired
+	private EmployeeDao employeeDao;
+	
+	@Autowired
 	KmeanClustering kmeanClustering;
 	
 	@RequestMapping("/manageGiftCard")
-    public ModelAndView helloAjaxTest() {
+    public ModelAndView manageGiftCard(Principal principal) {
 		System.out.println("you called CSO");
-        return new ModelAndView("gift-card-specification", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
-    }
+//        return new ModelAndView("gift-card-specification", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
+//        UserDetails userDetails =
+//				 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		Collection<SimpleGrantedAuthority> authorities  = (Collection<SimpleGrantedAuthority>) userDetails.getAuthorities();
+//		
+//
+//		Map<String,String> model = new HashMap<String,String>();
+//		String role = authorities.iterator().next().getAuthority()+"";
+//		model.put("role", role);
+//		String username  = principal.getName();
+//		EmployeeDto  employeeDto = employeeDao.getByUsername(username);
+//		model.put("name", employeeDto.getFirstName() + " "+employeeDto.getLastName());
+//
+//		ModelAndView model2 = new ModelAndView("gift-card-specification");
+//		model2.addObject("model", model);
+
+		return createModelAndView(principal,"gift-card-specification");
+	
+	}
 	
 	@RequestMapping("/suggestionForOpeningNewStore")
-    public ModelAndView suggestionForOpeningNewStore() {
+    public ModelAndView suggestionForOpeningNewStore(Principal principal) {
 		System.out.println("you called CSO");
-        return new ModelAndView("store-opening-suggestion", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
+       // return new ModelAndView("store-opening-suggestion", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
+		return createModelAndView(principal,"store-opening-suggestion");
+
     }
+	
+	@RequestMapping("/templateMailingManagement")
+    public ModelAndView templateMailingManagement(Principal principal) {
+        //return new ModelAndView("template-mailing", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
+		return createModelAndView(principal,"template-mailing");
+
+    }
+	
+	private ModelAndView createModelAndView(Principal principal, String htmlPage){
+		
+		UserDetails userDetails =
+				 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Collection<SimpleGrantedAuthority> authorities  = (Collection<SimpleGrantedAuthority>) userDetails.getAuthorities();
+		
+
+		Map<String,String> model = new HashMap<String,String>();
+		String role = authorities.iterator().next().getAuthority()+"";
+		model.put("role", role);
+		String username  = principal.getName();
+		EmployeeDto  employeeDto = employeeDao.getByUsername(username);
+		model.put("name", employeeDto.getFirstName() + " "+employeeDto.getLastName());
+		ModelAndView model2 = new ModelAndView(htmlPage);
+		model2.addObject("model", model);
+
+		return model2;
+		
+	}
+	
+	
 	
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/updateGiftCard", method = RequestMethod.POST )
@@ -65,11 +125,7 @@ public class CSOController {
 		return customerRelationService.fetchGiftCardDetail();
 	}
 	
-	@RequestMapping("/templateMailingManagement")
-    public ModelAndView templateMailingManagement() {
-        return new ModelAndView("template-mailing", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
-    }
-	
+		
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/addTemplateMail", method = RequestMethod.POST )
 	@ResponseBody
