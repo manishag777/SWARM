@@ -303,6 +303,7 @@ public class ProductDetailDao {
 		
 		template.query(sqlQuery,(rs,column)->{
 			hm.put(rs.getInt("id"), rs.getString("name"));
+			System.out.println(rs.getInt("id") + " "+ rs.getString("name"));
 			return null;
 			
 		});
@@ -314,7 +315,10 @@ public class ProductDetailDao {
 	}
 	
 	public List<ProfitMarkingEntity> getProfitMarkingList() throws IOException{
+
 		HashMap<Integer, String> hm = getAllMarking();
+		List<ProfitDto> profitDtoList = ProductprofitDtoList();
+
 		return template.query(FETCH_PROFIT_MARKING_ENTITY,(rs,column)->{
 			ProfitMarkingEntity profitMarkingEntity = new ProfitMarkingEntity();
 
@@ -323,16 +327,21 @@ public class ProductDetailDao {
 			profitMarkingEntity.setPreviousMarking(hm.get(rs.getInt("lmarking")));
 			profitMarkingEntity.setCurrentDate(rs.getString("cdate"));
 			profitMarkingEntity.setCurrentMarking(hm.get(rs.getInt("cmarking")));
-			int selected=rs.getInt(rs.getInt("cmarking")); 
+			int selected=rs.getInt("cmarking"); 
+			//profitMarkingEntity.setCurrentMarking(hm.get(selected));
+			
+			System.out.print("selected = "+ selected);
+			System.out.println(" selected = "+ hm.get(selected));
+			
 			String parameter1 = " \""+rs.getInt("id")+  "\"";
 			
 			try{
-				List<ProfitDto> profitDtoList = ProductprofitDtoList();
 				String s  = "<select onchange='myFunction(this,"+parameter1+")'>";
-				
 				for(int i=0; i<profitDtoList.size(); i++){
-					if(selected == profitDtoList.get(i).getId() )
+					if(selected == profitDtoList.get(i).getId() ){
 						s += "<option value="+profitDtoList.get(i).getId()+" selected>"+profitDtoList.get(i).getName() +"</option>" ;
+						//System.out.println(profitMarkingEntity.getCurrentMarking()+" "+profitMarkingEntity.getId()+" "+hm.get(selected)+ " "+ profitDtoList.get(i).getId() + " "+ profitDtoList.get(i).getName());
+					}
 					else
 						s += "<option value="+profitDtoList.get(i).getId()+">"+profitDtoList.get(i).getName() +"</option>" ;
 				}
@@ -349,6 +358,27 @@ public class ProductDetailDao {
 		//return null;
 	
 	}
-
+	
+	public void upateProfitMarkingGroup(String id, String profitId){
+		
+		String getOld  = "select cmarking, cdate from marking_status where pid = ?";
+		String setNew  = "update marking_status SET lmarking = ?, ldate = ?, cmarking = ?, cdate = ? where pid = ?";
+		
+		template.queryForObject(getOld, (rs,column)->{	
+			String cmarking = rs.getString("cmarking");
+			String cdate = rs.getString("cdate");
+				template.update(setNew, (ps)->{
+					ps.setString(1, cmarking);
+					ps.setString(2, cdate);
+					ps.setString(3, profitId);
+					ps.setString(4, Utilities.getCurrentDate());
+					ps.setString(5, id);
+				});
+			return null;
+		},id);
+		
+		
+	   
+	} 
 		
 }

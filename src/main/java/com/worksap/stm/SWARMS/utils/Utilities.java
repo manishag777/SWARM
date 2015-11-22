@@ -28,4 +28,11 @@ public class Utilities {
 		else return x;
 	}
 	
+	public static String getCurrentDate(){
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+	    Date date = new Date(); // Or where ever you get it from
+	    String res = dateFormat.format(date);
+	    return res;
+	}
+	
 }

@@ -140,7 +140,7 @@ public class salesManagerController {
 	public Object returnProductData(@RequestBody ProductFilterEntity productFilterEntity) {
 		//System.out.println("productFilterEntity = " + productFilterEntity.getGroupType());
 		try {
-			System.out.println("profitMarkingEntity = " + productDetailDao.getProfitMarkingList());
+			//System.out.println("profitMarkingEntity = " + productDetailDao.getProfitMarkingList());
 			return new ProductListEntity(2,2,2,productDetailDao.getProfitMarkingList());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -160,7 +160,17 @@ public class salesManagerController {
 			
 	}
 	
-		
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/upateProfitMarginById", method = RequestMethod.GET)
+	@ResponseBody
+	public void upateProfitMarginById(@RequestParam("id") String id, @RequestParam("profitId") String profitId ) {
+		//System.out.println("productFilterEntity = " + productFilterEntity.getGroupType());
+		System.out.println(id + " " +profitId);
+		productDetailDao.upateProfitMarkingGroup(id,profitId);
+			
+	}
+
+	
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/editProduct", method = RequestMethod.POST )
 	@ResponseBody
