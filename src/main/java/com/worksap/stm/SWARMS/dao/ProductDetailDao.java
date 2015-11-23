@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.worksap.stm.SWARMS.dto.CustomerDto;
+import com.worksap.stm.SWARMS.dto.DiscountDto;
 import com.worksap.stm.SWARMS.dto.EmployeeDto;
 import com.worksap.stm.SWARMS.dto.OrderDetailDto;
 import com.worksap.stm.SWARMS.dto.ProductDetailDto;
@@ -65,7 +66,7 @@ public class ProductDetailDao {
 			+ " INNER JOIN customer c ON c.id = wl.cust_id "
 			+ "where pd.pid = ? and store_id = ? and size = ? and color = ?";
 	
-	private static final String FETCH_PROFIT_MARKING_ENTITY = "SELECT pd.id id, ms.* from product_detail pd inner join marking_status ms on pd.id = ms.pid ";
+	private static final String FETCH_PROFIT_MARKING_ENTITY = "SELECT pd.id id, m.* from product_detail pd inner join marking m on pd.id = m.pid ";
 	
 	public void insert(ProductDetailDto product) throws IOException {
 		try {
@@ -131,27 +132,38 @@ public class ProductDetailDao {
 		return profitDtoList;
 	}
 	
+	public List<DiscountDto>DiscountDtoList() throws IOException{
+
+		List<DiscountDto> discountDtoList = template.query (FETCH_MARGIN_GROUP,
+				(rs,rownum) ->{
+			return new DiscountDto(rs.getInt("id"), rs.getString("name"), rs.getInt("margin")); 
+		});
+		
+		return discountDtoList;
+	}
+	
 	public List<ProductFetchEntity> ProductFetchEntityList(ProductFilterEntity productFilterEntity) throws IOException {
 
-
-		List<ProfitDto> profitDtoList = ProductprofitDtoList();
-		String SQL_QUERY;
-		if(productFilterEntity.getGroupType()<=0){
-			 SQL_QUERY = FETCH_ALL_PRODUCT_ENTITY;
-			 return template.query(
-						SQL_QUERY ,(rs,rownum)->{
-							return getProductFetchEntityList(rs,profitDtoList);
-						});
-		}
-		else{
-			
-			SQL_QUERY = FETCH_PRODUCT_ENTITY;
-			return template.query(
-					SQL_QUERY ,(rs,rownum)->{
-						
-						return getProductFetchEntityList(rs,profitDtoList);					
-					},productFilterEntity.getGroupType());
-			}
+//
+//		List<ProfitDto> profitDtoList = ProductprofitDtoList();
+//		String SQL_QUERY;
+//		if(productFilterEntity.getGroupType()<=0){
+//			 SQL_QUERY = FETCH_ALL_PRODUCT_ENTITY;
+//			 return template.query(
+//						SQL_QUERY ,(rs,rownum)->{
+//							return getProductFetchEntityList(rs,profitDtoList);
+//						});
+//		}
+//		else{
+//			
+//			SQL_QUERY = FETCH_PRODUCT_ENTITY;
+//			return template.query(
+//					SQL_QUERY ,(rs,rownum)->{
+//						
+//						return getProductFetchEntityList(rs,profitDtoList);					
+//					},productFilterEntity.getGroupType());
+//			}
+		return null;
 }
 		
 	public void upateProfitMargin(ProductProfitEntity productProfitEntity) throws IOException {
@@ -318,27 +330,32 @@ public class ProductDetailDao {
 
 		HashMap<Integer, String> hm = getAllMarking();
 		List<ProfitDto> profitDtoList = ProductprofitDtoList();
+		List<DiscountDto> discountDtoList = DiscountDtoList();
 
 		return template.query(FETCH_PROFIT_MARKING_ENTITY,(rs,column)->{
 			ProfitMarkingEntity profitMarkingEntity = new ProfitMarkingEntity();
-
+			
 			profitMarkingEntity.setId(rs.getInt("id"));
-			profitMarkingEntity.setPreviousDate(rs.getString("ldate"));
-			profitMarkingEntity.setPreviousMarking(hm.get(rs.getInt("lmarking")));
-			profitMarkingEntity.setCurrentDate(rs.getString("cdate"));
-			profitMarkingEntity.setCurrentMarking(hm.get(rs.getInt("cmarking")));
-			int selected=rs.getInt("cmarking"); 
-			//profitMarkingEntity.setCurrentMarking(hm.get(selected));
-			
-			System.out.print("selected = "+ selected);
-			System.out.println(" selected = "+ hm.get(selected));
-			
+			profitMarkingEntity.setPreDate(rs.getString("preDate"));
+			profitMarkingEntity.setPreProfitType(rs.getString("preProfitType"));
+			profitMarkingEntity.setPreProfitPercent(rs.getInt("preProfitPercent"));
+			profitMarkingEntity.setPreDiscountType(rs.getString("preDiscountType"));
+			profitMarkingEntity.setPreDiscountPercent(rs.getInt("preDiscountPercent"));
+			profitMarkingEntity.setCurrDate(rs.getString("currDate"));
+			profitMarkingEntity.setCurrProfitType(rs.getString("currProfitType"));
+			profitMarkingEntity.setCurrProfitPercent(rs.getInt("currProfitPercent"));
+			profitMarkingEntity.setCurrDiscountType(rs.getString("currDiscountType"));
+			profitMarkingEntity.setCurrDiscountPercent(rs.getInt("currDiscountPercent"));
+			profitMarkingEntity.setProfitStatus(Utilities.getRandomFloat(-30, +30));
+			profitMarkingEntity.setVolumeStatus(Utilities.getRandomFloat(-30, +30));
+			String currProfitType = rs.getString("currProfitType");			
+			String currDiscountType = rs.getString("currDiscountType");			
 			String parameter1 = " \""+rs.getInt("id")+  "\"";
 			
 			try{
-				String s  = "<select onchange='myFunction(this,"+parameter1+")'>";
+				String s  = "<select onchange='profitFunction(this,"+parameter1+")'>";
 				for(int i=0; i<profitDtoList.size(); i++){
-					if(selected == profitDtoList.get(i).getId() ){
+					if(currProfitType.equals(profitDtoList.get(i).getName())) {
 						s += "<option value="+profitDtoList.get(i).getId()+" selected>"+profitDtoList.get(i).getName() +"</option>" ;
 						//System.out.println(profitMarkingEntity.getCurrentMarking()+" "+profitMarkingEntity.getId()+" "+hm.get(selected)+ " "+ profitDtoList.get(i).getId() + " "+ profitDtoList.get(i).getName());
 					}
@@ -346,12 +363,33 @@ public class ProductDetailDao {
 						s += "<option value="+profitDtoList.get(i).getId()+">"+profitDtoList.get(i).getName() +"</option>" ;
 				}
 				s+= "</select>" ;
-				profitMarkingEntity.setMarkingFilter(s);
-				
+				profitMarkingEntity.setProfitSelect(s);
 			}
 			catch(Exception e){
 				
 			}
+			
+
+			try{
+				String s  = "<select onchange='discountFunction(this,"+parameter1+")'>";
+				for(int i=0; i<discountDtoList.size(); i++){
+					if(currDiscountType.equals(discountDtoList.get(i).getName())) {
+						s += "<option value="+discountDtoList.get(i).getId()+" selected>"+discountDtoList.get(i).getName() +"</option>" ;
+						//System.out.println(profitMarkingEntity.getCurrentMarking()+" "+profitMarkingEntity.getId()+" "+hm.get(selected)+ " "+ profitDtoList.get(i).getId() + " "+ profitDtoList.get(i).getName());
+					}
+					else
+						s += "<option value="+profitDtoList.get(i).getId()+">"+profitDtoList.get(i).getName() +"</option>" ;
+				}
+				s+= "</select>" ;
+				profitMarkingEntity.setDiscountSelect(s);
+			}
+			catch(Exception e){
+				
+			}
+			
+			
+			
+			
 			return profitMarkingEntity;
 		});
 		

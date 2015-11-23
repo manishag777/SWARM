@@ -54,7 +54,7 @@ public class SalesStaffController {
 	@RequestMapping("/searchProduct")
     public ModelAndView manageProduct(Principal principal) {
         //return new ModelAndView("search-product");
-		return createModelAndView(principal, "search-product");
+		return createModelAndView(principal, "search-product2");
     }
 	
 	private ModelAndView createModelAndView(Principal principal, String htmlPage){		
@@ -98,6 +98,7 @@ public class SalesStaffController {
 	@RequestMapping(value = "/returnFilteredProducts", method = RequestMethod.POST)
 	@ResponseBody
 	public ProductSearchFetchListEntity returnFilteredProducts(@RequestBody ProductSearchFilterEntity productSearchFilterEntity) {
+		System.out.println(productSearchFilterEntity);
 		//System.out.println("productFilterEntity = " + productFilterEntity.getGroupType());
 		//return new ProductSearchFetchListEntity(2,2,2,myProductService.returnFilteredProducts(productSearchFilterEntity));
 		return new ProductSearchFetchListEntity(2,2,2,textSearchProductDao.searchProductByFilter(productSearchFilterEntity));	

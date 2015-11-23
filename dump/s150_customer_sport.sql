@@ -16,28 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `template_mail`
+-- Table structure for table `customer_sport`
 --
 
-DROP TABLE IF EXISTS `template_mail`;
+DROP TABLE IF EXISTS `customer_sport`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `template_mail` (
-  `tag` varchar(50) NOT NULL,
-  `subject` text NOT NULL,
-  `body` text NOT NULL,
-  PRIMARY KEY (`tag`)
+CREATE TABLE `customer_sport` (
+  `cust_id` int(11) NOT NULL,
+  `sport_id` varchar(50) NOT NULL,
+  UNIQUE KEY `cust_sport` (`cust_id`,`sport_id`),
+  KEY `sport_id` (`sport_id`),
+  CONSTRAINT `customer_sport_ibfk_1` FOREIGN KEY (`cust_id`) REFERENCES `customer` (`id`),
+  CONSTRAINT `customer_sport_ibfk_2` FOREIGN KEY (`sport_id`) REFERENCES `sport` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `template_mail`
+-- Dumping data for table `customer_sport`
 --
 
-LOCK TABLES `template_mail` WRITE;
-/*!40000 ALTER TABLE `template_mail` DISABLE KEYS */;
-INSERT INTO `template_mail` VALUES ('#discount','discount','<p>fdd</p>'),('product_availabilty','Your product is available in the store','<p>Dear %cust_name,</p><p>Thank you for visiting the store. The product you saw on the day {date} is available in the store.</p><p>Product details:</p><p>Name : %pdt_name</p><p>Color : %color</p><p>Size : %size</p><p>Price after discount : %price</p><p>Thanks</p><p>Chief of Sales Officer</p><p>Manish Agrawal</p>');
-/*!40000 ALTER TABLE `template_mail` ENABLE KEYS */;
+LOCK TABLES `customer_sport` WRITE;
+/*!40000 ALTER TABLE `customer_sport` DISABLE KEYS */;
+INSERT INTO `customer_sport` VALUES (9,'cricket'),(25,'cricket'),(31,'cricket'),(32,'cricket'),(33,'cricket'),(34,'cricket'),(35,'cricket'),(36,'cricket'),(37,'cricket'),(38,'cricket'),(39,'cricket'),(14,'football'),(15,'football'),(25,'football'),(31,'football'),(32,'football'),(33,'football'),(34,'football'),(35,'football'),(36,'football'),(37,'football'),(39,'football'),(9,'tennis'),(10,'tennis'),(11,'tennis'),(12,'tennis'),(13,'tennis'),(17,'tennis'),(18,'tennis'),(19,'tennis'),(22,'tennis'),(23,'tennis'),(24,'tennis'),(28,'tennis');
+/*!40000 ALTER TABLE `customer_sport` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-19 19:38:32
+-- Dump completed on 2015-11-23 21:31:09

@@ -33,6 +33,7 @@ import com.worksap.stm.SWARMS.dao.SportDao;
 import com.worksap.stm.SWARMS.dao.StoreDao;
 import com.worksap.stm.SWARMS.dao.TextSearchProductDao;
 import com.worksap.stm.SWARMS.dto.CustomerDto;
+import com.worksap.stm.SWARMS.dto.DiscountDto;
 import com.worksap.stm.SWARMS.dto.EmployeeDto;
 import com.worksap.stm.SWARMS.dto.NotificationDto;
 import com.worksap.stm.SWARMS.dto.ProductDetailDto;
@@ -138,7 +139,7 @@ public class salesManagerController {
 	@RequestMapping(value = "/returnProductData", method = RequestMethod.POST)
 	@ResponseBody
 	public Object returnProductData(@RequestBody ProductFilterEntity productFilterEntity) {
-		//System.out.println("productFilterEntity = " + productFilterEntity.getGroupType());
+		System.out.println("productFilterEntity = " + productFilterEntity);
 		try {
 			//System.out.println("profitMarkingEntity = " + productDetailDao.getProfitMarkingList());
 			return new ProductListEntity(2,2,2,productDetailDao.getProfitMarkingList());
@@ -211,18 +212,7 @@ public class salesManagerController {
 		return productDetailDao.fetchPrice(pid, color, size, storeId);
 	}
 	
-	@PreAuthorize("hasAuthority('MD')")
-	@RequestMapping(value = "/fetchProfitList", method = RequestMethod.GET)
-	@ResponseBody
-	public List<ProfitDto> fetchProfitList() {
-		try {
-			return productDetailDao.ProductprofitDtoList();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-	}
+	
 
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/fetchSportList", method = RequestMethod.GET)
@@ -305,5 +295,38 @@ public class salesManagerController {
 			
 		return res;
 	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/fetchProfitList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ProfitDto> fetchProfitList() {
+		try {
+			return productDetailDao.ProductprofitDtoList();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/fetchDiscountList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<DiscountDto> fetchDiscountList() {
+
+		List<DiscountDto> res;
+		try {
+			res = productDetailDao.DiscountDtoList();
+			return res;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//System.out.println(res);
+		return null;	
+		
+	}
+	
+	
 	
 }

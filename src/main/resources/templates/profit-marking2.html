@@ -36,43 +36,44 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <!-- USERS LIST -->
                   <div class="box box-danger">
                     <div class="box-header with-border">
-                    <div class = "box-title col-md-3">
-	                    <h>Store: &nbsp;</h>
+                    <div class = "box-title col-md-12">
+	                    <h><small>Store:</small> &nbsp;</h>
 	                      <div class="box-title">
 								<select id="store-type-filter" class="form-control select-box-inline office-selects">
-									<option name = "sportId" selected="selected" value='0' >All sports</option>
+									
 								</select>
 						  </div>
-					  </div>
-					  
-					  <div class = "box-title col-md-3">
-	                    <h>Sport: &nbsp;</h>
+					    
+	                    <h>&emsp;<small>Sport:</small> &nbsp;</h>
 	                      <div class="box-title">
 								<select id="sport-type-filter" class="form-control select-box-inline office-selects">
 									<option name = "sportId" selected="selected" value='0' >All sports</option>
 								</select>
 						  </div>
-					  </div>
+					 
 					  
 					  
-					  <div class = "box-title col-md-3">
-	                    <h>Profit Group: &nbsp;</h>
+	                    <h>&emsp;<small>Profit Group:</small> &nbsp;</h>
 	                      <div class="box-title">
 								<select id="profit-group-filter" class="form-control select-box-inline office-selects">
 									<option selected="selected" value='0' >All</option>
 								</select>
 						  </div>
-					  </div>
-					  
-					  
-					  <div class = "box-title col-md-3">
+						 
+						 <h>&emsp;<small>Discount Group:</small> &nbsp;</h>
 	                      <div class="box-title">
-								<select id="selling-type-filter" class="form-control select-box-inline office-selects">
+								<select id="discount-group-filter" class="form-control select-box-inline office-selects">
+									<option selected="selected" value='0' >All</option>
+								</select>
+						  </div> 
+						  <h>&emsp;</h>
+	                      <div class="box-title" id="selling-type-filter" >
+								<select id="selling-type-filter" class = "form-control select-box-inline office-selects">
 									<option  selected="selected" value='0' >No Filter</option>
-									<option  selected="selected" value='1' >Top selling products by volume</option>
-									<option  selected="selected" value='2' >Worst selling products by volume</option>
-									<option  selected="selected" value='3' >Top selling products by profit</option>
-									<option  selected="selected" value='4' >Top selling products by profit</option>
+									<option  value='1' >Top selling (by volume)</option>
+									<option  value='2' >Worst selling (by volume)</option>
+									<option  value='3' >Top selling (by profit)</option>
+									<option  value='4' >Worst selling (by profit)</option>
 								</select>
 						  </div>
 					  </div>
@@ -83,13 +84,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									<tr class ="table-header">
 									<th style= 'width: 2%'></th>
 									<th style= 'width: 5%' >Product Id.</th>
-									<th style= 'width: 15%'>Previous Marking</th>
-									<th style= 'width: 15%'>Previous Marking<br/> Date</th>
-									<th style= 'width: 15%'>Current Marking</th>
-									<th style= 'width: 15%'>Current Marking<br/> Date</th>
+									<th style= 'width: 15%'>Prev. Marking<br/> Date</th>
+									<th style= 'width: 15%'>Prev. Marking <br/> status</th>
+									<th style= 'width: 15%'>Curr. Marking<br/> Date</th>
+									<th style= 'width: 15%'>Curr. Marking<br/> status</th>
 									<th style= 'width: 10%'>Profit Status</th>
 									<th style= 'width: 10%'>Volume Status</th>
-									<th style= 'width: 13%'>Change Marking</th>
+									<th style= 'width: 13%'>Change Margin </th>
+									<th style= 'width: 13%'>Change Discount </th>
 								</tr>
 							</thead>
 						</table>

@@ -11,9 +11,12 @@ import lombok.NoArgsConstructor;
 @Data
 public class ProductSearchFilterEntity {
 
-	private String pid;
+	private String sportId;
 	private String brand;
-	private String name;
+	private String priceRange;
+	private String discountRange;
+	private String marginType;
+	private String searchText;
 	private int draw;
 	private int start;
 	private int length;

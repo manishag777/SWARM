@@ -6,13 +6,16 @@ $(document).ready(function() {
 			'ajax' : {
 				url : 'returnProductData',
 				type : 'POST',
+				'bFilter': false,
+				'binfo' : false,
+				 "sDom": '<"top">rt<"bottom"flp><"clear">',
 				contentType : "application/json",
 				data: function ( d ) {
 					// send only data required by backend API
 					delete(d.columns);
 					delete(d.order);
 					delete(d.search);
-					d.groupType = $('#profit-group-filter').val();
+					d.profitType = $('#profit-group-filter').val();
 					d.storeType = $('#store-type-filter').val();
 					d.sportType = $('#sport-type-filter').val();
 					d.sellingType = $('#selling-type-filter').val(); 
@@ -35,13 +38,47 @@ $(document).ready(function() {
 			        	  
 			          },
 			          { data: 'id' },
-			          { data: 'previousMarking' },
-			          { data: 'previousDate' },
-			          { data: 'currentMarking' },
-			          {data: 'currentDate'  },
-			          {data : null},
-			          {data : null},
-			          {data : 'markingFilter'}
+			          { data: 'preDate' },
+			          { data: null,
+			        	  mRender: function(data, type, full){
+			        		  var effMargin = (data.preProfitPercent - (1+data.preProfitPercent/100)*data.preDiscountPercent );
+			        		  var html = '<h><b style = "color:green">m:</b> <small>'+data.preProfitPercent +'('+data.preProfitType +')' +'</small><h><br/>'
+			        		  + '<h><b style = "color:red">d:</b> <small>'+data.preDiscountPercent+'('+data.preDiscountType +')'+'</small><h><br/>'
+			        		  + '<h><b style = "color:blue">eff. m:</b> <small>'+effMargin+ '</small><h><br/>' ;
+			        		  return html;
+			        	  }
+			          },
+			          { data: 'currDate' },
+			          { data: null,
+			        	  mRender: function(data, type, full){
+			        		  var effMargin = (data.currProfitPercent - (1+data.currProfitPercent/100)*data.currDiscountPercent) ;
+			        		  var html = '<h><b style = "color:green">m:</b> <small>'+data.currProfitPercent +'('+data.currProfitType +')' +'</small><h><br/>'
+			        		  + '<h><b style = "color:red">d:</b> <small>'+data.currDiscountPercent+'('+data.currDiscountType +')'+'</small><h><br/>'
+			        		  + '<h><b style = "color:blue">eff. m:</b> <small>'+effMargin+ '</small><h><br/>' ;
+			        		  return html;
+
+			        	  }
+			          },
+			          {data: null,
+				           mRender: function(data, type, full) {
+				        	  // var parameter = "'"+ data.profitStatus + "'";
+				        	   if(data.profitStatus < 0)
+				        		   return  '<h>'+ data.profitStatus +'&nbsp;</h><i class="fa  fa-arrow-down" style = "color:red; float:right"></i>' ;
+				        	   else 
+				        		   return  '<h>'+ data.profitStatus +'&nbsp;</h><i class="fa fa-arrow-up" style = "color:green; float:right"></i>' ;
+				           } 	  
+				      },
+				      {data: null,
+				           mRender: function(data, type, full) {
+				        	 //  var parameter = "'"+ data.volumeStatus + "'";
+				        	   if(data.volumeStatus < 0)
+				        		   return  '<h>'+ data.volumeStatus +'</h><i class="fa  fa-arrow-down" style = "color:red; float:right"></i>' ;
+				        	   else 
+				        		   return  '<h>'+ data.volumeStatus +'</h><i class="fa fa-arrow-up" style = "color:green; float:right"></i>' ;
+				           } 	  
+				      },
+			          {data : 'profitSelect'},
+			          {data : 'discountSelect'}
 			      	],
 					select: "single",
 					sort: "true"
@@ -87,13 +124,21 @@ $(document).ready(function() {
 		fetchProfitList();
 		fetchSportList();
 		fetchStoreList();
+		fetchDiscountList();
+		$('#store-type-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
+		$('#sport-type-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
 		$('#profit-group-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
-
+		$('#selling-type-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
 		
 	}
 	initPage();
 });
 
+
+function format (d) {
+	var div = "<h>Information to be displayed later</h>";
+    return div;
+}
 
 var myFunction = function(select, id){
 	//console.info("value = "+vari.value);
@@ -238,6 +283,31 @@ var fetchStoreList = function(){
 	}).done(function() {
 				
 	});
+}
+
+var fetchDiscountList = function (){
+	
+	var select = document.getElementById('discount-group-filter');
+	$.ajax({
+		url : 'fetchDiscountList',
+		type : 'GET',
+		contentType : "application/json",
+		success : function(data) {
+			sportData = data;
+			console.info(data);
+			for (var i in data) {
+				var opt = document.createElement('option');
+				opt.value = data[i].id;
+				opt.innerHTML = data[i].name;
+				select.appendChild(opt);				
+			}
+			
+		},
+	}).done(function() {
+				
+	});
+	
+	
 }
 
 

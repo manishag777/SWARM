@@ -10,9 +10,18 @@ import lombok.NoArgsConstructor;
 @Data
 public class ProfitMarkingEntity {
 	int id;
-	String previousMarking;
-	String currentMarking;
-	String previousDate;
-	String currentDate;
-	String markingFilter;
+	String preDate;
+	String preProfitType;
+	int preProfitPercent;
+	String preDiscountType;
+	int preDiscountPercent;
+	String currDate;
+	String currProfitType;
+	int currProfitPercent;
+	String currDiscountType;
+	int currDiscountPercent;
+	float profitStatus;
+	float volumeStatus;
+	String profitSelect;
+	String discountSelect;
 }

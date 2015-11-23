@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 public class Utilities {
 	
@@ -33,6 +34,13 @@ public class Utilities {
 	    Date date = new Date(); // Or where ever you get it from
 	    String res = dateFormat.format(date);
 	    return res;
+	}
+	
+	public static float getRandomFloat(int min, int max){
+		 	Random rand = new Random();
+		    //int max = 30, min = 1;
+		    int n = rand.nextInt((max-min)*100 + 1);
+		    return (float)(n+min*100)/(float)100;
 	}
 	
 }

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class ProductFilterEntity {
-	private int groupType;
+	private int profitType;
 	private String storeType;
 	private String sportType;
 	private String sellingType;

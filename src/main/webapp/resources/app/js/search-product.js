@@ -8,6 +8,10 @@ $(document).ready(function() {
 		$("#customer-info-div").hide();
 		 var datatable = $('#product-table').DataTable({
 			'serverSide' : false,
+			 'bFilter': false,
+			 'binfo' : false,
+			 "sDom": '<"top">rt<"bottom"flp><"clear">',
+			  "iDisplayLength": 10,
 			'ajax' : {
 				url : 'returnFilteredProducts',
 				type : 'POST',
@@ -17,9 +21,12 @@ $(document).ready(function() {
 					delete(d.columns);
 					delete(d.order);
 					delete(d.search);
-					d.pid = $("#s_pid").val();
-					d.name = $("#s_name").val();
-					d.brand = $("#s_brand").val();
+					d.sportId = $("#sport-type-filter").val();
+					d.brand = $("#brand-type-filter").val();
+					d.pricRange = $("#priceRange-type-filter").val();
+					d.discountRange = $("#discount-type-filter").val();
+					d.marginType = $("#profit-group-filter").val();
+					d.searchText = $("#search-product-input").val();
 					console.info("json = " +  JSON.stringify(d));	
 			        return JSON.stringify(d);
 			    },
@@ -142,13 +149,47 @@ $(document).ready(function() {
 					$('#product-table').dataTable().fnReloadAjax(); 
 				}	
 			});
+			
 
+			fetchProfitList();
+			fetchSportList();
+			$('#sport-type-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
+			$('#priceRange-type-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
+			$('#discount-type-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
+			$('#profit-group-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
+			$('#search-product-input').keyup(function(){ $('#product-table').dataTable().fnReloadAjax();});
 			
 
 		
 	}
 	initPage();
 });
+
+var fetchProfitList = function(){
+	var select = document.getElementById('profit-group-filter');
+	select.appendChild(createOption(0,"All"));
+		$.ajax({
+		url : 'fetchProfitList',
+		type : 'GET',
+		contentType : "application/json",
+		success : function(data) {
+			console.info(data);
+			
+			for (var i in data) {
+//				var opt = document.createElement('option');
+//				opt.value = data[i].id;
+//				opt.innerHTML = data[i].name +"("+ data[i].margin+"%)";
+//				select.appendChild(opt);
+				select.appendChild(createOption(data[i].id,data[i].name));
+			}
+			
+		},
+	}).done(function() {
+				
+	});
+}
+
+
 
 
 var updateEmailId = function(){
@@ -317,36 +358,61 @@ function validateEmail(email) {
     return re.test(email);
 }
 
-function onSearchPressed(){
-	
-	$('#product-table').dataTable().fnReloadAjax(); 
-//	console.info("InSearchPressed");
-//	var pid = $("#s_pid").val();
-//	var name = $("#s_name").val();
-//	var brand = $("#s_brand").val();
-//	
-//	var url = 'searchProductByFilter';		
-//	$.ajax({
-//		url : url,
-//		data : {"pid" : pid, "name" : name, "brand" : brand},
-//		type : 'GET',
-//		contentType : "application/json",
-//		success : function(data) {
-//			console.info(data);
-//			//displayCutomerInfo(1,data,id);
-//			//Obj.custId = id;
-//			
-//		},
-//		error: function(){
-//			console.info("error");
-//			//displayCutomerInfo(0,"",id);
-//		}
-//	}).done(function() {
-//		console.log("Done adding");
-//		
-//		//$('#customer-modal').modal('hide');
-//		//$('#employee-table').dataTable().fnReloadAjax();		
-//	});
 
-		
+var fetchSportList = function(){
+
+	var select = document.getElementById('sport-type-filter');
+	$.ajax({
+		url : 'fetchSportList',
+		type : 'GET',
+		contentType : "application/json",
+		success : function(data) {
+			sportData = data;
+			console.info(data);
+			for (var i in data) {
+				var opt = document.createElement('option');
+				opt.value = data[i].sportId;
+				opt.innerHTML = data[i].name;
+				select.appendChild(opt);
+				
+			}
+			
+		},
+	}).done(function() {
+				
+	});
 }
+
+var fetchBrandList = function(){
+	$('#brand-type-filter').empty();
+	var select = document.getElementById('brand-type-filter');
+	select.appendChild(createOption("0","All Brand"));
+	console.info("Hey in fetchBrandList");
+	$.ajax({
+		url:'getBrandList',
+		data:{'sport_id': $("#sport-type-filter").val()},
+		success : function(data){
+			console.info(data);
+			for (var i in data) {
+					select.appendChild(createOption(data[i], data[i]));
+				}
+		}
+		
+	});
+}
+
+var createOption = function(value, name){
+	var opt = document.createElement('option');
+	opt.value = value;
+	opt.innerHTML = name;
+	return opt;
+}
+
+
+
+
+
+
+
+
+
