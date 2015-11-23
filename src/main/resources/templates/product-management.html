@@ -11,19 +11,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title>AdminLTE 2 | Starter</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
-    <link rel="stylesheet" href="resources/lib/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
-    <link rel="stylesheet" href="resources/app/css/AdminLTE.min.css"/>   
-    <link rel="stylesheet" href="resources/app/css/skin-blue.min.css"/>
-    <link rel="stylesheet" href="resources/lib/css/datatables.min.css"/>
-    <link rel="stylesheet" href="resources/lib/css/select2.min.css"/>
-	<link rel="stylesheet" href="resources/lib/css/select2-bootstrap.min.css"/>
-	<link rel="stylesheet" href="resources/app/css/swarm.css"/>
-	<link rel="stylesheet" href="resources/lib/css/bootstrap3-wysihtml5.min.css"/>
+
+    <ct th:replace="fragments/header :: commonhead"></ct>
 	<link rel="stylesheet" href="resources/app/css/mynav-bar.css"/>
-	
-	
 	
 	
   </head>
@@ -32,134 +22,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   
   
     <div class="wrapper">
-
-      <!-- Main Header -->
-      <header class="main-header">
-
-        <!-- Logo -->
-        <a href="index2.html" class="logo">
-          <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>S</b>WARMS</span>
-          <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Sport</b>WARMS</span>
-        </a>
-        
-                <nav class="navbar navbar-static-top" role="navigation">
-          <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-          </a>
-          
-        
-          <!-- Navbar Right Menu -->
-          <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-             	
-             	
-<!--              	Out-of-stock notification -->
-			<!-- Messages: style can be found in dropdown.less-->
-              <li class="dropdown messages-menu">
-                <!-- Menu toggle button -->
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-envelope-o"></i>
-                  	<span class="label label-success" id = "out-of-stock-warning">4</span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li class="header" id = "out-of-stock-header"></li>
-                  <li>
-                  <div class = "navbar-inner">
-                  	<nav class="navbar">
-					    
-					      <ul class="nav navbar-nav">
-					        <li class="active"><a href="#">Unseen</a></li> 
-					        <li><a href="#">Seen</a></li>
-					       
-					      </ul>
-					</nav>
-	               </div>
-	               	
-                  </li>
-                  <li>
-                    <!-- inner menu: contains the messages -->
-                    <ul class="menu" id = "out-of-stock-list">
-                      
-                    </ul><!-- /.menu -->
-                  </li>
-                  <li class="footer"><a href="#">See All Messages</a></li>
-                </ul>
-              </li><!-- /.messages-menu -->
-             	
-              
-              <!-- User Account Menu -->
-              <li class="dropdown user user-menu">
-                <!-- Menu Toggle Button -->
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <!-- The user image in the navbar-->
-                  <img src="resources/app/img/md.png" class="user-image" alt="User Image"/>
-                  <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                  <span class="hidden-xs">Manish Agrawal</span>
-                </a>
-                <ul class="dropdown-menu">
-                  <!-- The user image in the menu -->
-                  <li class="user-header">
-                    <img src="resources/app/img/md.png" class="img-circle" alt="User Image"/>
-                    <p>
-                     Manish Agrawal
-                      <small> Managing Director</small>
-                    </p>
-                  </li>
-                  
-                  <!-- Menu Footer-->
-                  <li class="user-footer">
-                    <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
-                    </div>
-                    <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                    </div>
-                  </li>
-                </ul>
-              </li>
-             
-            </ul>
-          </div>
-        </nav>
-        
-      </header>
-      
- 
-  	
-  	   <aside class="main-sidebar">
-
-        <!-- sidebar: style can be found in sidebar.less -->
-        <section class="sidebar">
-
-          <!-- Sidebar user panel (optional) -->
-          <div class="user-panel">
-            <div class="pull-left image">
-              <img src="resources/app/img/md.png" class="img-circle" alt="User Image"/>
-            </div>
-            <div class="pull-left info">
-              <p>Manish Agrawal</p>
-              <!-- Status -->
-              <a href="#"><i class="fa fa-circle text-success"></i> MD </a>
-            </div>
-          </div>
-
-          
-          <!-- Sidebar Menu -->
-          <ul class="sidebar-menu">
-            <li class="header">Dashboard</li>
-            <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Sales Activites</span></a></li>
-            <li><a href="#"><i class="fa fa-link"></i> <span>Employee</span></a></li>
-            <li><a href="#"><i class="fa fa-link"></i> <span>Office</span></a></li>
-           </ul><!-- /.sidebar-menu -->
-        </section>
-        <!-- /.sidebar -->
-      </aside>
-
-
+    
+	<!-- Main Header -->
+	<div th:replace="fragments/header :: header"></div>
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
@@ -173,18 +38,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <!-- USERS LIST -->
                   <div class="box box-danger">
                     <div class="box-header with-border">
-                    <h>Select sport type: &nbsp;</h>
-                      <div class="box-title">
-							<select id="sport-type-filter" class="form-control select-box-inline office-selects">
-								<option name = "sportId" selected="selected" value='0' >All sports</option>
-							</select>
+                    <div class = "box-title col-md-5">
+	                    <h>Sport: &nbsp;</h>
+	                      <div class="box-title">
+								<select id="sport-type-filter" class="form-control select-box-inline office-selects">
+									<option name = "sportId" selected="selected" value='0' >All sports</option>
+								</select>
+						  </div>
+						  					  
+						  <h>&nbsp;&nbsp;&nbsp;&nbsp;Brand: &nbsp;</h>
+	                      <div class="box-title">
+								<select id="brand-type-filter" class="form-control select-box-inline office-selects" style = "width:180px"/>
+						  </div>
 					  </div>
+					
+					  <div class = "box-title col-md-5">
+						  <div class="input-group">
+				              <input id = "search-product-input" type="text" name="q" class="form-control" placeholder="Search Product"/>
+				              <span class="input-group-btn">
+				                <button type="submit" name="search" id="search-product-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+				              </span>
+	            		</div>
+            		</div>
 					 
-                      <div class="box-tools pull-right">
+                      <div class="box-title pull-right">
                       	<button type="button" class="btn btn-default btn-md"
 							data-toggle="modal" id = "top-add-button" data-target="#product-add-modal">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
-							<span >Add</span>
+							<span >Add New Product</span>
 						</button>
 <!--                         <span class="label label-danger">8 New Members</span> -->
 <!--                         <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button> -->
@@ -411,6 +292,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		</div>
 	</div>	
 
+	<div class="modal fade" id="report-modal" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" data-mode="add">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">Add new product</h4>
+							
+						</div>
+						<div class="modal-body">
+												
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+							<button id="product-save-button" type="button" class="btn btn-primary">Save</button>
+						</div>
+					</div>
+				</div>
+		</div>	
+	
+
+
 </div>
 	
 	 
@@ -458,5 +364,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="resources/app/js/notification.js" type="text/javascript"></script>
     <script src="resources/app/js/jquery.timeago.js" type="text/javascript"></script>
     
+    <script>
+    $(window).load(function() {
+        $('#out-of-stock-notification').css('display','block');
+    });
+
+    </script>
+        
   </body>
   </html>

@@ -12,7 +12,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class ProductFilterEntity {
 	private int groupType;
-	private String storeFilter;
+	private String storeType;
+	private String sportType;
+	private String sellingType;
 	private int draw;
 	private int start;
 	private int length;

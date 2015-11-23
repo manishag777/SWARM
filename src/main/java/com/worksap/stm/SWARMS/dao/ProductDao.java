@@ -27,6 +27,8 @@ public class ProductDao {
 	
 	private static final String FETCH = "SELECT * FROM product where sport_id like ?";
 	private static final String FETCH_BY_PID = "SELECT * FROM product where pid = ?";
+	private static final String FETCH_BRAND_BY_SPORT_ID = "SELECT DISTINCT brand FROM product where sport_id like ?";
+	private static final String FETCH_BY_FILTER = "SELECT * FROM product where sport_id like ? and brand like ? and name like ?";
 	
 	
 	
@@ -89,20 +91,65 @@ public List<ProductDto> getAllProduct(String sport_id)  {
 	
 }
 
+public List<ProductDto> getProductsListByFilter(String sport_id, String brand, String name )  {
+	
+	 if(sport_id.equals("0"))
+		 sport_id="%";
+	 
+	 if(brand == null ||brand.equals("0")||brand.equals(""))
+		 brand = "%";
+	 if(name==null||name.equals(""))
+		 name ="%";
+	 
+	 name = "%"+name+"%";
+	System.out.println("At getAllProduct s = "+sport_id+" b= "+brand + " n = "+name);
 
-public ProductDto getProductById(String id){
-	return template.queryForObject(
-			FETCH_BY_PID,
-			(rs, rownum) -> {
-				return new ProductDto(rs.getString("pid"),
-						rs.getString("sport_id"), 
-						rs.getString("name"),
-						rs.getString("brand"),
-						rs.getString("info"),
-						rs.getString("aval_size"),
-						rs.getString("aval_color"),
-						rs.getString("iurl"));
-			},id);
+	 
+		return template.query(
+				FETCH_BY_FILTER, new Object[]{sport_id, brand, name},
+				(rs, rownum) -> {
+					return new ProductDto(rs.getString("pid"),
+							rs.getString("sport_id"), 
+							rs.getString("name"),
+							rs.getString("brand"),
+							rs.getString("info"),
+							rs.getString("aval_size"),
+							rs.getString("aval_color"),
+							rs.getString("iurl"));
+				});
+	
 }
+
+
+
+
+
+	public ProductDto getProductById(String id){
+		return template.queryForObject(
+				FETCH_BY_PID,
+				(rs, rownum) -> {
+					return new ProductDto(rs.getString("pid"),
+							rs.getString("sport_id"), 
+							rs.getString("name"),
+							rs.getString("brand"),
+							rs.getString("info"),
+							rs.getString("aval_size"),
+							rs.getString("aval_color"),
+							rs.getString("iurl"));
+				},id);
+	}
+
+	public List<String> getBrandList(String sportId) {
+		
+		if(sportId.equals("0"))
+			sportId="%";
+
+		
+		return template.query(
+				FETCH_BRAND_BY_SPORT_ID,
+				(rs, rownum) -> {
+					return rs.getString("brand"); 
+				},sportId);
+	}
 
 }

@@ -8,12 +8,30 @@ $(document).ready(function() {
 		$('#product-save-button').click(updateProduct);
 		$('#product-detail-add-button').click(addProductDetail);
 		$('#top-add-button').click(addProduct);
-		//$('#editTemplate').click(editTemplate);
 		displayProductInGrid();
 		fetchSportList();
+		fetchBrandList();
 		$('#sport-type-filter').change(function() { 
+			fetchBrandList();
 			ReloadGridProducts();
 		});
+		
+		$('#brand-type-filter').change(function() { 
+			ReloadGridProducts();
+		});
+
+		
+		$('#search-product-input').keyup(function(e){
+			//console.info("manish");
+			ReloadGridProducts();
+//			if(e.keyCode == 13)
+//			{
+//				var id = $(this).val();
+//				ReloadGridProducts();
+//				//var x = getCustomerForGivenId(id);	
+//			}	
+		});
+		$('#search-product-btn').click(ReloadGridProducts);
 
 	}
 	initPage();
@@ -195,10 +213,14 @@ var retrieveProduct = function(element) {
     parent.appendChild(li);
 };
 var displayProductInGrid = function(evt){
+
+	var brand = $("#brand-type-filter").val();
+	var textSearch = $("#search-product-input").val();
+	console.info("brand = " + brand+" textSearch = "+ textSearch);
 	
 	$.ajax({
 		url:'getAllProduct',
-		data:{'sport_id': $("#sport-type-filter").val()},
+		data:{'sport_id': $("#sport-type-filter").val(), 'brand' : brand , 'textSearchInput': textSearch },
 		success : function(data){
 			$.each(data, function(index, element) {
 				retrieveProduct(element);
@@ -207,7 +229,8 @@ var displayProductInGrid = function(evt){
 		
 	});
 };
-var ReloadGridProducts = function(evt){	
+var ReloadGridProducts = function(evt){
+	
 	//Delete products
 	var container = document.getElementById("productList");
 	container.innerHTML = '';
@@ -245,7 +268,7 @@ var distributeProduct = function(element){
 }
 
 var getPrice = function(){
-	
+
 	var productId = $("#productId").val();
 	var color = $("#dropdown_color").val();
 	var size = $("#dropdown_size").val();
@@ -268,10 +291,9 @@ var getPrice = function(){
 }
 
 var fetchSportList = function(){
-	
+
 	var select = document.getElementById('sport-type-filter');
 	var select2 = document.getElementById('sport-filter');
-	
 	$.ajax({
 		url : 'fetchSportList',
 		type : 'GET',
@@ -298,4 +320,28 @@ var fetchSportList = function(){
 }
 
 
+var fetchBrandList = function(){
+	$('#brand-type-filter').empty();
+	var select = document.getElementById('brand-type-filter');
+	select.appendChild(createOption("0","All Brand"));
+	console.info("Hey in fetchBrandList");
+	$.ajax({
+		url:'getBrandList',
+		data:{'sport_id': $("#sport-type-filter").val()},
+		success : function(data){
+			console.info(data);
+			for (var i in data) {
+					select.appendChild(createOption(data[i], data[i]));
+				}
+		}
+		
+	});
+}
+
+var createOption = function(value, name){
+	var opt = document.createElement('option');
+	opt.value = value;
+	opt.innerHTML = name;
+	return opt;
+}
 

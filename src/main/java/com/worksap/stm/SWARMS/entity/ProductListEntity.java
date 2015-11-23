@@ -14,5 +14,6 @@ public class ProductListEntity {
 	private int draw;
 	private int recordsTotal;
 	private int recordsFiltered;
-	private List<ProductFetchEntity> employeeEntities; 
+	//private List<ProductFetchEntity> employeeEntities;
+	private List<ProfitMarkingEntity> profitEntities;
 }

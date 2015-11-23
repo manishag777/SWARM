@@ -5,6 +5,7 @@ $(document).ready(function () {
 	
 	createRangeCalender('#earning-reportrange');
 	createRangeCalender('#revenue-reportrange');
+	
 	$('#revenue-commonCard').css("background-color", '#ccffcc');
 	$('#earning-commonCard').css("background-color", '#ccffcc');
 	$('#revenue-storeCard').css("background-color", '#ccffcc');
@@ -13,13 +14,22 @@ $(document).ready(function () {
 	drawdonutChart('earning-donut-chart');
 	drawLineChart('revenue-line-chart');
 	drawdonutChart('revenue-donut-chart');
-	$('input[name=abc][value=1]').click();
+	//$('input[name=abc][value=1]').click();
 	
-	$('input[name=abc]').on('click',function(){
+	$('#store-selector2').on('click',function(){
 		alert('yes');
-		console.log($(this).val());
+		//console.log($(this).val());
 	});
 	
+	$('.btn-group button').click(function() {
+		var id = $(this).attr('id');
+		console.info(id);
+        $('#buttonA').removeClass("active");
+        
+    });
+	
+
+
 	$('#revenue-storeCard').click( function(){
 		clearAllColor1();
 		this.style.backgroundColor = '#ccffcc';
