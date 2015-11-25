@@ -182,13 +182,15 @@ var processPayment = function(){
 }
 
 var payTheAmount = function(){
+
+
 	
 	var object = new Object();
 	orderDto['id'] = -1 ;
 	object['orderDto'] = orderDto;
 	object['orderDetailDtoList'] = productDetailArray;
 	object['giftCardDetailDto'] = GiftCardDto;
-	console.info(object);
+	console.info(orderDto);
 	
 	var url = 'saveOrderDetail';
 	//var url = 'saveOrderDto';
@@ -201,7 +203,7 @@ var payTheAmount = function(){
 		success : function(data) {
 			console.info(data);
 		//	displayCutomerInfo(1,data,id);
-			
+			alert("Order details and payment saved successfully");			
 		},
 		error: function(){
 			console.info("error");
@@ -211,10 +213,11 @@ var payTheAmount = function(){
 		console.log("Done adding");
 		orderDto = new Object();
 		productDetailArray =  [];
-		//location.reload();
-		moveToZeroState();
+		
+		//moveToZeroState();
 		$('#payment-modal').modal('hide');
 		
+		//location.reload();
 	});
 	
 	

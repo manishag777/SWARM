@@ -23,11 +23,12 @@ $(document).ready(function() {
 					delete(d.search);
 					d.sportId = $("#sport-type-filter").val();
 					d.brand = $("#brand-type-filter").val();
-					d.pricRange = $("#priceRange-type-filter").val();
+					d.priceRange = $("#priceRange-type-filter").val();
 					d.discountRange = $("#discount-type-filter").val();
 					d.marginType = $("#profit-group-filter").val();
 					d.searchText = $("#search-product-input").val();
 					console.info("json = " +  JSON.stringify(d));	
+					//console.info(d);
 			        return JSON.stringify(d);
 			    },
 				
@@ -45,12 +46,25 @@ $(document).ready(function() {
 						    "data":           null,
 						    "defaultContent": ''
 						},
-			          { data: 'pid' },
+			          { data: 'modelNo' },
 			          { data: 'name' },
 			          { data: 'color' },
 			          {data: 'size'  },
-			          {data: 'price'},
 			          {data: 'discount'},
+			          {data: null,
+				           mRender : function(data, type, full){
+				        	   var cp = data.price;
+				        	   var discount = data.discount;
+				        	   var margin = data.margin;
+				        	   var sp1 =  (cp + cp*margin/100);
+				        	   var sp2 =  (sp1) - (sp1)*discount/100 ;
+				        	   
+				        	   if(discount>0)
+				        		   return '<h><del style = "color:red">'+sp1+'</del>&nbsp;&nbsp;&nbsp;<span style = "color:green">' + sp2+'</span></h>' ;
+				        	   else 
+				        		   return '<h style = "color:green">' + sp1 + '</h>' ;
+				           }
+				      },
 			          {data: 'isAvailable'},
 			          {data: null,
 			           mRender: function(data, type, full) {
@@ -153,12 +167,16 @@ $(document).ready(function() {
 
 			fetchProfitList();
 			fetchSportList();
-			$('#sport-type-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
+			fetchBrandList();
+			$('#sport-type-filter').change(function() { 
+				 fetchBrandList();	
+				$('#product-table').dataTable().fnReloadAjax();
+			});
 			$('#priceRange-type-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
 			$('#discount-type-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
 			$('#profit-group-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
 			$('#search-product-input').keyup(function(){ $('#product-table').dataTable().fnReloadAjax();});
-			
+			$('#brand-type-filter').change(function() { $('#product-table').dataTable().fnReloadAjax(); });
 
 		
 	}

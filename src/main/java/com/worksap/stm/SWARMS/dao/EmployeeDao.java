@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.worksap.stm.SWARMS.dto.EmployeeDto;
+import com.worksap.stm.SWARMS.dto.ProductDto;
 import com.worksap.stm.SWARMS.dto.UserAccountDto;
 
 
@@ -77,6 +78,20 @@ public class EmployeeDao {
 								rs.getString("email"),
 								rs.getString("phoneno"));
 					}, username);
+		
+	}
+
+
+	public List<EmployeeDto> getSalesStaffListByStoreId(String storeId) {
+		// TODO Auto-generated method stub
+		 String sqlQuery = "select e.* from employee e inner join employee_store es on e.username = es.username inner join employee_role er on e.username = er.username where role = 'ss' ";
+		
+		return template.query(sqlQuery, (rs,column)->{
+			EmployeeDto employeeDto = new EmployeeDto();
+			employeeDto.setUsername(rs.getString("username"));
+			return employeeDto;
+			
+		});
 		
 	}
 }

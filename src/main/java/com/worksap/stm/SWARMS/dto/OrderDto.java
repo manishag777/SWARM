@@ -14,4 +14,5 @@ public class OrderDto {
 	int subTotal;
 	int gcDiscount;
 	String storeId;
+	String staffId;
 }

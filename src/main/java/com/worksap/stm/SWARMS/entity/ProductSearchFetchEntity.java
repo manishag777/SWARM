@@ -10,13 +10,14 @@ import lombok.NoArgsConstructor;
 @Data
 public class ProductSearchFetchEntity {
 	
-	private String pid;
+	private String modelNo;
 	private int pdetailId;
 	private String name;
 	private String brand;
 	private String color;
 	private String size;
 	private int price;
+	private int margin;
 	private int discount;
 	private String isAvailable;
 	private int qty;

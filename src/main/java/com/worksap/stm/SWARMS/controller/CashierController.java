@@ -3,6 +3,7 @@ package com.worksap.stm.SWARMS.controller;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.worksap.stm.SWARMS.dao.CustomerDao;
 import com.worksap.stm.SWARMS.dao.EmployeeDao;
+import com.worksap.stm.SWARMS.dao.ProductDetailDao;
 import com.worksap.stm.SWARMS.dto.CustomerDto;
 import com.worksap.stm.SWARMS.dto.EmployeeDto;
 import com.worksap.stm.SWARMS.dto.GiftCardDetailDto;
@@ -27,6 +30,8 @@ import com.worksap.stm.SWARMS.dto.OrderDto;
 import com.worksap.stm.SWARMS.dto.ProductDetailDto;
 import com.worksap.stm.SWARMS.dto.ProductDto;
 import com.worksap.stm.SWARMS.entity.OrderEntity;
+import com.worksap.stm.SWARMS.entity.ProductFetchEntity;
+import com.worksap.stm.SWARMS.entity.ProductSearchFetchEntity;
 import com.worksap.stm.SWARMS.service.spec.CustomerRelationService;
 import com.worksap.stm.SWARMS.service.spec.CustomerService;
 import com.worksap.stm.SWARMS.service.spec.GiftCardService;
@@ -38,6 +43,8 @@ public class CashierController {
 	
 	@Autowired
 	 private CustomerService customerService;
+	@Autowired
+	 private CustomerDao customerDao;
 	
 	@Autowired
 	 private MyProductService productService;
@@ -54,14 +61,17 @@ public class CashierController {
 	@Autowired
 	EmployeeDao employeeDao;
 	
+	@Autowired
+	ProductDetailDao productDetailDao;
+	
 	
 
 	
-	@RequestMapping("/manageCustomer")
+	@RequestMapping("/manageTransaction")
     public ModelAndView helloAjaxTest(Principal principal) {
 		//System.out.println("you called Cashier");
        // return new ModelAndView("billing", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
-        return createModelAndView(principal,"billing");
+        return createModelAndView(principal,"transaction");
 
     }
 	
@@ -82,6 +92,7 @@ public class CashierController {
 		return model2;
 		
 	}
+	
 	
 	
 	
@@ -109,7 +120,31 @@ public class CashierController {
 	public ProductDto GetProductInfoByPid(@RequestParam("pid") String pid) {	
 		
 		System.out.println(pid);
+		//return productDetailDao.
 		return productService.getProductById(pid);
+	}
+	
+	
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getProductDetailByIdAndStore", method = RequestMethod.GET )
+	@ResponseBody
+	public ProductSearchFetchEntity getProductDetailByIdAndStore(@RequestParam("id") String id, @RequestParam("storeId") String storeId) {	
+		  
+		
+		System.out.println(id + " "+ storeId);
+		
+		try{
+			ProductSearchFetchEntity res =  productDetailDao.getProductDetailByIdAndStore(id,storeId);
+			System.out.println(res);
+			return res;
+			//System.out.println("In controller color = " +res.getColor());
+			//return res;
+		}
+		catch(Exception e){
+			return null;
+		}
+		//return productService.getProductById(pid);
 	}
 	
 	@PreAuthorize("hasAuthority('MD')")
@@ -128,6 +163,14 @@ public class CashierController {
 		//System.out.println(id);
 		return customerService.getCustomerById(Integer.parseInt(id));
 	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getCustomerInfoByPhoneNo", method = RequestMethod.GET )
+	@ResponseBody
+	public CustomerDto getCustomerInfoByPhoneNo(@RequestParam("phoneNo") String phoneNo) {	
+		//System.out.println(id);
+		return customerDao.getCustomerInfoByPhoneNo(phoneNo);
+	}
 		
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/giftCardStatusByCustomerId", method = RequestMethod.GET )
@@ -140,7 +183,10 @@ public class CashierController {
 	@RequestMapping(value = "/saveOrderDetail", method = RequestMethod.POST )
 	@ResponseBody
 	public void saveOrderDetail(@RequestBody OrderEntity orderEntity) {	
+		System.out.println(orderEntity.getOrderDto());
+		
 		int orderId =  orderService.saveOrder(orderEntity.getOrderDto());
+		
 		orderService.saveOrderDetailList(orderEntity.getOrderDetailDtoList(),orderId);
 		GiftCardDetailDto giftCardDetailDto = orderEntity.getGiftCardDetailDto();
 		System.out.println(giftCardDetailDto);
@@ -171,9 +217,20 @@ public class CashierController {
 			giftCardService.updateGiftCard(giftCardDetailDto);
 		}
 		
-		System.out.println(giftCardDetailDto.getId());
-		
+		System.out.println(giftCardDetailDto.getId());	
 }
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getSalesStaffListByStoreId", method = RequestMethod.GET )
+	@ResponseBody
+	public List<EmployeeDto> getSalesStaffListByStoreId(@RequestParam("storeId") String storeId) {	
+		
+		System.out.println(storeId);
+		//return productDetailDao.
+		return employeeDao.getSalesStaffListByStoreId(storeId);
+	}
+	
+	
 	
 
 	

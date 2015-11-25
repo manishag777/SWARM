@@ -55,13 +55,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						  <h>&nbsp;&nbsp;&nbsp;<small>Price Range: &nbsp;</small></h>
 	                      <div class="box-title">
 								<select id="priceRange-type-filter" class="form-control select-box-inline office-selects" style = "width:140px">
-									<option value="0-100000" selected = "selected">Any</option>
-									<option value="0-100">INR less than 100</option>
-									<option value="100-500" selected="selected">INR 100-500</option>
-									<option value="500-1500" selected="selected">INR 500-1500</option>
-									<option value="1500-3000" selected="selected">INR 1500-3000</option>
-									<option value="3000-5000" selected="selected">INR 3000-5000</option>
-									<option value="5000-100000" selected="selected">INR more than 5000</option>
+									<option value="0-1000" selected = "selected">Any</option>
+									<option value="0-10">INR less than 10</option>
+									<option value="10-20">INR 10-20</option>
+									<option value="20-50">INR 20-50</option>
+									<option value="1500-3000">INR 1500-3000</option>
+									<option value="3000-5000">INR 3000-5000</option>
+									<option value="5000-100000">INR more than 5000</option>
 								</select>
 						  </div>
 						  
@@ -69,9 +69,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	                      <div class="box-title">
 								<select id="discount-type-filter" class="form-control select-box-inline office-selects" style = "width:140px">
 									<option value="0" selected = "selected">All</option>
-									<option value="10">Min 15% Off.</option>
-									<option value="20" selected="selected">Min. 30% Off.</option>
-									<option value="30" selected="selected">Min. 50% Off.</option>
+									<option value="15">Min 15% Off.</option>
+									<option value="30" >Min. 30% Off.</option>
+									<option value="50" >Min. 50% Off.</option>
 								</select>
 						  </div>
 						  
@@ -102,8 +102,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									<th style= 'width: 20%'>Name</th>
 									<th style= 'width: 7%'>Color</th>
 									<th style= 'width: 7%'>Size</th>
-									<th style= 'width: 7%'>Price</th>
-									<th style= 'width: 7%'>Discount</th>
+									<th style= 'width: 7%'>Discount(%)</th>
+									<th style= 'width: 7%'>Price(INR.)</th>
 									<th style= 'width: 7%'>Available</th>
 									<th style= 'width: 12%'>Sub. Customer</th>
 								</tr>
@@ -281,7 +281,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     
     <script src="resources/lib/js/bootstrap3-wysihtml5.all.min.js"></script>
     <script src="resources/app/js/jquery.timeago.js" type="text/javascript"></script>
-     <script src="resources/app/js/search-product.js" type="text/javascript"></script>
+    <script src="resources/app/js/search-product.js" type="text/javascript"></script>
+    <script src="resources/lib/js/fnReloadAjax.js" type="text/javascript"></script>
     
     
     <script>

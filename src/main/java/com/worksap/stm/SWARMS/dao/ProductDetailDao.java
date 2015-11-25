@@ -15,6 +15,7 @@ import com.worksap.stm.SWARMS.dto.DiscountDto;
 import com.worksap.stm.SWARMS.dto.EmployeeDto;
 import com.worksap.stm.SWARMS.dto.OrderDetailDto;
 import com.worksap.stm.SWARMS.dto.ProductDetailDto;
+import com.worksap.stm.SWARMS.dto.ProductDto;
 import com.worksap.stm.SWARMS.dto.ProfitDto;
 import com.worksap.stm.SWARMS.entity.ProductFilterEntity;
 import com.worksap.stm.SWARMS.entity.ProductFetchEntity;
@@ -58,6 +59,7 @@ public class ProductDetailDao {
 			+ "product_detail pd INNER JOIN product p on pd.pid = p.pid INNER JOIN profit pf on pd.profit_id = pf.id";
 	
 	private static final String FETCH_MARGIN_GROUP = "SELECT * FROM profit ";
+	private static final String FETCH_DISCOUNT_GROUP = "SELECT * FROM discount ";
 	private static final String UPDATE_PROFIT_MARGIN = "UPDATE product_detail SET profit_id  = ? WHERE pid = ? and store_id = ? and size = ? and color = ?";
 	private static final String UPDATE_QTY = "UPDATE product_detail SET qty  = qty - ? WHERE id = ?";
 	private static final String UPDATE_QTY_WQTY_BYID = "UPDATE product_detail SET qty  = qty + ?, warning_qty = ? WHERE id = ?";
@@ -67,6 +69,9 @@ public class ProductDetailDao {
 			+ "where pd.pid = ? and store_id = ? and size = ? and color = ?";
 	
 	private static final String FETCH_PROFIT_MARKING_ENTITY = "SELECT pd.id id, m.* from product_detail pd inner join marking m on pd.id = m.pid ";
+	
+	
+	
 	
 	public void insert(ProductDetailDto product) throws IOException {
 		try {
@@ -134,9 +139,9 @@ public class ProductDetailDao {
 	
 	public List<DiscountDto>DiscountDtoList() throws IOException{
 
-		List<DiscountDto> discountDtoList = template.query (FETCH_MARGIN_GROUP,
+		List<DiscountDto> discountDtoList = template.query (FETCH_DISCOUNT_GROUP,
 				(rs,rownum) ->{
-			return new DiscountDto(rs.getInt("id"), rs.getString("name"), rs.getInt("margin")); 
+			return new DiscountDto(rs.getInt("id"), rs.getString("name"), rs.getInt("discount")); 
 		});
 		
 		return discountDtoList;
@@ -189,14 +194,12 @@ public class ProductDetailDao {
 			
 		});
 		return fetchProductDetailByPid(orderDetailDto.getPid());
-		
-		
-		
+	
 	}
 	
 	public ProductFetchEntity fetchProductDetailByPid(int id) throws IOException {
-		
-		return template.queryForObject(FETCH_PRODUCT_DETAIL_BYID, (rs,column)->{
+		//System.out.println("At fetchProductDetailByPid");
+		ProductFetchEntity productFetchEntityRes =  template.queryForObject(FETCH_PRODUCT_DETAIL_BYID, (rs,column)->{
 			ProductFetchEntity productFetchEntity = new ProductFetchEntity();
 			productFetchEntity.setName(rs.getString("name"));
 			productFetchEntity.setId(rs.getInt("id"));
@@ -206,9 +209,13 @@ public class ProductDetailDao {
 			productFetchEntity.setBrand(rs.getString("brand"));
 			productFetchEntity.setColor(rs.getString("color"));
 			productFetchEntity.setSize(rs.getString("size"));
+			System.out.println("Inside query color = " +productFetchEntity.getColor());
 			return productFetchEntity;
-			
 		},id);
+		
+		//System.out.println("Inside query color = " +productFetchEntityRes.getColor());
+		return productFetchEntityRes;
+		
 	}
 	
 	private ProductFetchEntity getProductFetchEntityList(ResultSet rs, List<ProfitDto> profitDtoList){
@@ -252,7 +259,7 @@ public class ProductDetailDao {
 			return template.query(
 					FETCH_ALL_PRODUCT_FILTERED_ENTITY ,(rs,rownum)->{
 						ProductSearchFetchEntity product = new 	ProductSearchFetchEntity();
-						product.setPid(rs.getString("pid"));
+						product.setModelNo(rs.getString("pid"));
 						product.setBrand(rs.getString("brand"));
 						product.setColor(rs.getString("color"));
 						product.setSize(rs.getString("size"));
@@ -373,12 +380,13 @@ public class ProductDetailDao {
 			try{
 				String s  = "<select onchange='discountFunction(this,"+parameter1+")'>";
 				for(int i=0; i<discountDtoList.size(); i++){
+					//System.out.println(discountDtoList.get(i).getName());
 					if(currDiscountType.equals(discountDtoList.get(i).getName())) {
 						s += "<option value="+discountDtoList.get(i).getId()+" selected>"+discountDtoList.get(i).getName() +"</option>" ;
 						//System.out.println(profitMarkingEntity.getCurrentMarking()+" "+profitMarkingEntity.getId()+" "+hm.get(selected)+ " "+ profitDtoList.get(i).getId() + " "+ profitDtoList.get(i).getName());
 					}
 					else
-						s += "<option value="+profitDtoList.get(i).getId()+">"+profitDtoList.get(i).getName() +"</option>" ;
+						s += "<option value="+discountDtoList.get(i).getId()+">"+discountDtoList.get(i).getName() +"</option>" ;
 				}
 				s+= "</select>" ;
 				profitMarkingEntity.setDiscountSelect(s);
@@ -417,6 +425,63 @@ public class ProductDetailDao {
 		
 		
 	   
-	} 
+	}
+	
+public void upateDiscountMarkingGroup(String id, String profitId){
+		
+		String getOld  = "select currDate, currProfitType, currProfitPercent currDiscounType, currDiscountPercent, cdate from marking_status where pid = ?";
+		String setNew  = "update marking_status SET lmarking = ?, ldate = ?, cmarking = ?, cdate = ? where pid = ?";
+		
+		template.queryForObject(getOld, (rs,column)->{	
+			String cmarking = rs.getString("cmarking");
+			String cdate = rs.getString("cdate");
+				template.update(setNew, (ps)->{
+					ps.setString(1, cmarking);
+					ps.setString(2, cdate);
+					ps.setString(3, profitId);
+					ps.setString(4, Utilities.getCurrentDate());
+					ps.setString(5, id);
+				});
+			return null;
+		},id);
+		
+		
+}
+
+public ProductSearchFetchEntity getProductDetailByIdAndStore(String id, String storeId) {
+	// TODO Auto-generated method stub
+	System.out.println(id+ " "+ storeId);
+  String sqlQuery = "SELECT pd.pid model_no, pd.id id, size, color, p.name name, brand, qty, price, currProfitPercent profitPercent, "
+			+ "currDiscountPercent discountPercent from product_detail pd inner join product p on pd.pid = p.pid inner join marking m on m.pid = pd.id where pd.id = ? and pd.store_id = ?";
+//  String mySqlQuery = "SELECT pd.pid model_no, pd.id id, size, color, p.name name, brand, qty, price, currProfitPercent profitPercent, currDiscountPercent discountPercent from product_detail pd inner join product p on pd.pid = p.pid inner join marking m on m.pid = pd.id where pd.id = ?";
+  
+	//String mySqlQuery2 = "SELECT * FROM product_details where id = ?";
+	//System.out.println(mySqlQuery2);
+  return template.queryForObject(sqlQuery, new Object[]{id,storeId}, (rs, column)->{
+		ProductSearchFetchEntity product = new 	ProductSearchFetchEntity();
+		product.setModelNo(rs.getString("model_no"));
+		product.setBrand(rs.getString("brand"));
+		product.setColor(rs.getString("color"));
+		product.setSize(rs.getString("size"));
+		product.setPrice(rs.getInt("price"));
+		product.setDiscount(rs.getInt("discountPercent"));
+		product.setMargin(rs.getInt("profitPercent"));
+		//product.setDiscount(rs.getInt("discount"));
+		product.setQty(rs.getInt("qty"));
+		product.setName(rs.getString("name"));
+		product.setPdetailId(rs.getInt("id"));
+		if(rs.getInt("qty")>0)
+			product.setIsAvailable("YES");
+		else
+			product.setIsAvailable("NO");
+		
+		return product;
+		
+	});
+	
+}
+
+
+
 		
 }

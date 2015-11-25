@@ -50,6 +50,8 @@ public class CustomerDao {
 	
 	private static final String GET_ALL_CUSTOMER_FOR_CLUSTERING =  "SELECT * from CUSTOMER where lng IS NOT NULL AND lat is NOT NULL";
 	
+	private static final String FETCH_BY_PHONENO = "SELECT * FROM customer where phoneno = ?";
+	
 	
 	public List<CustomerDto> getAllCustomer() throws IOException{
 		
@@ -99,21 +101,23 @@ public class CustomerDao {
 			 int id = template.queryForObject(
 					 FETCH_ID, Integer.class);
 			 System.out.println("id = " + id);
+			 customer.setId(id+"");
+			 updateCustomerSport(customer);
 			 
-			 template.batchUpdate(INSERT_CUSTOMER_SPORT, new BatchPreparedStatementSetter() {
-
-					@Override
-					public void setValues(PreparedStatement ps, int i)
-							throws SQLException {
-						ps.setInt(1, id);
-						ps.setString(2, customer.getSportsInterest().get(i));
-					}
-
-					@Override
-					public int getBatchSize() {
-						return customer.getSportsInterest().size();
-					}
-				});
+//			 template.batchUpdate(INSERT_CUSTOMER_SPORT, new BatchPreparedStatementSetter() {
+//
+//					@Override
+//					public void setValues(PreparedStatement ps, int i)
+//							throws SQLException {
+//						ps.setInt(1, id);
+//						ps.setString(2, customer.getSportsInterest().get(i));
+//					}
+//
+//					@Override
+//					public int getBatchSize() {
+//						return customer.getSportsInterest().size();
+//					}
+//				});
 			 
 			 return id;
 				
@@ -124,41 +128,39 @@ public class CustomerDao {
 		}
 	}
 	
-	public CustomerDto getCustomerById(int id){
+	public void updateCustomerSport(CustomerDto customer){
 		
-		CustomerDto customerDto = new CustomerDto();
+		if(customer.getSportsInterest()==null)
+			return;
+		
+		template.batchUpdate(INSERT_CUSTOMER_SPORT, new BatchPreparedStatementSetter() {
 
-		 template.queryForObject(
-				FETCH_BY_ID,
-				(rs, rownum) -> {
-					customerDto.setFirstName(rs.getString("firstname"));
-					customerDto.setLastName(rs.getString("lastname"));
-					customerDto.setCity(rs.getString("city"));
-					customerDto.setCountry(rs.getString("country"));
-					customerDto.setState(rs.getString("state"));
-					customerDto.setPinCode(rs.getInt("pincode"));
-					customerDto.setPhoneNo(rs.getString("phoneno"));
-					customerDto.setGender(rs.getInt("gender"));
-					customerDto.setEmailId(rs.getString("email"));
-					customerDto.setDOB(rs.getString("dob"));
-					customerDto.setReferrerId(rs.getInt("referrerId"));
-					return customerDto;
-				},id);
-		
-		
-		
-		List<String> sportInterest = new ArrayList<String>();
-		template.query(
-				FETCH_SPORTS_BY_ID,
-				(rs,rownum)->{
-					String si =   rs.getString("sport_id");
-					sportInterest.add(si);
-					return si;
-				},id);
-		
-		customerDto.setSportsInterest(sportInterest);
-		return customerDto;
+			@Override
+			public void setValues(PreparedStatement ps, int i)
+					throws SQLException {
+				ps.setString(1, customer.getId());
+				ps.setString(2, customer.getSportsInterest().get(i));
+			}
+
+			@Override
+			public int getBatchSize() {
+				return customer.getSportsInterest().size();
+			}
+		});
 	}
+	
+	public void removeCustomerSport(CustomerDto customer){
+		
+		String sqlQuery = " DELETE from customer_sport where cust_id = ? ";
+		
+		template.update(sqlQuery,(ps)->{
+			ps.setString(1,customer.getId());
+		});
+	}
+	
+	
+	
+	
 	
 	public void update(CustomerDto customer) throws IOException {
 			
@@ -180,15 +182,16 @@ public class CustomerDao {
 					ps.setDouble(10, customer.getLng());
 					ps.setDouble(11, customer.getLat());
 					ps.setString(12, customer.getId());
-					
 					System.out.println("custmoetr"+customer);
-
 				});
 			} catch (DataAccessException e) {
 				
 				System.out.println("At customerDao :" +e);
 				throw new IOException(e);
 			}
+			removeCustomerSport(customer);
+			updateCustomerSport(customer);
+			
 	
 	}
 
@@ -236,5 +239,77 @@ public class CustomerDao {
 	    	System.out.println("At CustomerDao :" +e);
 			throw new IOException(e);
 	    }
+	}
+	
+public CustomerDto getCustomerById(int id){
+		
+		CustomerDto customerDto = new CustomerDto();
+
+		 template.queryForObject(
+				FETCH_BY_ID,
+				(rs, rownum) -> {
+					customerDto.setFirstName(rs.getString("firstname"));
+					customerDto.setLastName(rs.getString("lastname"));
+					customerDto.setCity(rs.getString("city"));
+					customerDto.setCountry(rs.getString("country"));
+					customerDto.setState(rs.getString("state"));
+					customerDto.setPinCode(rs.getInt("pincode"));
+					customerDto.setPhoneNo(rs.getString("phoneno"));
+					customerDto.setGender(rs.getInt("gender"));
+					customerDto.setEmailId(rs.getString("email"));
+					customerDto.setDOB(rs.getString("dob"));
+					customerDto.setReferrerId(rs.getInt("referrerId"));
+					return customerDto;
+				},id);
+		
+		
+		
+		List<String> sportInterest = new ArrayList<String>();
+		template.query(
+				FETCH_SPORTS_BY_ID,
+				(rs,rownum)->{
+					String si =   rs.getString("sport_id");
+					sportInterest.add(si);
+					return si;
+				},id);
+		
+		customerDto.setSportsInterest(sportInterest);
+		return customerDto;
+	}
+	
+	public CustomerDto getCustomerInfoByPhoneNo(String phoneNo) {
+		
+		CustomerDto customerDto = new CustomerDto();
+		 template.queryForObject(
+				 FETCH_BY_PHONENO,
+				(rs, rownum) -> {
+					customerDto.setId(rs.getString("id"));
+					customerDto.setFirstName(rs.getString("firstname"));
+					customerDto.setLastName(rs.getString("lastname"));
+					customerDto.setCity(rs.getString("city"));
+					customerDto.setCountry(rs.getString("country"));
+					customerDto.setState(rs.getString("state"));
+					customerDto.setPinCode(rs.getInt("pincode"));
+					customerDto.setPhoneNo(rs.getString("phoneno"));
+					customerDto.setGender(rs.getInt("gender"));
+					customerDto.setEmailId(rs.getString("email"));
+					customerDto.setDOB(rs.getString("dob"));
+					customerDto.setReferrerId(rs.getInt("referrerId"));
+					return customerDto;
+				},phoneNo);
+		
+		
+		
+		List<String> sportInterest = new ArrayList<String>();
+		template.query(
+				FETCH_SPORTS_BY_ID,
+				(rs,rownum)->{
+					String si =   rs.getString("sport_id");
+					sportInterest.add(si);
+					return si;
+				},customerDto.getId());
+		
+		customerDto.setSportsInterest(sportInterest);
+		return customerDto;
 	}
 }

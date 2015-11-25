@@ -32,6 +32,29 @@ $(document).ready(function() {
 //			}	
 		});
 		$('#search-product-btn').click(ReloadGridProducts);
+		
+		$('.dropdown-menu .seen-unseen').click(function(event){
+		    event.stopPropagation();
+		});
+		
+//		$('#seen').click(function(e){
+//			$('#seen').css('background-color', 'blue');
+//			$('#seen').css('color', 'white');
+//			$('#unseen').css('background-color', 'white');
+//			$('#unseen').css('color', 'blue');
+//		});
+		
+//		$('#unseen').click(function(e){
+//			$('#unseen').css('background-color', 'blue');
+//			$('#unseen').css('color', 'white');
+//			$('#seen').css('background-color', 'white');
+//			$('#seen').css('color', 'blue');
+//		});
+		
+		$('ul.nav-pills li a').click(function (e) {
+			  $('ul.nav-pills li.active').removeClass('active')
+			  $(this).parent('li').addClass('active')
+			})
 
 	}
 	initPage();

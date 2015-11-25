@@ -140,27 +140,6 @@ function format (d) {
     return div;
 }
 
-var myFunction = function(select, id){
-	//console.info("value = "+vari.value);
-	var url = 'upateProfitMarginById';
-	
-	$.ajax({
-		url : url,
-		data : {id: id, profitId : select.value},
-		type : 'GET',
-		contentType : "application/json",
-		success : function(data) {
-			console.log("Done updating profit-percent");
-		},
-		
-		error : function(e) {
-			alert ("sorry! Due to some problem couldn't update the gift-card details");
-		},
-	}).done(function() {
-		console.log("Done adding gift-card details");
-	});
-
-};
 
 
 
@@ -306,9 +285,81 @@ var fetchDiscountList = function (){
 	}).done(function() {
 				
 	});
+}
+
+var myFunction = function(select, id)
+{
+	//console.info("value = "+vari.value);
+	var url = 'upateProfitMarginById';
 	
+	$.ajax({
+		url : url,
+		data : {id: id, profitId : select.value},
+		type : 'GET',
+		contentType : "application/json",
+		success : function(data) {
+			console.log("Done updating profit-percent");
+		},
+		
+		error : function(e) {
+			alert ("sorry! Due to some problem couldn't update the gift-card details");
+		},
+	}).done(function() {
+		console.log("Done adding gift-card details");
+	});
+
+};
+
+
+
+var profitFunction = function(select , id){
+	console.info(select.value + " "+select.name);
+	
+	$.ajax({
+		url :'upateProfitMarginById',
+		data : {id: id, profitId : select.value},
+		type : 'GET',
+		contentType : "application/json",
+		success : function(data) {
+			console.log("Done updating profit-percent");
+		},
+		
+		error : function(e) {
+			alert ("Got error while updating margin");
+		},
+	}).done(function() {
+		//console.log("Got error while updating margin");
+	});
+
 	
 }
+
+var discountFunction = function(select , id){
+	console.info(select.value + " "+select.name);
+	
+	$.ajax({
+		url : 'updateDiscountByID',
+		data : {id: id, discountId : select.value},
+		type : 'GET',
+		contentType : "application/json",
+		success : function(data) {
+			console.log("Done updating profit-percent");
+		},
+		
+		error : function(e) {
+			alert ("Got error while updating discount");
+		},
+	}).done(function() {
+		//console.log("Got error while updating discount");
+	});
+	
+}
+
+
+
+
+
+
 
 
 

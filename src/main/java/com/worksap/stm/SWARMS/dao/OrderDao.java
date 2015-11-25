@@ -16,18 +16,24 @@ public class OrderDao {
 	private JdbcTemplate template;
 	
 	private static final String INSERT_ORDER = "INSERT INTO orders"
-			+ " (cust_id, sub_total, gc_discount, store_id)"
-			+ " VALUES (?, ?, ?, ?)";
+			+ " (cust_id, sub_total, gc_discount, store_id, salestaff_id)"
+			+ " VALUES (?, ?, ?, ?, ?)";
 	private static final String FETCH_ID =  "SELECT LAST_INSERT_ID() as id" ;
 
 	
 	public int insert(OrderDto orderDto) throws IOException {
+		
+		System.out.println(orderDto);
+		if(orderDto.getStaffId()==null || orderDto.getStaffId().equals("0"))
+			orderDto.setStaffId(null);
+			System.out.println(orderDto);
 		try {
 				template.update(INSERT_ORDER, (ps) -> {
 				ps.setInt(1, orderDto.getCustId());
 				ps.setInt(2, orderDto.getSubTotal());
 				ps.setInt(3,orderDto.getGcDiscount());
 				ps.setString(4, orderDto.getStoreId() );
+				ps.setString(5, orderDto.getStaffId() );
 				
 				});
 				

@@ -37,5 +37,14 @@ tr.shown td.details-control {
     background: url('../../details_close.png') no-repeat center center;
 }
 
+ul.nav-pills li.active {
+	background: #0099ff;
+	color: #FF0000;
+}
+
+ul.nav-pills li {
+	background:#99d6ff;
+	color: black;
+}
 
   

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.worksap.stm.SWARMS.dao.EmployeeDao;
+import com.worksap.stm.SWARMS.dao.MarkingDao;
 import com.worksap.stm.SWARMS.dao.NotificationDao;
 import com.worksap.stm.SWARMS.dao.ProductDetailDao;
 import com.worksap.stm.SWARMS.dao.ProductDao;
@@ -78,6 +79,8 @@ public class salesManagerController {
 	@Autowired
 	private StoreDao storeDao;
 	
+	@Autowired
+	private MarkingDao markingDao;
 	@RequestMapping("/manageProduct")
     public ModelAndView manageProduct(Principal principal) {
 		System.out.println("you called salesManager");
@@ -167,9 +170,20 @@ public class salesManagerController {
 	public void upateProfitMarginById(@RequestParam("id") String id, @RequestParam("profitId") String profitId ) {
 		//System.out.println("productFilterEntity = " + productFilterEntity.getGroupType());
 		System.out.println(id + " " +profitId);
-		productDetailDao.upateProfitMarkingGroup(id,profitId);
+		markingDao.upateProfitMarkingGroup(id,profitId);
 			
 	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/updateDiscountByID", method = RequestMethod.GET)
+	@ResponseBody
+	public void updateDiscountByID(@RequestParam("id") String id, @RequestParam("discountId") String discountId ) {
+		//System.out.println("productFilterEntity = " + productFilterEntity.getGroupType());
+		System.out.println(id + " " +discountId);
+		markingDao.upateDiscountMarkingGroup(id,discountId);			
+	}
+	
+	
 
 	
 	@PreAuthorize("hasAuthority('MD')")

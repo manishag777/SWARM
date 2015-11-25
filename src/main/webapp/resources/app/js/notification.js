@@ -1,12 +1,24 @@
 var count= 10;
 var id = 0;
 var nid = 0;
+var active = "unseen"; 
+
+var currNotificationData;
 
 
 $(document).ready(function () {
 	window.setInterval(function(){
 		fetchNotification();
 	}, 2000);
+	
+	$('#seen').click(function(e){
+		active = "seen";
+		updateNotificationPanel();
+	});
+	$('#unseen').click(function(e){
+		active = "unseen";
+		updateNotificationPanel();
+	});
 	
 	
 });
@@ -73,7 +85,8 @@ var fetchNotification = function(){
 		type : 'GET',
 		contentType : "application/json",
 		success : function(data) {
-			updateNotificationPanel(data);
+			currNotificationData = data;
+			updateNotificationPanel();
 		},
 		
 		error : function(e) {
@@ -85,20 +98,36 @@ var fetchNotification = function(){
 
 }
 
-var updateNotificationPanel = function(data){
+var updateNotificationPanel = function(){
 	
 	//console.log(data);
-	if(isRealValue(data)){
-		var unseenCount = data.length;
-		document.getElementById('out-of-stock-warning').innerHTML = unseenCount;
-		document.getElementById('out-of-stock-header').innerHTML = unseenCount + ' more products are going to be out-of-stocks';
+	if(isRealValue(currNotificationData)){
+		
 		var ul = document.getElementById("out-of-stock-list");
 		$('#out-of-stock-list').empty()
-		for (var i in data) {
-			ul.appendChild(notificationBlock(data[i]));
+		if(active == "unseen"){
+			for (var i in currNotificationData) {
+				if(currNotificationData[i].seen == 0)
+					ul.appendChild(notificationBlock(currNotificationData[i]));
+			}
 		}
+		else{
+			for (var i in currNotificationData) {
+					if(currNotificationData[i].seen == 1)
+						ul.appendChild(notificationBlock(currNotificationData[i]));
+			}
+			
+		}
+		
+		var count = 0;
+		for (var i in currNotificationData) 
+			if(currNotificationData[i].seen == 0)
+				count++;
+		
+		document.getElementById('out-of-stock-warning').innerHTML = count;
+		document.getElementById('out-of-stock-header').innerHTML = count + ' more products are going to be out-of-stocks';
+		
 	}
-	
 }
 
 var updateNotificationProduct = function(status){
