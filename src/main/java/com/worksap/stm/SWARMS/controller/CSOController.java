@@ -78,7 +78,7 @@ public class CSOController {
     public ModelAndView suggestionForOpeningNewStore(Principal principal) {
 		System.out.println("you called CSO");
        // return new ModelAndView("store-opening-suggestion", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
-		return createModelAndView(principal,"store-opening-suggestion");
+		return createModelAndView(principal,"store-opening-suggestion2");
 
     }
 	
@@ -109,8 +109,6 @@ public class CSOController {
 		
 	}
 	
-	
-	
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/updateGiftCard", method = RequestMethod.POST )
 	@ResponseBody
@@ -124,7 +122,6 @@ public class CSOController {
 	public GiftCardDto getGiftCardSpecification() {	
 		return customerRelationService.fetchGiftCardDetail();
 	}
-	
 		
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/addTemplateMail", method = RequestMethod.POST )
@@ -176,6 +173,7 @@ public class CSOController {
 		}
 		return null;
 	}
+	
 	
 	
 	

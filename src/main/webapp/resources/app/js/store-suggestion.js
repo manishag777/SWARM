@@ -1,29 +1,27 @@
 var googleMap;
 
-
 $(document).ready(function () {
 	var js = document.createElement("script");
 	js.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD-jncTVkBCtTvR0_tvhOIZ5qYAGZrKcWQ&signed_in=true&callback=initMap';
 	//document.body.appendChild(js);
 	initMap();
 	
-	$.ajax({
-		url : 'fetchClusterCustomerDto',
-		type : 'GET',
-		contentType : "application/json",
-		success : function(data) {
-			console.info(data);
-			//updateNotificationPanel(data);
-			updateMapWithData(data);
-			console.info(data);
-		},
-		
-		error : function(e) {
-			//alert ("sorry! Due to some problem couldn't fetch the gift-card details");
-		},
-	}).done(function() {
-		
-	});
+//	$.ajax({
+//		url : 'fetchClusterCustomerDto',
+//		type : 'GET',
+//		contentType : "application/json",
+//		success : function(data) {
+//			console.info(data);
+//			//updateMapWithData(data);
+//			console.info(data);
+//		},
+//		
+//		error : function(e) {
+//			//alert ("sorry! Due to some problem couldn't fetch the gift-card details");
+//		},
+//	}).done(function() {
+//		
+//	});
 	
 });
 
@@ -39,7 +37,7 @@ function initMap() {
 
 
 //Adds a marker to the map.
-function addMarker(location, icon, pinCode, draggable) {
+var addMarker =  function(location, icon, pinCode, draggable) {
   // from the array of alphabetical characters.
 	console.info(location);
   var marker = new google.maps.Marker({
@@ -69,7 +67,7 @@ function addMarker(location, icon, pinCode, draggable) {
       console.info("Dragend.........");
   });
   
-  
+  return marker;
   
 }
 
@@ -126,5 +124,36 @@ function drawCircle(centroids,radius){
 	}
 
 }
+
+function drawCircleStore(location,radius,index){
+
+	  //console.info(gmc_cust[i%5]);
+	  var storeCircle = new google.maps.Circle({
+	    strokeColor: '#000000',
+	    strokeOpacity: 0.8,
+	    strokeWeight: 2,
+	    fillColor:  gmc_cust[index%5],
+	    fillOpacity: 0.35,
+	    map: googleMap,
+	    center: location,
+	    radius: radius*1000
+	  });
+	  
+	  return storeCircle;
+	  
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -122,7 +122,7 @@ var addRow = function(evt){
 				var parent = $(this).parent().parent();
 				clearAll(parent);
 				parent.remove();
-				test();
+				//test();
 
 			});
 			

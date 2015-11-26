@@ -48,6 +48,10 @@ public class StoreDao {
 			StoreDto storeDto = new StoreDto();
 			storeDto.setId(rs.getString("id"));
 			storeDto.setName(rs.getString("name"));
+			storeDto.setLat(rs.getDouble("lat"));
+			storeDto.setLng(rs.getDouble("lng"));
+			storeDto.setPinCode(rs.getInt("pincode"));
+			//storeDto.setP(rs.getInt("pincode"));
 			return storeDto;
 		});
 		

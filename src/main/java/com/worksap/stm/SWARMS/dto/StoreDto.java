@@ -12,6 +12,7 @@ public class StoreDto {
 	String id;
 	String name;
 	String address;
+	int pinCode;
 	Double lat;
 	Double lng;
 	
