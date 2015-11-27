@@ -15,6 +15,7 @@ public class CustomerDto {
 	private String lastName;
 	private String emailId;
 	private String phoneNo;
+	private String place;
 	private List<String> sportsInterest;
 	private String DOB;
 	private int gender;

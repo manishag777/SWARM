@@ -1,14 +1,17 @@
 package com.worksap.stm.SWARMS.utils;
 
+import java.io.IOException;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.worksap.stm.SWARMS.dao.CustomerDao;
 import com.worksap.stm.SWARMS.dao.StoreDao;
 import com.worksap.stm.SWARMS.dto.CustomerDto;
 import com.worksap.stm.SWARMS.dto.StoreDto;
 import com.worksap.stm.SWARMS.entity.CustomerClusterEntity;
+import com.worksap.stm.SWARMS.entity.StoreFetchEntity;
 
 
 
@@ -16,17 +19,60 @@ import com.worksap.stm.SWARMS.entity.CustomerClusterEntity;
 public class KmeanClustering {
 	
 	int NITER = 100;
-	int unusedIndex = 0;;
+	int unusedIndex = 0;
+	
 	@Autowired
 	StoreDao storeDao;
 	
+	@Autowired
+	CustomerDao customerDao;
 	List<StoreDto> storeDtoList;
+	
+	public CustomerClusterEntity findClusterEntities(List<StoreFetchEntity> storeFetchEntities){
+		
+		storeDtoList = new ArrayList<>();
+		List<CustomerDto> concernedCustomerDtoList = new ArrayList<>();
+		List<CustomerDto> customerDtoList = new ArrayList<>();
+		try {
+				customerDtoList = customerDao.getAllCustomer();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for(StoreFetchEntity entity : storeFetchEntities){
+			StoreDto storeDto  = storeDao.fetchStoreDtoById(entity.getStoreId());
+			storeDtoList.add(storeDto);
+			
+			int i=0;
+			while(i<customerDtoList.size()){
+				
+				if(isWithinRange(customerDtoList.get(i),storeDto,Integer.parseInt(entity.getDist()))){
+					concernedCustomerDtoList.add(customerDtoList.get(i));
+					customerDtoList.remove(i);
+				}
+				else
+					i++;
+			}
+
+		}
+		
+		return findKMeanCluster(concernedCustomerDtoList, storeDtoList.size()+1);
+	}
+	
+	public boolean isWithinRange(CustomerDto customerDto, StoreDto storeDto, int dist ){
+		
+		Geometry cg = new Geometry(customerDto.getLng(), customerDto.getLat());
+		Geometry sg = new Geometry(storeDto.getLng(), storeDto.getLat());
+		return distance(cg, sg)<=dist;
+	}
+	
 	public CustomerClusterEntity findKMeanCluster(List<CustomerDto> customerDtoList, int k){
 		
 		ArrayList<HashSet<CustomerDto> > result = new ArrayList<>();
 		ArrayList<Geometry> centroids = new ArrayList<>();
 		ArrayList<Geometry> remainingCentroidSet = new ArrayList<>();
-		 storeDtoList = storeDao.getAllStore();
+		//storeDtoList = storeDao.getAllStore();
 		int n = customerDtoList.size();
 		// Intializing the variable
 	
@@ -116,10 +162,7 @@ public class KmeanClustering {
 		return null;
 	
 	}
-	
-	
-	
-	
+		
 	private Geometry findCentroid(ArrayList<Geometry> gset){
 		
 		int length = gset.size();

@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.worksap.stm.SWARMS.dao.EmployeeDao;
 import com.worksap.stm.SWARMS.dto.EmployeeDto;
+import com.worksap.stm.SWARMS.utils.CsvFileReader;
 import com.worksap.stm.SWARMS.utils.PopulateData;
 import com.worksap.stm.SWARMS.utils.PopulateMarkingTable;
 
@@ -29,12 +32,22 @@ public class AjaxController {
 	@Autowired
 	EmployeeDao employeeDao;
 	
+	@Autowired
+	CsvFileReader csvFileReader;
+	
 	
 	@PreAuthorize("MD")
 	@RequestMapping("/ajax")
     public ModelAndView helloAjaxTest(Principal principal) {
 		
-		populateMarkingTable.populateMarkingTable();
+		 //String filename = "/WEB-INF/customer.csv";
+	        
+	     //ServletContext context = getServletContext();
+		String fileName = System.getProperty("user.home")+"/customer.csv";
+		System.out.println(fileName);
+		csvFileReader.readCsvFile(fileName);
+		
+		//populateMarkingTable.populateMarkingTable();
 		return createModelAndView(principal,"search-product");
       //  return new ModelAndView("search-product2", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
     }

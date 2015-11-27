@@ -2,11 +2,15 @@ var idStoreMap = new Object();
 var idMarkerMap = new Object();
 var idCircleMap = new Object();
 var idParentMap = new Object();
+var graphData = [];
+var mapMarker = [];
+var circleMarker = [];
 
 $(document).ready(function(){
 	    $('#panelDiv').height($(window).height() - 150 );
 	    $('#mapDiv').height($(window).height() - 150 );
 	    $('#addStore').click(addRow);
+	    //$("#suggestion-block").style.visibility = 'hidden';
 	    fetchStoreList();
 	    $('#getSuggestion').click(getSuggestion);
 });
@@ -77,22 +81,35 @@ var addRow = function(){
 	});
 }
 
-
 var removeFromStoreDropDown = function(storeVal){
 	$('#store-type-filter option[value='+ storeVal +']').remove();		
 }
 
-var drawClusterDonutGraph = function(){
+var drawClusterDonutGraph = function(clusterData){
+	
+	var clusters = clusterData.clusters;
+	var unused  = clusterData.unusedIndex;
+	var totalArr = [];
+	for(var i=0; i<clusters.length; i++){
+		totalArr.push(clusters[i].length);
+		total += clusters[i].length;
+	}
+	
+	var indexesArr = clusterData.clusterIndexes;
+	var storeDtoArr = clusterData.store;
+	var plotData  = [];
+	for(var i=0; i<indexesArr.length; i++){
+		var storeDto = storeDtoArr[i];
+		plotData.push({label:storeDto.name, value : totalArr[indexesArr[i]] });
+	}
+	
+	plotData.push({label:"New Store", value : totalArr[unused] });
 	
 	var donut = new Morris.Donut({
 	    element: 'sales-chart',
 	    resize: true,
 	    colors: ["#3c8dbc", "#f56954", "#00a65a"],
-	    data: [
-	      {label: "Download Sales", value: 12},
-	      {label: "In-Store Sales", value: 30},
-	      {label: "Mail-Order Sales", value: 20}
-	    ],
+	    data: plotData,
 	    hideHover: 'auto'
 	  });	
 }
@@ -108,7 +125,7 @@ var fetchStoreList = function(){
 		success : function(data) {
 			sportData = data;
 			console.info(data);
-			
+
 			for (var i in data) {
 				data[i].index = 1+parseInt(i);
 				idStoreMap[data[i].id] =  data[i];
@@ -139,6 +156,12 @@ function updateMap(storeVal){
 }
 
 var getSuggestion = function(){
+
+
+	console.info($("#suggestion-block"));
+	console.info($("#suggestion-block").style);
+	document.getElementById("suggestion-block").style.display = 'block';
+
 	var count = 0;
 	var res = [];
 	$('#store-table tr').each(function(){
@@ -148,43 +171,108 @@ var getSuggestion = function(){
 	    	obj.dist = $(this).children().eq(2).children().val();
 	    	res.push(obj);
 	    	console.info(obj);
+	    	if(obj.dist == 0)
+	    		alert("Make sure you have selected the range of every store");
 	    }
 	    count++;	    
 	});
 	
+	for(var i=0; mapMarker.length;  i++){
+		mapMarker[i].setMap = null;
+	}
+	mapMarker = [];
 	getClusteringResult(res);
 }
 
 var getClusteringResult = function(res){
-	
-	var select = document.getElementById('store-type-filter');
-	select.appendChild(createOption(0,"Select Store"));
+
 	$.ajax({
-		url : 'fetchStoreList',
+		url : 'getClusteringResult',
 		type : 'POST',
 		contentType : "application/json",
-		data : JSON.stringify(res);
+		data : JSON.stringify(res),
 		success : function(data) {
+			removeCircle(data);
 			console.info(data);
+			updateMapWithData(data);
+			updateSuggestedLocation(data);
+			drawClusterDonutGraph(data);
 		},
 	}).done(function() {
 				
 	});
-	
-	
 }
 
+var removeCircle = function(data){
+	var storeList = data.store;
+	for(var i=0; i<storeList.length; i++){
+		var storeId = storeList[i].id;
+		if(idCircleMap[storeId]!=null){
+			idCircleMap[storeId].setMap(null);
+			idCircleMap[storeId] = null;
+		}
+	}
+}
+
+var updateSuggestedLocation = function(data){
+
+
+	var index = data.unusedIndex;
+	console.info(index);
+	var centroids = data.centroids;
+	var longLat = centroids[index];
+	console.info(longLat);
+	
+	var clusters = data.clusters;
+	var total = 0;
+	for(var i=0; i<clusters.length; i++){
+		total += clusters[i].length;
+	}
+	
+	var percent = ((clusters[index].length) / total)*100 ;
+	document.getElementById("sharePercent").innerHTML = Number((percent).toFixed(2)) + "%";
+	getAddress(longLat.lat,longLat.lng,"saddress");
+	getAddress(longLat.lat,longLat.lng,"caddress");
+}
+
+var getAddress = function(lat, long, address){
 
 
 
+	var geocoder;
+	geocoder = new google.maps.Geocoder();
+	var latlng = new google.maps.LatLng(lat, long);
+	var place, city, state, country; 
+	var res;
 
-
-
-
-
-
-
-
-
-
-
+	geocoder.geocode(
+	    {'latLng': latlng}, 
+	     function(results, status, id) {
+	        if (status == google.maps.GeocoderStatus.OK) {
+	                if (results[0]) {
+	                    var add= results[0].formatted_address ;
+	                    var  value=add.split(",");
+	                    count=value.length;
+	                    country=value[count-1];
+	                    state=value[count-2];
+	                    city=value[count-3];
+	                    place=value[count-4];
+	                    res = place +", "+ city+", "+state+", "+country;
+	                    document.getElementById(address).innerHTML  = res;
+	                    
+	                }
+	                else  {
+	                	res = "address not found" ;
+	                	document.getElementById(address).innerHTML  = res;
+	                    //alert("address not found");
+	                }
+	        }
+	         else {
+	        	 res = "Geocoder failed due to: " + status ;
+	        	 document.getElementById(address).innerHTML  = res;
+	           // alert("Geocoder failed due to: " + status);
+	        }
+	    }
+	);
+	return res;
+}

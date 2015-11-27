@@ -22,6 +22,8 @@ public class StoreDao {
 	
 	private static final String fetchAllStore = "SELECT * FROM store" ;
 	
+	private static final String fetchStoreById = "SELECT * FROM store where id = ?" ;
+	
 	public void insertEmployeeSport(String username, String storeId) throws IOException  {
 		try {
 			template.update(INSERT, (ps) -> {
@@ -57,6 +59,19 @@ public class StoreDao {
 		
 	}
 	
+	public StoreDto fetchStoreDtoById(String id){
+			return template.queryForObject(fetchStoreById,(rs,column)->{
+				StoreDto storeDto = new StoreDto();
+				storeDto.setId(rs.getString("id"));
+				storeDto.setName(rs.getString("name"));
+				storeDto.setLat(rs.getDouble("lat"));
+				storeDto.setLng(rs.getDouble("lng"));
+				storeDto.setPinCode(rs.getInt("pincode"));
+				return storeDto;
+			},id);
+			
+	}
+		
 	
 
 }

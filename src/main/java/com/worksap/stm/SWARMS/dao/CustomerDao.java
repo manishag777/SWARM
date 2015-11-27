@@ -52,6 +52,8 @@ public class CustomerDao {
 	
 	private static final String FETCH_BY_PHONENO = "SELECT * FROM customer where phoneno = ?";
 	
+	//private static final S =  "UPDATE CUSTOMER SET isNewCustomer = ? where id = ?";
+	
 	
 	public List<CustomerDto> getAllCustomer() throws IOException{
 		
@@ -159,9 +161,6 @@ public class CustomerDao {
 	}
 	
 	
-	
-	
-	
 	public void update(CustomerDto customer) throws IOException {
 			
 			System.out.println(customer);
@@ -241,7 +240,7 @@ public class CustomerDao {
 	    }
 	}
 	
-public CustomerDto getCustomerById(int id){
+	public CustomerDto getCustomerById(int id){
 		
 		CustomerDto customerDto = new CustomerDto();
 
@@ -312,4 +311,17 @@ public CustomerDto getCustomerById(int id){
 		customerDto.setSportsInterest(sportInterest);
 		return customerDto;
 	}
+	
+	public void insertPlace(String place, int id){
+		
+		String sql = "update customer set place = ? where id = ?";
+		System.out.println(place);
+		template.update(sql,(ps)->{
+			ps.setString(1,place);
+			ps.setInt(2,id);
+		});
+		
+		
+	}
+
 }

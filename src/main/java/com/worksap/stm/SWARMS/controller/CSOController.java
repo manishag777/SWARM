@@ -31,6 +31,7 @@ import com.worksap.stm.SWARMS.service.spec.CustomerRelationService;
 import com.worksap.stm.SWARMS.utils.KmeanClustering;
 import com.worksap.stm.SWARMS.dto.TemplatMailDto;
 import com.worksap.stm.SWARMS.entity.CustomerClusterEntity;
+import com.worksap.stm.SWARMS.entity.StoreFetchEntity;
 
 
 @Controller
@@ -174,6 +175,26 @@ public class CSOController {
 		return null;
 	}
 	
+	@RequestMapping(value = "/getClusteringResult", method = RequestMethod.POST )
+	@ResponseBody
+	public CustomerClusterEntity getClusteringResult(@RequestBody List<StoreFetchEntity> storeFetchEntities ){
+		
+		for(int i=0; i<storeFetchEntities.size(); i++)
+			System.out.println(storeFetchEntities.get(i));
+		
+		return kmeanClustering.findClusterEntities(storeFetchEntities);
+	}
+	
+//	@RequestMapping(value = "/getClusteringResult", method = RequestMethod.POST )
+//	@ResponseBody
+//	public void getClusteringResult(CustomerClusterEntity customerClusterEntity ){
+//		
+//		List<StoreFetchEntity> storeFetchEntities = customerClusterEntity
+//		
+//		for(int i=0; i<storeFetchEntities.size(); i++)
+//			System.out.println(storeFetchEntities.get(i));
+//	
+//	}
 	
 	
 	

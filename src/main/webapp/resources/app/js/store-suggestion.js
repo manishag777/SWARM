@@ -3,26 +3,7 @@ var googleMap;
 $(document).ready(function () {
 	var js = document.createElement("script");
 	js.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD-jncTVkBCtTvR0_tvhOIZ5qYAGZrKcWQ&signed_in=true&callback=initMap';
-	//document.body.appendChild(js);
 	initMap();
-	
-//	$.ajax({
-//		url : 'fetchClusterCustomerDto',
-//		type : 'GET',
-//		contentType : "application/json",
-//		success : function(data) {
-//			console.info(data);
-//			//updateMapWithData(data);
-//			console.info(data);
-//		},
-//		
-//		error : function(e) {
-//			//alert ("sorry! Due to some problem couldn't fetch the gift-card details");
-//		},
-//	}).done(function() {
-//		
-//	});
-	
 });
 
 function initMap() {
@@ -38,6 +19,7 @@ function initMap() {
 
 //Adds a marker to the map.
 var addMarker =  function(location, icon, pinCode, draggable) {
+
   // from the array of alphabetical characters.
 	console.info(location);
   var marker = new google.maps.Marker({
@@ -58,27 +40,33 @@ var addMarker =  function(location, icon, pinCode, draggable) {
   google.maps.event.addListener(marker, 'drag', function() {
       //updateMarkerStatus('Dragging...');
       console.info("Dragging.........");
-     // updateMarkerPosition(marker.getPosition());
+     // updateMarkerPosition(marker.getPosition());\myMarker.position
+      
   });
 
   google.maps.event.addListener(marker, 'dragend', function() {
-     // updateMarkerStatus('Drag ended');
-      //geocodePosition(marker.getPosition());
-      console.info("Dragend.........");
+    
+      $("#clong").val(Number((marker.getPosition().lng()).toFixed(5)));
+      $("#clat").val(Number((marker.getPosition().lat()).toFixed(5)));
+      getAddress(marker.getPosition().lat(),  marker.getPosition().lng(),"caddress");
   });
   
   return marker;
   
 }
 
-
 function updateMapWithData(data){
+
 	
 	var centroidsList = data.centroids;
 	var customersClusters = data.clusters;
 	var radius = data.radius;
+	var index = data.unusedIndex;
 	for(var i=0; i<centroidsList.length; i++){
-		addMarker({lat : centroidsList[i].lat, lng : centroidsList[i].lng },'resources/app/img/map-marker/centroid-2.png',"Store",false);
+		if(i!=index){
+			var marker = addMarker({lat : centroidsList[i].lat, lng : centroidsList[i].lng },'resources/app/img/map-marker/centroid-2.png',"Store",false);
+			mapMarker.push(marker);
+		}
 	}
 	
 	drawCircle(centroidsList, radius);
@@ -88,6 +76,7 @@ function updateMapWithData(data){
 		for(var j=0; j<customersList.length; j++){
 			var customer = customersList[j];
 			addMarker({lat : customer.lat, lng : customer.lng },'resources/app/img/map-marker/cust'+(i%5 + 1)+'.png', customer.pinCode+"",false);
+			mapMarker.push(marker);
 		}
 	}
 	
@@ -97,20 +86,25 @@ function updateMapWithData(data){
 		var store = storeList[i];
 		console.info("store");
 		console.info(store);
-		addMarker({lat : store.lat, lng : store.lng },'resources/app/img/map-marker/store'+((clusterIndexes[i])%5 + 1)+'.png', store.address+"",false);
+		var marker =  addMarker({lat : store.lat, lng : store.lng },'resources/app/img/map-marker/store'+((clusterIndexes[i])%5 + 1)+'.png', store.address+"",false);
+		mapMarker.push(marker);
 	}
 	//Suggestion marker
-	var index = data.unusedIndex;
-	addMarker({lat : centroidsList[index].lat, lng : centroidsList[index].lng },google.maps.SymbolPath.flag,"Open Store here",true);
-
-
+	
+	var marker =  addMarker({lat : centroidsList[index].lat, lng : centroidsList[index].lng },'resources/app/img/map-marker/blue-dot.png',"Open Store here",false);
+	mapMarker.push(marker);
+	var marker2 =  addMarker({lat : centroidsList[index].lat, lng : centroidsList[index].lng },'resources/app/img/map-marker/red-dot.png'," customized store location",true);
+	mapMarker.push(marker2);
+	$("#clong").val(Number((centroidsList[index].lng).toFixed(5)));
+    $("#clat").val(Number((centroidsList[index].lat).toFixed(5)));
+	
 }
 
 function drawCircle(centroids,radius){
 
 	for (var i in centroids) {
 	  // Add the circle for this city to the map.
-		console.info(gmc_cust[i%5]);
+		//console.info(gmc_cust[i%5]);
 	  var cityCircle = new google.maps.Circle({
 	    strokeColor: '#000000',
 	    strokeOpacity: 0.8,

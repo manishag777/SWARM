@@ -74,23 +74,47 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							</div>
 							
 							<hr/>
-							<div class="progress sm">
-							    <div class="progress-bar progress-bar-info  progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:80% ">
+							
+							<div class="progress xs">
+							    <div class="progress-bar progress-bar-info  progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100% ">
 							     
 							    </div>
 							 </div>
 							 
-							 <div  class = "col-md-6 col-sm-4 col-xs-12" id = "sales-chart">
-							 </div>
+							 <div id = "suggestion-block" style = "display:none">
 							 
-							<div class="col-md-6 col-sm-4 col-xs-12 w3-card-4 w3-white" id = "suggestion-sticker">
-								<p>Suggested Location: </p>
-								<p>Targeting Customer: </p>
+								 <div  class = "col-md-6 col-sm-4 col-xs-12" id = "sales-chart">
+								 </div>
+							 
+								<div class="col-md-6 col-sm-4 col-xs-12 w3-card w3-white" id = "suggestion-sticker">
+									<h6><small>Suggested Location</small></h6>
+									 <p><img src = "resources/app/img/map-marker/blue-dot.png" style = "height:40px; width:40px"/> <small><span id = "saddress"></span></small></p>
+									 <h6><b><small>Targeting Customer</small></b></h6>
+									 <p> &nbsp; &nbsp;<span id="sharePercent"></span></p><br/><br/> 
+								</div>
+							
+								<div class="col-md-12 col-sm-4 col-xs-12">
+									 <h2 class = "w3-white"><small>Customize suggested location</small> </h2>
+									 <table>
+										 <tr>
+										 	<td><img src = "resources/app/img/map-marker/red-dot.png" style = "height:40px; width:40px"/></td>
+										 	<td>Long&nbsp;&nbsp;</td>
+										 	<td><input name="long" type="text" class="form-control" id="clong" readonly = "readonly" style = "width:150px" /></td>
+										 	<td>Lat&nbsp;&nbsp;</td>
+										 	 <td><input name="lat" type="text" class="form-control" id="clat" readonly = "readonly" style = "width:150px" /></td>
+									 	</tr>
+									 	<tr>
+										 	<td> <h3 class = "w3-white"><small>Address</small> </h3></td>
+									 	</tr>
+									 	<tr>
+										 	<td colspan="4"><p><small><span id = "caddress"></span></small></p></td>
+									 	</tr>
+									 	
 								
-								
-							</div>
+									 </table> 
+								</div>
 			                
-			                
+			                </div>
 			               
               			</div><!-- /.box -->
          			</div>
