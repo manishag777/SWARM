@@ -20,7 +20,7 @@ var BookStore = {};
 jQuery.fn.serializeObject = function() {
 	var arrayData, objectData;
 	arrayData = this.serializeArray();
-	console.info(arrayData);
+	//console.info(arrayData);
 	objectData = {};
 
 	$.each(arrayData, function() {

@@ -1,0 +1,50 @@
+/* MY CSS */
+
+#range-div{display: inline-block; width:100%;}
+#date-range {float: right; border-radius: 5px; background: #F8F8F8 ; cursor: pointer; margin: 5px 5px; padding: 5px 5px; border: 1px solid #ccc; display: inline-block;}
+
+.add-event{
+    height:32px;
+    margin-top:4px;
+}
+
+.productGrid{
+    margin-left:30px;
+    z-index : 500;
+}
+
+.filter-row{
+    background-color:black;
+    height:100px;
+    z-index:1;
+}
+
+.store-sport{
+    padding:14px 5px 15px 0px;
+    margin:0 0 0 0;
+}
+
+.store-sport .sport-group{
+    padding:0px 0px 0px 0px;
+    height:50px;
+}
+
+.store-sport .store-group{
+    padding:0px 0px 0px 0px;
+    margin:0 0 0 15px;
+}
+
+
+.date-div{
+    margin-left:-150px;
+    color:black;
+}
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.past-event {
+    background-color: red;
+    color: #fff;
+}
+
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.upcoming-event {
+    background-color: green;
+    color: #fff;
+}

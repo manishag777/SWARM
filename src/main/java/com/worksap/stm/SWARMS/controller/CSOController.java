@@ -23,9 +23,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.worksap.stm.SWARMS.dao.CustomerDao;
 import com.worksap.stm.SWARMS.dao.EmployeeDao;
+import com.worksap.stm.SWARMS.dao.EventDao;
 import com.worksap.stm.SWARMS.dao.TemplateMailDao;
 import com.worksap.stm.SWARMS.dto.CustomerDto;
 import com.worksap.stm.SWARMS.dto.EmployeeDto;
+import com.worksap.stm.SWARMS.dto.EventDto;
 import com.worksap.stm.SWARMS.dto.GiftCardDto;
 import com.worksap.stm.SWARMS.service.spec.CustomerRelationService;
 import com.worksap.stm.SWARMS.utils.KmeanClustering;
@@ -51,6 +53,9 @@ public class CSOController {
 	
 	@Autowired
 	KmeanClustering kmeanClustering;
+	
+	@Autowired
+	EventDao eventDao;
 	
 	@RequestMapping("/manageGiftCard")
     public ModelAndView manageGiftCard(Principal principal) {
@@ -185,18 +190,25 @@ public class CSOController {
 		return kmeanClustering.findClusterEntities(storeFetchEntities);
 	}
 	
-//	@RequestMapping(value = "/getClusteringResult", method = RequestMethod.POST )
-//	@ResponseBody
-//	public void getClusteringResult(CustomerClusterEntity customerClusterEntity ){
-//		
-//		List<StoreFetchEntity> storeFetchEntities = customerClusterEntity
-//		
+	@RequestMapping(value = "/addEvent", method = RequestMethod.POST )
+	@ResponseBody
+	public int addEvent(@RequestBody EventDto eventDto ){
+		
+		//List<StoreFetchEntity> storeFetchEntities = customerClusterEntity
+		System.out.println(eventDto);
+		
 //		for(int i=0; i<storeFetchEntities.size(); i++)
-//			System.out.println(storeFetchEntities.get(i));
-//	
-//	}
+//			System.out.println(eventDao.get(i));
+		
+		try {
+			return eventDao.insert(eventDto);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
 	
 	
 	
-	
+	}
 }
