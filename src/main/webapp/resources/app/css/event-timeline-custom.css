@@ -1,5 +1,29 @@
 /* MY CSS */
 
+
+
+#analysis-modal-dialog .modal-body{
+    height:700px;
+}
+
+#tableDiv, #tableDiv1 {
+    height:670px;
+    overflow:scroll !important; 
+}
+
+#chartDiv, #chartDiv1{
+    height:670px;
+    border-style: solid;
+    border-width: 0px 0px 0px 1px;
+    border-color:grey;
+    overflow:scroll !important; 
+}
+
+
+#analysis-modal-dialog{
+    width:67%;
+    margin-left:400px;
+}
 #range-div{display: inline-block; width:100%;}
 #date-range {float: right; border-radius: 5px; background: #F8F8F8 ; cursor: pointer; margin: 5px 5px; padding: 5px 5px; border: 1px solid #ccc; display: inline-block;}
 
@@ -45,6 +69,11 @@
 }
 
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.upcoming-event {
+    background-color: orange;
+    color: #fff;
+}
+
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.on-going-event {
     background-color: green;
     color: #fff;
 }

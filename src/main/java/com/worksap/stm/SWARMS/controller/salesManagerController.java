@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.worksap.stm.SWARMS.dao.EmployeeDao;
+import com.worksap.stm.SWARMS.dao.EventDao;
 import com.worksap.stm.SWARMS.dao.MarkingDao;
 import com.worksap.stm.SWARMS.dao.NotificationDao;
 import com.worksap.stm.SWARMS.dao.ProductDetailDao;
@@ -48,6 +49,9 @@ import com.worksap.stm.SWARMS.entity.ProductFetchEntity;
 import com.worksap.stm.SWARMS.entity.ProductFilterEntity;
 import com.worksap.stm.SWARMS.entity.ProductListEntity;
 import com.worksap.stm.SWARMS.entity.ProductProfitEntity;
+import com.worksap.stm.SWARMS.entity.TopProductFilterEntity;
+import com.worksap.stm.SWARMS.entity.TopProductsEntity;
+import com.worksap.stm.SWARMS.entity.TopReturnEntity;
 import com.worksap.stm.SWARMS.service.spec.EmailService;
 import com.worksap.stm.SWARMS.service.spec.MyProductService;
 
@@ -81,6 +85,9 @@ public class salesManagerController {
 	
 	@Autowired
 	private MarkingDao markingDao;
+	
+	@Autowired
+	private EventDao eventDao;
 	@RequestMapping("/manageProduct")
     public ModelAndView manageProduct(Principal principal) {
 		System.out.println("you called salesManager");
@@ -115,8 +122,6 @@ public class salesManagerController {
 	}
 	
 	
-	
-	
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST )
 	@ResponseBody
@@ -124,7 +129,6 @@ public class salesManagerController {
 		myProductService.insert(productDto);
 	}
 	
-
 	
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/getAllProduct", method = RequestMethod.GET)
@@ -134,9 +138,6 @@ public class salesManagerController {
 		return productDao.getProductsListByFilter(sport_id, brand,ti);
 	}
 
-	
-		
-	
 	
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/returnProductData", method = RequestMethod.POST)
@@ -184,8 +185,6 @@ public class salesManagerController {
 	}
 	
 	
-
-	
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/editProduct", method = RequestMethod.POST )
 	@ResponseBody
@@ -225,7 +224,6 @@ public class salesManagerController {
 		//return customerService.getCustomerById(id);
 		return productDetailDao.fetchPrice(pid, color, size, storeId);
 	}
-	
 	
 
 	@PreAuthorize("hasAuthority('MD')")
@@ -341,6 +339,11 @@ public class salesManagerController {
 		
 	}
 	
-	
-	
+	@RequestMapping(value = "/fetchDataOfTopProducts", method = RequestMethod.POST)
+	@ResponseBody
+	public TopReturnEntity fetchDataOfTopProducts(@RequestBody TopProductFilterEntity topProductFilterEntity){
+		System.out.println(topProductFilterEntity);
+		return new TopReturnEntity(2,2,2,eventDao.getTopProductsData(topProductFilterEntity.getEventId()));
+		
+	}
 }

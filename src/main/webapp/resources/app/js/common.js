@@ -56,4 +56,39 @@ function validateEmail(email) {
     return re.test(email);
 }
 
+var createOption = function(value, name){
+	var opt = document.createElement('option');
+	opt.value = value;
+	opt.innerHTML = name;
+	return opt;
+}
+
+var getTodayDate = function(){
+	var q = new Date();
+	var mm = q.getMonth()+1;
+	var dd = q.getDay();
+	var yyyy = q.getFullYear();
+	
+	
+	if(dd<10) {
+	    dd='0'+dd
+	} 
+
+	if(mm<10) {
+	    mm='0'+mm
+	} 
+	
+	today = yyyy+'-'+mm+'-'+dd;
+	console.info(today);
+	today = "2015-10-31";
+	var date = new Date(today);
+	return date;
+}
+
+var getStandardDate = function(x){
+	var a = x.split('-');
+	var date = new Date (a[0], a[1] - 1,a[2]);//using a[1]-1 since Date object has month from 0-11
+	return date;
+}
+
 

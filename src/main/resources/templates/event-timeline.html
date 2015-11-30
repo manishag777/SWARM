@@ -43,29 +43,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		                    <div class = "box-title col-md-5">
 			                    <h>Store: &nbsp;</h>
 			                      <div class="box-title">
-										<select id="store-type-filter" class="form-control select-box-inline office-selects">
-											<option name = "storeId" selected="selected" value='0' >All sports</option>
-										</select>
+										<select id="store-type-filter2" class="form-control select-box-inline office-selects" style = "width:120px"/>
 								  </div>
 								  					  
 								  <h>&nbsp;&nbsp;&nbsp;&nbsp;Sport: &nbsp;</h>
 			                      <div class="box-title">
-										<select id="sport-type-filter" class="form-control select-box-inline office-selects" style = "width:180px"/>
+										<select id="sport-type-filter" class="form-control select-box-inline office-selects" style = "width:120px"/>
 								  </div>
 							  </div>
-							
-							 
-							  
-							
-<!-- 							  <div class = "box-title col-md-5"> -->
-<!-- 								  <div class="input-group"> -->
-<!-- 						              <input id = "search-product-input" type="text" name="q" class="form-control" placeholder="Search Product"/> -->
-<!-- 						              <span class="input-group-btn"> -->
-<!-- 						                <button type="submit" name="search" id="search-product-btn" class="btn btn-flat"><i class="fa fa-search"></i></button> -->
-<!-- 						              </span> -->
-<!-- 			            		</div> -->
-<!-- 		            		</div> -->
-							
+						
 		                      <div class="box-title pull-right">
 		                      <div id="rangeDiv" class = "col-md-9"> 
 								<div id="date-range">
@@ -122,18 +108,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 								  <div class="sport-group form-group col-lg-5">
 									<label for="sport">Sport</label>
 									<select id="dropdown_sport" class="form-control" name="sportId" multiple = "multiple">
-								  		<option value="tennis">Tennis</option>
-								  		<option value="cricket">Cricket</option>
-								  		<option value="gola">Gola</option>
 									</select>
 								 </div>
 	                                                
 		                        <div class="store-group form-group col-lg-5">
 									<label for="Store">Targeting Stores</label>
-									<select id="dropdown_office" class="form-control" name="storeId" multiple = "multiple">
-								  		<option value="ranchi">Ranchi</option>
-								  		<option value="ramgarh">Ramgarh</option>
-								  		<option value="gola">Gola</option>
+									<select id="dropdown_store" class="form-control" name="storeId" multiple = "multiple">
 									</select>
 								</div>
 							</div>
@@ -154,6 +134,68 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		</div>
 	</div>	
 		
+		<div class="modal fade" id="analysis-modal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-mode="add" >
+		<div class="modal-dialog" id = "analysis-modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<ul class="nav nav-pills">
+					  <li class="active" id = "topSellingProductsTab"><a href="#">Top Selling Products</a></li>
+					  <li id = "topCustomersTab"><a href="#" >Top Customers</a></li>
+					</ul>
+					
+				</div>
+				<div class="modal-body">
+					<div id= "top-product">
+						<div class ="col-md-7" id = "tableDiv">
+							<table id="top-product-table" class="table table-striped table-bordered">
+								<thead>
+			                    	<tr class = "table-header">
+			                    		<td style= 'width: 4%'/>
+			                    		<td style= 'width: 16%'> Products(Top) </td>
+			                    		<td style= 'width: 40%' > Sales(INR.) </td>
+			                    		<td style= 'width: 20%'> % </td>
+			                    		<td style= 'width: 20%'> Cumulative(%) </td>
+			                    	</tr>
+			                    </thead>
+				              </table>
+						</div>
+						<div class ="col-md-5" id = "chartDiv">
+					
+						</div>
+					</div>
+					
+					<div id= "top-customer" style = "display:none">
+						<div class ="col-md-7" id = "tableDiv1">
+							<table id="top-customer-table" class="table table-striped table-bordered">
+								<thead>
+			                    	<tr class = "table-header">
+			                    		<td style= 'width: 4%'/>
+			                    		<td style= 'width: 16%'> Customer(Top) </td>
+			                    		<td style= 'width: 40%' > Sales(INR.) </td>
+			                    		<td style= 'width: 20%'> % </td>
+			                    		<td style= 'width: 20%'> Cumulative(%) </td>
+			                    	</tr>
+			                    </thead>
+				              </table>
+						</div>
+						<div class ="col-md-5" id = "chartDiv1">
+					
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button id="save-event" type="button" class="btn btn-primary">Save Event</button>
+				</div>
+			</div>
+		</div>
+	</div>	
 		
 		
 		
@@ -170,21 +212,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
-
-      <!-- Main Footer -->
-      <footer class="main-footer">
-        <!-- To the right -->
-        <div class="pull-right hidden-xs">
-          Anything you want
-        </div>
-        <!-- Default to the left -->
-        <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
-      </footer>
+ <div th:replace="fragments/footer :: footer2"></div>
+<!--       Main Footer -->
+<!--       <footer class="main-footer"> -->
+<!--         To the right -->
+<!--         <div class="pull-right hidden-xs"> -->
+<!--           Anything you want -->
+<!--         </div> -->
+<!--         Default to the left -->
+<!--         <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved. -->
+<!--       </footer> -->
       
        <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
 
-    
+   
      <!-- jQuery 2.1.4 -->
     <script src="resources/lib/js/jquery-2.1.4.min.js" type="text/javascript"></script>
     <!-- Bootstrap 3.3.5 -->
@@ -200,8 +242,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
  	<script src="resources/lib/js/bootstrap3-wysihtml5.all.min.js"></script>
  	<script src="resources/lib/js/daterangepicker/moment.min.js"></script>
  	<script src="resources/lib/js/daterangepicker/daterangepicker.js"></script>
- 	<script src="resources/app/js/event-timeline.js" type="text/javascript"></script>
- 	
+ 	<script src="resources/lib/js/datatables.min.js" type="text/javascript"></script>
+ 	<script src="resources/app/js/customer-analysis.js" type="text/javascript"></script>
+    <script src="resources/app/js/event-analysis.js" type="text/javascript"></script>
+    <script src="resources/app/js/event-timeline.js" type="text/javascript"></script>
+    
     
     
     <script>

@@ -13,10 +13,13 @@ import lombok.NoArgsConstructor;
 @Data
 public class EventDto {
 	
+	int id;
 	String eventName;
 	String eventDetail;
 	String eventDate;
 	List<String> sportId;
 	List<String> storeId;
+	String fromDate;
+	String toDate;
 	
 }
