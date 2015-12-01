@@ -2,16 +2,16 @@
 
 
 
-#analysis-modal-dialog .modal-body{
+.modal-dialog .modal-body{
     height:700px;
 }
 
-#tableDiv, #tableDiv1 {
+.tableDiv {
     height:670px;
     overflow:scroll !important; 
 }
 
-#chartDiv, #chartDiv1{
+.chartDiv{
     height:670px;
     border-style: solid;
     border-width: 0px 0px 0px 1px;
@@ -20,12 +20,12 @@
 }
 
 
-#analysis-modal-dialog{
-    width:67%;
+.analysis-modal-dialog{
+    width:75%;
     margin-left:400px;
 }
-#range-div{display: inline-block; width:100%;}
-#date-range {float: right; border-radius: 5px; background: #F8F8F8 ; cursor: pointer; margin: 5px 5px; padding: 5px 5px; border: 1px solid #ccc; display: inline-block;}
+#future-rangeDiv, #range-div, #range-div1{display: inline-block; width:100%;}
+#date-range, #date-range1, #future-date-range {float: right; border-radius: 5px; background: #F8F8F8 ; cursor: pointer; margin: 5px 5px; padding: 5px 5px; border: 1px solid #ccc; display: inline-block;}
 
 .add-event{
     height:32px;

@@ -177,7 +177,7 @@ public class ProductDetailDao {
 		template.update(UPDATE_PROFIT_MARGIN, (ps) -> {
 			ps.setInt(1, productProfitEntity.getProfit_id());
 			ps.setString(2, productProfitEntity.getPid());
-			ps.setString(3, "ranchi");
+			ps.setString(3, "delhi");
 			ps.setString(4, productProfitEntity.getSize());
 			ps.setString(5, productProfitEntity.getColor());
 			

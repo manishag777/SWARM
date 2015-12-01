@@ -56,8 +56,8 @@ $(document).ready(function() {
 				        	   var cp = data.price;
 				        	   var discount = data.discount;
 				        	   var margin = data.margin;
-				        	   var sp1 =  (cp + cp*margin/100);
-				        	   var sp2 =  (sp1) - (sp1)*discount/100 ;
+				        	   var sp1 =  parseFloat(cp + cp*margin/100).toFixed(2);
+				        	   var sp2 =  parseFloat((sp1) - (sp1)*discount/100).toFixed(2); ;
 				        	   
 				        	   if(discount>0)
 				        		   return '<h><del style = "color:red">'+sp1+'</del>&nbsp;&nbsp;&nbsp;<span style = "color:green">' + sp2+'</span></h>' ;

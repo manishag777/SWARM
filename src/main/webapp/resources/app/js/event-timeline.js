@@ -2,6 +2,7 @@ var fromDate, toDate;
 var eventType3 = 'upcoming-event"';
 var eventType2 = 'on-going-event"';
 var eventType1 = 'past-event"';
+var currentEventId = '';
 
 $(document).ready(function(){
 	
@@ -58,9 +59,6 @@ $(document).ready(function(){
 
 var createRangeCalender =  function(id) {
 
-
-	console.info("yes");
-	
     function cb(start, end) {
     	console.info("start = ");
     	console.info(start);
@@ -73,11 +71,11 @@ var createRangeCalender =  function(id) {
 
     $(id).daterangepicker({
         ranges: {
-           '<small>Last 1 month to next 1 mon.</small>':   [moment().subtract(1, 'months'), moment().add(1, 'months')],
-           '<small>Last 3 month to next 1 mon.</small>': [moment().subtract(3, 'months'), moment().add(1, 'months')],
-           '<small>Last 3 month to next 3 mon.</small>': [moment().subtract(3, 'months'), moment().add(3, 'months')],
-           '<small>Last 6 month to next 1 mon.</small>': [moment().subtract(6, 'months'), moment().add(1, 'months')],
-           '<small>Last 6 month to next 3 mon.</small>': [moment().subtract(6, 'months'), moment().add(3, 'months')]
+           'Previous 1 month to next 1 month':   [moment().subtract(1, 'months'), moment().add(1, 'months')],
+           'Previous 3 month to next 1 month' : [moment().subtract(3, 'months'), moment().add(1, 'months')],
+           'Previous 3 month to next 3 month': [moment().subtract(3, 'months'), moment().add(3, 'months')],
+           'Previous 6 month to next 1 month': [moment().subtract(6, 'months'), moment().add(1, 'months')],
+           'Previous 6 month to next 3 month':  [moment().subtract(6, 'months'), moment().add(3, 'months')]
         }
     }, cb);
 
@@ -118,14 +116,16 @@ var addEvent = function(){
 
 }
 
-var createDiv = function(eventType, date, title, eventInfo ){
+var createDiv = function(eventType, date, title, eventInfo, eventNumber, eventId){
 
-	
+
+	console.info("eventNumber = ");
+	console.info(eventNumber);
 	var article = '<article class="timeline-entry">'
 		
 		   + '<div class="timeline-entry-inner">'
 
-		    + '<div class="timeline-icon '+eventType+' onClick = "openAnalysisModal()">'   
+		    + '<div class="timeline-icon '+eventType+' onClick = "openAnalysisModal('+eventNumber+','+eventId +')">'   
 		    +  '<i class="entypo-camera"></i>'      
 			+	'<div class = "date-div">'		 
 			+	'<h class = "date">'+date+'</h>'		
@@ -250,8 +250,7 @@ var fetchEventList = function(){
 				var fromDate = data[i].fromDate;
 				var toDate = data[i].toDate;
 				var date = getStandardDate(toDate);
-				//console.info(today-date);
-				$(".timeline-centered").append(createDiv(getEventType(data[i]), getFormattedDate(getStandardDate(data[i].fromDate)), data[i].eventName, data[i].eventDetail));
+				$(".timeline-centered").append(createDiv(getEventType(data[i]), getFormattedDate(getStandardDate(data[i].fromDate)), data[i].eventName, data[i].eventDetail, getEventNumber(data[i]),data[i].id ));
 				
 			}
 		},
@@ -274,29 +273,30 @@ var getEventType = function(data){
 	
 }
 
-var getFormattedDate = function(date){
+var getEventNumber = function(data){
+	var fromDate = getStandardDate(data.fromDate);
+	var toDate = getStandardDate(data.toDate);
+	var today = new Date();
+	if(toDate<today)
+		return '0';                  //past Event
+ 	if(fromDate>today)
+		return '1';                // future Event
+	return '2';            // current event
 	
-	var monthNames = [
-	                  "Jan", "Feb", "Mar",
-	                  "Apr", "May", "Jun", "Jul",
-	                  "Aug", "Sep", "Oct",
-	                  "Nov", "Dec"
-	                ];
-
-    
-    var day = date.getDate();
-    var monthIndex = date.getMonth();
-    var year = date.getFullYear();
-    console.log(day, monthNames[monthIndex], year);
-    
-    return day+"-"+monthNames[monthIndex]+"-"+year ;
-    
 }
 
-var openAnalysisModal = function(){
-	$("#analysis-modal").modal('show');
-	fetchDataOfTopProducts();
-	fetchDataOfTopCustomers();
+var openAnalysisModal = function(eventNumber,id){
+	console.info("openAnalysisModal = " + eventNumber);
+	if(eventNumber=='0')
+		$("#analysis-modal").modal('show');
+	else if(eventNumber=='1'){
+		$("#future-analysis-modal").modal('show');
+		
+	}
+	else $("#current-analysis-modal").modal('show');
+	currentEventId = id;
+	//fetchDataOfTopProducts();
+	//fetchDataOfTopCustomers();
 	
 }
 

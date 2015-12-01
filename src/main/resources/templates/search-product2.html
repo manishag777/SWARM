@@ -31,96 +31,108 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-         	<div class="container" id="layout">
-		<div class="row">
+				<div class="row">
+					<div class="col-md-9" id = "productListDiv">
+			                  <div class="box box-danger">
+			                    <div class="box-header with-border">
+			                    <div class = "box-title col-md-12">
+				                    <h><small>Sport:</small> &nbsp;</h>
+				                      <div class="box-title">
+											<select id="sport-type-filter" class="form-control select-box-inline office-selects">
+												<option name = "sportId" selected="selected" value='0' style = "width:140px">All sports</option>
+											</select>
+									  </div>
+									  					  
+									  <h>&nbsp;&nbsp;&nbsp;<small>Brand: &nbsp;</small></h>
+				                      <div class="box-title">
+											<select id="brand-type-filter" class="form-control select-box-inline office-selects" style = "width:140px"/>
+									  </div>
+									  
+									  <h>&nbsp;&nbsp;&nbsp;<small>Price Range: &nbsp;</small></h>
+				                      <div class="box-title">
+											<select id="priceRange-type-filter" class="form-control select-box-inline office-selects" style = "width:140px">
+												<option value="0-1000" selected = "selected">Any</option>
+												<option value="0-10">INR less than 10</option>
+												<option value="10-20">INR 10-20</option>
+												<option value="20-50">INR 20-50</option>
+												<option value="1500-3000">INR 1500-3000</option>
+												<option value="3000-5000">INR 3000-5000</option>
+												<option value="5000-100000">INR more than 5000</option>
+											</select>
+									  </div>
+									  
+									  <h>&nbsp;&nbsp;&nbsp;<small>Discount: &nbsp;</small></h>
+				                      <div class="box-title">
+											<select id="discount-type-filter" class="form-control select-box-inline office-selects" style = "width:140px">
+												<option value="0" selected = "selected">All</option>
+												<option value="15">Min 15% Off.</option>
+												<option value="30" >Min. 30% Off.</option>
+												<option value="50" >Min. 50% Off.</option>
+											</select>
+									  </div>
+									  
+									  <h>&nbsp;&nbsp;&nbsp;<small>Margin: &nbsp;</small></h>
+				                      <div class="box-title">
+											<select id="profit-group-filter" class="form-control select-box-inline office-selects" style = "width:140px"/>
+									  </div>
+									  
+								  </div>
+									
+								  <div class = "search-box">
+									  <div class = "box-title col-md-12">
+										  <div class="input-group">
+								              <input id = "search-product-input" type="text" name="q" class="form-control" placeholder="Search Product"/>
+								              <span class="input-group-btn">
+								                <button type="submit" name="search" id="search-product-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+								              </span>
+					            		</div>
+				            		 </div>
+			            		</div>
+								
+								<div class="table-div col-lg-12 col-sm-12">
+									<table id="product-table" class="table table-striped table-bordered">
+										<thead>
+											<tr class ="table-header">
+												<th style= 'width: 2%'></th>
+												<th style= 'width: 12%' >Model No.</th>
+												<th style= 'width: 20%'>Name</th>
+												<th style= 'width: 7%'>Color</th>
+												<th style= 'width: 7%'>Size</th>
+												<th style= 'width: 7%'>Discount(%)</th>
+												<th style= 'width: 7%'>Price(INR.)</th>
+												<th style= 'width: 7%'>Available</th>
+												<th style= 'width: 12%'>Sub. Customer</th>
+											</tr>
+										</thead>
+									</table>
+								</div>            		
 			
-		<div class="col-md-12 productGrid">
-				 
-                  <!-- USERS LIST -->
-                  <div class="box box-danger">
-                    <div class="box-header with-border">
-                    <div class = "box-title col-md-12">
-	                    <h><small>Sport:</small> &nbsp;</h>
-	                      <div class="box-title">
-								<select id="sport-type-filter" class="form-control select-box-inline office-selects">
-									<option name = "sportId" selected="selected" value='0' style = "width:140px">All sports</option>
-								</select>
-						  </div>
-						  					  
-						  <h>&nbsp;&nbsp;&nbsp;<small>Brand: &nbsp;</small></h>
-	                      <div class="box-title">
-								<select id="brand-type-filter" class="form-control select-box-inline office-selects" style = "width:140px"/>
-						  </div>
-						  
-						  <h>&nbsp;&nbsp;&nbsp;<small>Price Range: &nbsp;</small></h>
-	                      <div class="box-title">
-								<select id="priceRange-type-filter" class="form-control select-box-inline office-selects" style = "width:140px">
-									<option value="0-1000" selected = "selected">Any</option>
-									<option value="0-10">INR less than 10</option>
-									<option value="10-20">INR 10-20</option>
-									<option value="20-50">INR 20-50</option>
-									<option value="1500-3000">INR 1500-3000</option>
-									<option value="3000-5000">INR 3000-5000</option>
-									<option value="5000-100000">INR more than 5000</option>
-								</select>
-						  </div>
-						  
-						  <h>&nbsp;&nbsp;&nbsp;<small>Discount: &nbsp;</small></h>
-	                      <div class="box-title">
-								<select id="discount-type-filter" class="form-control select-box-inline office-selects" style = "width:140px">
-									<option value="0" selected = "selected">All</option>
-									<option value="15">Min 15% Off.</option>
-									<option value="30" >Min. 30% Off.</option>
-									<option value="50" >Min. 50% Off.</option>
-								</select>
-						  </div>
-						  
-						  <h>&nbsp;&nbsp;&nbsp;<small>Margin: &nbsp;</small></h>
-	                      <div class="box-title">
-								<select id="profit-group-filter" class="form-control select-box-inline office-selects" style = "width:140px"/>
-						  </div>
-						  
-					  </div>
-						
-					  <div class = "search-box">
-						  <div class = "box-title col-md-12">
-							  <div class="input-group">
-					              <input id = "search-product-input" type="text" name="q" class="form-control" placeholder="Search Product"/>
-					              <span class="input-group-btn">
-					                <button type="submit" name="search" id="search-product-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-					              </span>
-		            		</div>
-	            		 </div>
-            		</div>
+			
+			
+			                   </div><!-- /.box-header -->
+			                    
+			                  </div><!--/.box -->
+			                </div><!-- /.col -->
+			          
 					
-					<div class="table-div col-lg-12 col-sm-12">
-						<table id="product-table" class="table table-striped table-bordered">
-							<thead>
-								<tr class ="table-header">
-									<th style= 'width: 2%'></th>
-									<th style= 'width: 12%' >Model No.</th>
-									<th style= 'width: 20%'>Name</th>
-									<th style= 'width: 7%'>Color</th>
-									<th style= 'width: 7%'>Size</th>
-									<th style= 'width: 7%'>Discount(%)</th>
-									<th style= 'width: 7%'>Price(INR.)</th>
-									<th style= 'width: 7%'>Available</th>
-									<th style= 'width: 12%'>Sub. Customer</th>
-								</tr>
-							</thead>
-						</table>
-					</div>            		
+					<div class = "col-md-2" id = "suggestionProductDiv">
+						<div id = "relatedProductDiv" class="box box-danger">
+			                    <div class="box-header with-border">
+			                    	<div class = "box-title col-md-12">
+			                    		<h4>Related Products</h4>
+			                    	</div>
+			                    </div>
+			             </div>
 
+						
+						<div id = "groupDiscountDiv" class="box box-danger">
+			                    <div class="box-header with-border">
+			                    	<h4>Group Discounts</h4>
+			                    </div>
+			             </div>
+					</div>
+				</div>
 
-
-                   </div><!-- /.box-header -->
-                    
-                  </div><!--/.box -->
-                </div><!-- /.col -->
-		
-		</div>
-
-</div>
 		
 		<div class="modal " id="wishlist-modal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" data-mode="add">

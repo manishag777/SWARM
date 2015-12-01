@@ -91,4 +91,22 @@ var getStandardDate = function(x){
 	return date;
 }
 
+var getFormattedDate = function(date){
+	
+	var monthNames = [
+	                  "Jan", "Feb", "Mar",
+	                  "Apr", "May", "Jun", "Jul",
+	                  "Aug", "Sep", "Oct",
+	                  "Nov", "Dec"
+	                ];
+
+    
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+    console.log(day, monthNames[monthIndex], year);
+    
+    return day+"-"+monthNames[monthIndex]+"-"+year ;
+    
+}
 

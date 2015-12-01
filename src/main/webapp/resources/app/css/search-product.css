@@ -1,3 +1,17 @@
+#productListDiv{
+	margin-left:80px;
+}
+
+#relatedProductDiv{
+	height:400px;
+	width:300px;
+}
+
+#groupDiscountDiv{
+	margin-top:20px;
+	height:400px;
+	width:300px;
+}
 #s_name {
     margin-top:15px;
     display:inline-block;
