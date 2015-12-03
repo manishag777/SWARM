@@ -199,14 +199,14 @@ var retrieveProduct = function(element) {
     var div = document.createElement("div");
     div.setAttribute("class", "col-lg-12 col-sm-12 table-buttons");
    // div.setAttribute("class","row");
-    var btn = document.createElement("BUTTON");        
-    var t = document.createTextNode("Detail");       
-    btn.appendChild(t);                                
-    btn.setAttribute("data-target","#product-detail-add-modal");
-    btn.setAttribute("data-toggle","modal");
-    btn.addEventListener("click", function(){
-    	distributeProduct(element);
-    });
+//    var btn = document.createElement("BUTTON");        
+//    var t = document.createTextNode("Detail");       
+//    btn.appendChild(t);                                
+//    btn.setAttribute("data-target","#product-detail-add-modal");
+//    btn.setAttribute("data-toggle","modal");
+//    btn.addEventListener("click", function(){
+//    	distributeProduct(element);
+//    });
     
     var btn2 = document.createElement("BUTTON");        
     var t2 = document.createTextNode("Distribute");       

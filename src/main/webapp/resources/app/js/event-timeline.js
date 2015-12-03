@@ -169,7 +169,6 @@ function createAddEvent(e){
 
 var fetchSportList = function(){
 
-
 	var select1 = document.getElementById('sport-type-filter');
 	var select2 = document.getElementById('dropdown_sport');
 	$.ajax({

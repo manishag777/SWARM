@@ -308,6 +308,13 @@ function format (d) {
 			  + "<p>Only <b>" + d.qty  + "</b> in stock.</p>" 
 			  +  "<p" +d.info +"</p><br/>" 
 			  +"</div>" ;
+	//var testDiv = "<img src =" + d.url +"> </img>";
+	//console.info(d.url);
+	//var myDiv = document.getElementById("col2");
+	//myDiv.innerHtml = testDiv;
+	$("#my_image").attr("src",d.url);
+	$("#my_image2").attr("src",d.url);
+	$("#my_image3").attr("src",d.url);
     return div;
 }
 
@@ -367,7 +374,7 @@ var displayCutomerInfo = function(status, data, id){
 		$("#customer-info-invalid-div").show();
 		var div = document.getElementById("customer-info-invalid-div");
 		div.innerHTML = "<h>Enter valid customer id</h>";
-		div
+		
 	}
 }
 
