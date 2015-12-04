@@ -16,30 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `customer_sport`
+-- Table structure for table `store`
 --
 
-DROP TABLE IF EXISTS `customer_sport`;
+DROP TABLE IF EXISTS `store`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `customer_sport` (
-  `cust_id` int(11) NOT NULL,
-  `sport_id` varchar(50) NOT NULL,
-  UNIQUE KEY `cust_sport` (`cust_id`,`sport_id`),
-  KEY `sport_id` (`sport_id`),
-  CONSTRAINT `customer_sport_ibfk_1` FOREIGN KEY (`cust_id`) REFERENCES `customer` (`id`),
-  CONSTRAINT `customer_sport_ibfk_2` FOREIGN KEY (`sport_id`) REFERENCES `sport` (`id`)
+CREATE TABLE `store` (
+  `id` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `lng` double DEFAULT NULL,
+  `lat` double DEFAULT NULL,
+  `pincode` int(11) DEFAULT NULL,
+  `address` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `customer_sport`
+-- Dumping data for table `store`
 --
 
-LOCK TABLES `customer_sport` WRITE;
-/*!40000 ALTER TABLE `customer_sport` DISABLE KEYS */;
-INSERT INTO `customer_sport` VALUES (1,'cricket'),(3,'cricket'),(7,'cricket'),(9,'cricket'),(25,'cricket'),(31,'cricket'),(32,'cricket'),(33,'cricket'),(34,'cricket'),(35,'cricket'),(36,'cricket'),(37,'cricket'),(38,'cricket'),(39,'cricket'),(45,'cricket'),(46,'cricket'),(14,'football'),(15,'football'),(25,'football'),(31,'football'),(32,'football'),(33,'football'),(34,'football'),(35,'football'),(36,'football'),(37,'football'),(39,'football'),(46,'football'),(1,'tennis'),(3,'tennis'),(9,'tennis'),(10,'tennis'),(11,'tennis'),(12,'tennis'),(13,'tennis'),(17,'tennis'),(18,'tennis'),(19,'tennis'),(22,'tennis'),(23,'tennis'),(24,'tennis'),(28,'tennis'),(45,'tennis');
-/*!40000 ALTER TABLE `customer_sport` ENABLE KEYS */;
+LOCK TABLES `store` WRITE;
+/*!40000 ALTER TABLE `store` DISABLE KEYS */;
+INSERT INTO `store` VALUES ('delhi','Delhi',77.195334,28.555153,110016,NULL),('ranchi','Gurgaon',77.004199,28.455913,122001,NULL);
+/*!40000 ALTER TABLE `store` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-29 20:08:47
+-- Dump completed on 2015-12-04 22:23:14

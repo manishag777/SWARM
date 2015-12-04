@@ -16,27 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `sport`
+-- Table structure for table `giftcard_specification`
 --
 
-DROP TABLE IF EXISTS `sport`;
+DROP TABLE IF EXISTS `giftcard_specification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sport` (
-  `id` varchar(50) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `giftcard_specification` (
+  `issue_amt` int(11) NOT NULL,
+  `amount1` int(11) NOT NULL,
+  `threshold_amt` int(11) NOT NULL,
+  `amount2` int(11) NOT NULL,
+  `expiry_extension` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `sport`
+-- Dumping data for table `giftcard_specification`
 --
 
-LOCK TABLES `sport` WRITE;
-/*!40000 ALTER TABLE `sport` DISABLE KEYS */;
-INSERT INTO `sport` VALUES ('athletics','Athletics'),('badminton','Badminton'),('board games','Board Games'),('cricket','Cricket'),('cycling','Cycling'),('football','Football'),('others','Others'),('skating','Skating'),('swimming','Swimming'),('table tennis','Table Tennis'),('tennis','Tennis');
-/*!40000 ALTER TABLE `sport` ENABLE KEYS */;
+LOCK TABLES `giftcard_specification` WRITE;
+/*!40000 ALTER TABLE `giftcard_specification` DISABLE KEYS */;
+INSERT INTO `giftcard_specification` VALUES (200,10,100,10,12);
+/*!40000 ALTER TABLE `giftcard_specification` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-29 20:08:48
+-- Dump completed on 2015-12-04 22:23:11

@@ -88,6 +88,24 @@ public class salesManagerController {
 	
 	@Autowired
 	private EventDao eventDao;
+	
+	@PreAuthorize("MD")
+	@RequestMapping("/manageEvent")
+    public ModelAndView manageEvent(Principal principal) {
+		
+		 //String filename = "/WEB-INF/customer.csv";
+	        
+	     //ServletContext context = getServletContext();
+		//String fileName = System.getProperty("user.home")+"/customer.csv";
+		//System.out.println(fileName);
+		//csvFileReader.readCsvFile(fileName);
+		
+		//populateMarkingTable.populateMarkingTable();
+		return createModelAndView(principal,"event-timeline");
+      //  return new ModelAndView("search-product2", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
+    }
+
+	
 	@RequestMapping("/manageProduct")
     public ModelAndView manageProduct(Principal principal) {
 		System.out.println("you called salesManager");

@@ -16,33 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `wishlist`
+-- Table structure for table `employee`
 --
 
-DROP TABLE IF EXISTS `wishlist`;
+DROP TABLE IF EXISTS `employee`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `wishlist` (
-  `pd_id` int(11) NOT NULL,
-  `cust_id` int(11) NOT NULL,
-  `price` int(11) DEFAULT NULL,
-  `enable_price_down` tinyint(4) DEFAULT NULL,
-  `enable_product_available` tinyint(4) DEFAULT NULL,
-  UNIQUE KEY `pd_cust` (`pd_id`,`cust_id`),
-  KEY `cust_id` (`cust_id`),
-  CONSTRAINT `wishlist_ibfk_1` FOREIGN KEY (`pd_id`) REFERENCES `product_detail` (`id`),
-  CONSTRAINT `wishlist_ibfk_2` FOREIGN KEY (`cust_id`) REFERENCES `customer` (`id`)
+CREATE TABLE `employee` (
+  `username` varchar(50) NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `phoneno` varchar(15) NOT NULL,
+  PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `wishlist`
+-- Dumping data for table `employee`
 --
 
-LOCK TABLES `wishlist` WRITE;
-/*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
-INSERT INTO `wishlist` VALUES (1,1,12,0,1),(1,3,12,0,1),(1,4,20,0,1),(5,1,12,0,1),(6,1,12,0,1),(6,3,12,0,1),(7,4,12,0,1),(9,1,200,1,1),(12,1,30,1,1);
-/*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
+LOCK TABLES `employee` WRITE;
+/*!40000 ALTER TABLE `employee` DISABLE KEYS */;
+INSERT INTO `employee` VALUES ('manish','Manish','Agrawal','59c95189ac895fcc1c6e1c38d067e244','magrawal6055@gmail.com','9103-6635'),('neeraj','Neeraj','Taraka','e73efee274e35cd0f133624774d16006','neeraj@gmail,com','91036635'),('piyush','Piyush','Dane','86f500cd7b7d38e5d4ae6cde3920f589','Piyush@gmail.com',''),('rahul','Rahul','Nagar','439ed537979d8e831561964dbbbd7413','','');
+/*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-29 20:08:48
+-- Dump completed on 2015-12-04 22:23:13

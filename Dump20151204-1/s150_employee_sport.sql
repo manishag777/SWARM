@@ -16,27 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `event_store`
+-- Table structure for table `employee_sport`
 --
 
-DROP TABLE IF EXISTS `event_store`;
+DROP TABLE IF EXISTS `employee_sport`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `event_store` (
-  `event_id` int(11) NOT NULL AUTO_INCREMENT,
-  `store_id` varchar(50) NOT NULL,
-  UNIQUE KEY `id_store_id` (`event_id`,`store_id`),
-  CONSTRAINT `event_store_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `sportevent` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+CREATE TABLE `employee_sport` (
+  `username` varchar(50) NOT NULL,
+  `sport_id` varchar(50) NOT NULL,
+  UNIQUE KEY `username_id` (`username`,`sport_id`),
+  KEY `sport_id` (`sport_id`),
+  CONSTRAINT `employee_sport_ibfk_1` FOREIGN KEY (`sport_id`) REFERENCES `sport` (`id`),
+  CONSTRAINT `employee_sport_ibfk_2` FOREIGN KEY (`username`) REFERENCES `employee` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `event_store`
+-- Dumping data for table `employee_sport`
 --
 
-LOCK TABLES `event_store` WRITE;
-/*!40000 ALTER TABLE `event_store` DISABLE KEYS */;
-/*!40000 ALTER TABLE `event_store` ENABLE KEYS */;
+LOCK TABLES `employee_sport` WRITE;
+/*!40000 ALTER TABLE `employee_sport` DISABLE KEYS */;
+/*!40000 ALTER TABLE `employee_sport` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-29 20:08:49
+-- Dump completed on 2015-12-04 22:23:13

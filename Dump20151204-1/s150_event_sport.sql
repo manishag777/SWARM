@@ -16,28 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `profit`
+-- Table structure for table `event_sport`
 --
 
-DROP TABLE IF EXISTS `profit`;
+DROP TABLE IF EXISTS `event_sport`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `profit` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `margin` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+CREATE TABLE `event_sport` (
+  `event_id` int(11) NOT NULL AUTO_INCREMENT,
+  `sport_id` varchar(50) NOT NULL,
+  UNIQUE KEY `id_store_id` (`event_id`,`sport_id`),
+  CONSTRAINT `event_sport_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `sportevent` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `profit`
+-- Dumping data for table `event_sport`
 --
 
-LOCK TABLES `profit` WRITE;
-/*!40000 ALTER TABLE `profit` DISABLE KEYS */;
-INSERT INTO `profit` VALUES (1,'low',30),(2,'moderate',45),(3,'high',60),(4,'Default',25);
-/*!40000 ALTER TABLE `profit` ENABLE KEYS */;
+LOCK TABLES `event_sport` WRITE;
+/*!40000 ALTER TABLE `event_sport` DISABLE KEYS */;
+INSERT INTO `event_sport` VALUES (7,'athletics'),(8,'athletics'),(9,'athletics'),(10,'athletics'),(11,'athletics'),(13,'athletics');
+/*!40000 ALTER TABLE `event_sport` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-29 20:08:48
+-- Dump completed on 2015-12-04 22:23:11

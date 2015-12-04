@@ -16,29 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `giftcard_specification`
+-- Table structure for table `notification`
 --
 
-DROP TABLE IF EXISTS `giftcard_specification`;
+DROP TABLE IF EXISTS `notification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `giftcard_specification` (
-  `issue_amt` int(11) NOT NULL,
-  `amount1` int(11) NOT NULL,
-  `threshold_amt` int(11) NOT NULL,
-  `amount2` int(11) NOT NULL,
-  `expiry_extension` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `notification` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `message` text NOT NULL,
+  `seen` tinyint(4) DEFAULT '0',
+  `post_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `giftcard_specification`
+-- Dumping data for table `notification`
 --
 
-LOCK TABLES `giftcard_specification` WRITE;
-/*!40000 ALTER TABLE `giftcard_specification` DISABLE KEYS */;
-INSERT INTO `giftcard_specification` VALUES (200,10,100,10,12);
-/*!40000 ALTER TABLE `giftcard_specification` ENABLE KEYS */;
+LOCK TABLES `notification` WRITE;
+/*!40000 ALTER TABLE `notification` DISABLE KEYS */;
+INSERT INTO `notification` VALUES (7,'manish','PSC Scorer Kashmir Willow Cricket Bat, Short Handle&DSCS&1-2-3&5&small&blue',1,'2015-11-18 02:16:38'),(8,'manish','SG Super League Batting Gloves&Sanspareils Greenlands&23234&9&Men RH&black ',1,'2015-11-17 14:06:08'),(9,'manish','SG Super League Batting Gloves&Sanspareils Greenlands&23234&10&Men RH&white',1,'2015-11-18 02:16:54'),(10,'manish','Wilson Titanium 3 Tennis Ball, Pack of 3&Wilson&B00426AHGA&23&&',1,'2015-11-25 11:10:57');
+/*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-29 20:08:48
+-- Dump completed on 2015-12-04 22:23:12

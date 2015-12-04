@@ -16,31 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `store`
+-- Table structure for table `profit`
 --
 
-DROP TABLE IF EXISTS `store`;
+DROP TABLE IF EXISTS `profit`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `store` (
-  `id` varchar(50) NOT NULL,
+CREATE TABLE `profit` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `lng` double DEFAULT NULL,
-  `lat` double DEFAULT NULL,
-  `pincode` int(11) DEFAULT NULL,
-  `address` varchar(200) DEFAULT NULL,
+  `margin` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `store`
+-- Dumping data for table `profit`
 --
 
-LOCK TABLES `store` WRITE;
-/*!40000 ALTER TABLE `store` DISABLE KEYS */;
-INSERT INTO `store` VALUES ('delhi','Delhi',77.195334,28.555153,110016,NULL),('ranchi','Gurgaon',77.004199,28.455913,122001,NULL);
-/*!40000 ALTER TABLE `store` ENABLE KEYS */;
+LOCK TABLES `profit` WRITE;
+/*!40000 ALTER TABLE `profit` DISABLE KEYS */;
+INSERT INTO `profit` VALUES (1,'low',30),(2,'moderate',45),(3,'high',60),(4,'Default',25);
+/*!40000 ALTER TABLE `profit` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-29 20:08:49
+-- Dump completed on 2015-12-04 22:23:12

@@ -58,6 +58,16 @@ public class CSOController {
 	@Autowired
 	EventDao eventDao;
 	
+	@RequestMapping("/csodashboard")
+    public ModelAndView csoDashBoard(Principal principal) {
+		System.out.println("you called CSO");
+		return createModelAndView(principal,"cso-dashboard");
+
+	}
+	
+	
+	
+	
 	@RequestMapping("/manageGiftCard")
     public ModelAndView manageGiftCard(Principal principal) {
 		System.out.println("you called CSO");

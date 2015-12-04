@@ -16,30 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `notification`
+-- Table structure for table `giftcard`
 --
 
-DROP TABLE IF EXISTS `notification`;
+DROP TABLE IF EXISTS `giftcard`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `notification` (
+CREATE TABLE `giftcard` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
-  `message` text NOT NULL,
-  `seen` tinyint(4) DEFAULT '0',
-  `post_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `expiry` date NOT NULL,
+  `amt` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `notification`
+-- Dumping data for table `giftcard`
 --
 
-LOCK TABLES `notification` WRITE;
-/*!40000 ALTER TABLE `notification` DISABLE KEYS */;
-INSERT INTO `notification` VALUES (7,'manish','PSC Scorer Kashmir Willow Cricket Bat, Short Handle&DSCS&1-2-3&5&small&blue',1,'2015-11-18 02:16:38'),(8,'manish','SG Super League Batting Gloves&Sanspareils Greenlands&23234&9&Men RH&black ',1,'2015-11-17 14:06:08'),(9,'manish','SG Super League Batting Gloves&Sanspareils Greenlands&23234&10&Men RH&white',1,'2015-11-18 02:16:54'),(10,'manish','Wilson Titanium 3 Tennis Ball, Pack of 3&Wilson&B00426AHGA&23&&',1,'2015-11-25 11:10:57'),(11,'manish','Bas Vampire Super Batting Legguard, Youth&KG&3234&15&24&white',0,'2015-11-25 11:16:53'),(12,'manish','Bas Vampire Super Batting Legguard, Youth&KG&3234&15&24&white',0,'2015-11-25 11:17:33'),(13,'manish','Bas Vampire Super Batting Legguard, Youth&KG&3234&15&24&white',0,'2015-11-25 11:18:41');
-/*!40000 ALTER TABLE `notification` ENABLE KEYS */;
+LOCK TABLES `giftcard` WRITE;
+/*!40000 ALTER TABLE `giftcard` DISABLE KEYS */;
+INSERT INTO `giftcard` VALUES (1,'2016-11-16',0),(2,'2016-11-09',20),(3,'2016-11-09',20),(4,'2016-11-09',20),(5,'2016-11-16',130),(6,'2016-11-16',60),(7,'2016-11-16',90),(8,'2016-11-25',190),(9,'2016-11-16',60),(10,'2016-11-25',420),(11,'2016-11-25',80),(12,'2016-11-16',130),(13,'2016-11-25',1472),(14,'2016-11-17',950),(15,'2016-11-17',30),(16,'2016-11-25',90),(17,'2016-11-29',380);
+/*!40000 ALTER TABLE `giftcard` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-29 20:08:48
+-- Dump completed on 2015-12-04 22:23:10

@@ -28,16 +28,24 @@ $(document).ready(function () {
 		},200);
 	});
 	
+	
 
 });
 
 
 var drawPieChart = function(id){
-	var pieChartCanvas = $(id).get(0).getContext("2d");
-    var pieChart = new Chart(pieChartCanvas);
-    var options  = pieOptions;
-    options.datasetFill = false;
-    pieChart.Pie(PieData, options);
+//	var pieChartCanvas = $(id).get(0).getContext("2d");
+//    var pieChart = new Chart(pieChartCanvas);
+//    var options  = pieOptions;
+//    options.datasetFill = false;
+//    pieChart.Pie(PieData, options);
+    
+    var pieChartCanvas = $(id).get(0).getContext("2d");
+	var pieChart = new Chart(pieChartCanvas);
+	var options = pieOptions;
+	options.datasetFill = false;
+	pieChart.Doughnut(data, options);
+
 }
 
 var PieData = [

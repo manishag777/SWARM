@@ -1,3 +1,13 @@
+.nav-stacked  >li>a:hover {
+      background-color:#0088cc;
+    color:#fff;
+ }
+ .nav-stacked >li>a {
+    background-color:#fff;
+    color:#0088cc;
+}
+
+
 .productGrid {
     margin-top: 10px;
     margin-left: -50px;
