@@ -3,13 +3,13 @@ var eventType3 = 'upcoming-event"';
 var eventType2 = 'on-going-event"';
 var eventType1 = 'past-event"';
 var currentEventId = '';
+var eventData;
 
 $(document).ready(function(){
 	
 	
 	var date1 = "17-Feb-2015";
 	var date2 = "20-dec-2015"; 
-//	$('#customer-product').css("display", "none");
 	
 	
 	
@@ -86,14 +86,14 @@ var addEvent = function(){
 
 	var formData = $('#template-form').serializeObject();
 	delete formData._wysihtml5_mode;
-	if (typeof(formData.sportId) === 'string') {
-		//console.info(formData.sportId);
-		formData.sportId = [formData.sportId];
-	}
-	if (typeof(formData.storeId) === 'string') {
-		//console.info(formData.storeId);
-		formData.storeId = [formData.storeId];
-	}
+//	if (typeof(formData.sportId) === 'string') {
+//		//console.info(formData.sportId);
+//		formData.sportId = [formData.sportId];
+//	}
+//	if (typeof(formData.storeId) === 'string') {
+//		//console.info(formData.storeId);
+//		formData.storeId = [formData.storeId];
+//	}
 	
 	console.info(formData);
 	$.ajax({
@@ -116,7 +116,7 @@ var addEvent = function(){
 
 }
 
-var createDiv = function(eventType, date, title, eventInfo, eventNumber, eventId){
+var createDiv = function(eventType, date, eventNumber, data, index){
 
 
 	console.info("eventNumber = ");
@@ -125,7 +125,7 @@ var createDiv = function(eventType, date, title, eventInfo, eventNumber, eventId
 		
 		   + '<div class="timeline-entry-inner">'
 
-		    + '<div class="timeline-icon '+eventType+' onClick = "openAnalysisModal('+eventNumber+','+eventId +')">'   
+		    + '<div class="timeline-icon '+eventType+' onClick = "openAnalysisModal('+eventNumber+','+eventData[index].id +')">'   
 		    +  '<i class="entypo-camera"></i>'      
 			+	'<div class = "date-div">'		 
 			+	'<h class = "date">'+date+'</h>'		
@@ -133,9 +133,7 @@ var createDiv = function(eventType, date, title, eventInfo, eventNumber, eventId
 		     +   '</div>'
 
 		      +  '<div class="timeline-label">'
-		       +  '<h2>'+ title+ '</h2>'   
-
-		        + eventInfo
+		      + getTimelineBox(data,eventNumber, index)
 		        +'</div>'
 		    +'</div> </article>' ;
 	
@@ -143,6 +141,7 @@ var createDiv = function(eventType, date, title, eventInfo, eventNumber, eventId
 } 
 
 var createEventAdder = function(){
+
 	var curr = "'this'";
 	var article = '<article class="timeline-entry begin">'	
 	   + '<div class="timeline-entry-inner">'
@@ -198,8 +197,9 @@ var fetchSportList = function(){
 var fetchStoreList = function(){
 
 
+
 	var select1 = document.getElementById('store-type-filter2');
-	var select2 = document.getElementById('dropdown_store');
+	//var select2 = document.getElementById('dropdown_store');
 	$.ajax({
 		url : 'fetchStoreList',
 		type : 'GET',
@@ -213,7 +213,7 @@ var fetchStoreList = function(){
 				if(i==0)
 					option.selected = 'selected';
 				select1.appendChild(option);
-				select2.appendChild(createOption(data[i].id,data[i].name));
+				//select2.appendChild(createOption(data[i].id,data[i].name));
 			}
 			
 			fetchEventList();
@@ -225,15 +225,16 @@ var fetchStoreList = function(){
 
 var fetchEventList = function(){
 
+
 	var sport = $("#sport-type-filter").val();
-	var store = $('#store-type-filter2').val();
+	//var store = $('#store-type-filter2').val();
 	//console.info(store+" "+sport +" "+ startDate+ " "+endDate);
 	var today =  new Date();
 	//console.info(todayDate);
 	
 	$(".timeline-centered").empty();
 	
-	if(!isRealValue(sport) || !isRealValue(store))
+	if(!isRealValue(sport))
 		return;
 	
 	
@@ -241,15 +242,16 @@ var fetchEventList = function(){
 		url : 'fetchEventList',
 		type : 'GET',
 		contentType : "application/json",
-		data : {sport:sport, store:store, fromDate:fromDate, toDate:toDate},
+		data : {sport:sport, fromDate:fromDate, toDate:toDate},
 		success : function(data) {
 			//fetchEventList();
+			eventData = data;
 			console.info(data);
 			for(var i in data){
 				var fromDate = data[i].fromDate;
 				var toDate = data[i].toDate;
 				var date = getStandardDate(toDate);
-				$(".timeline-centered").append(createDiv(getEventType(data[i]), getFormattedDate(getStandardDate(data[i].fromDate)), data[i].eventName, data[i].eventDetail, getEventNumber(data[i]),data[i].id ));
+				$(".timeline-centered").append(createDiv(getEventType(data[i]), getFormattedDate(getStandardDate(data[i].fromDate)), getEventNumber(data[i]), data[i], i ));
 				
 			}
 		},
@@ -298,5 +300,238 @@ var openAnalysisModal = function(eventNumber,id){
 	//fetchDataOfTopCustomers();
 	
 }
+
+var getTimelineBox = function(data,eventNumber, index){
+
+	
+   var timelineUnit =  '<div class = "row"><div class="col-md-12">'
+    +'<div class="box box-default">'
+    +'<div class="box-header with-border">'
+    + getTimelineBody(data,eventNumber)
+    +'<div class="box-footer no-padding">' 
+
+    +getTimelineUnitFooter(data, eventNumber, index )     
+       
+    +'</div><!-- /.footer -->' 
+    +'</div><!-- /.box -->'
+    +'</div>'
+    +'</div>';
+    
+    return timelineUnit;
+
+}
+
+var getTimelineBody = function(data,eventNumber){
+
+	
+	var body = '<h3 class="box-title">'+data.eventName+'</h3>'   
+    +'</div><!-- /.box-header -->' 
+    +'<div class="box-body">'
+    + data.eventDetail
+    +' <p><b> Location of event: </b>'+data.address+'</p>'  
+    +'<p><b>Number of particpant: </b>'+ data.participantCount +'</p>'   
+    +'<p><b>Sport Type : </b>'+ data.sportType +'</p>'   
+    +'</div><!-- /.box-body -->' ;
+	
+	return body;
+}
+
+var getTimelineUnitFooter = function(data, eventNumber, index){
+
+	
+	var task = [data.task1, data.task2, data.task3];
+	var timeLineUnit = '' ;
+	if(eventNumber==0){
+		timeLineUnit = '<div class="row">'
+			+ getCommonTaskBox("Generated Revenue", 20)
+			+ getProgressBarBox("Cutomer Visited", 70,99)
+			+'</div>';
+	}
+	else{
+		var revenueTaskBox ="";
+		
+		if(data.task1==0){
+			var revenue = (data.expectedRevenue / 1000000).toFixed(2) + "M";
+			revenueTaskBox = getCommonTaskBox("Expected Revenue", revenue);
+		}
+		else{
+			revenueTaskBox = getProgressBarBox("Revenue", 70,99);
+		}
+		
+		var customerTaskBox = "";
+		
+		if(data.task2==0){
+			customerTaskBox = getCommonTaskBox("Expected No. of Customer visit", data.expectedCustomerVisit);
+		}
+		else{
+			customerTaskBox = getProgressBarBox("Customer Visit", data.customerVisited, data.targetedCustomer);
+		}
+		
+			
+		timeLineUnit = '<div class="row">'
+			+ getPendingTaskBox(task,index)
+			+ revenueTaskBox
+			+ customerTaskBox
+			+'</div>';
+	}
+	
+	
+	return timeLineUnit;
+
+}
+
+var getPendingTaskBox = function(task, index){
+
+
+	console.info(task);
+	index = "'"+index+"'"
+	
+	var buttons = '';
+	
+	if(task[0]==0)
+		buttons  = buttons + '<p class = "taskElement" onClick = "setProuctTarget('+index+')"  style="background-color:green; color:white; padding:2px; margin:1px; display:inline-block;"><small>Set Products Target</small></p>';
+	
+	if(task[1]==0)
+		buttons = buttons + '<p class = "taskElement" onClick = "setCustomerTarget('+index+')" style="background-color:orange; color:white; padding:2px; margin:1px;margin-right:40px; display:inline-block;"><small>Set Customers Target</small></p>';
+	
+	if(task[2]==0)
+		buttons = buttons + '<p class = "taskElement" onClick = "sendEmail('+index+')" style="background-color:#1a75ff; color:white; padding:2px; margin:1px; display:inline-block;"><small>Email Relevant customers</small></p>';
+	
+	if(buttons == '')
+		buttons = 'No Task'
+	
+	var taskBox = '<div class="col-md-4">'
+	+'<div class="box" style="min-height:90px;">'
+	+'<div class="box-header ">'      
+	+'<span class="info-box-text">Pending Tasks</span>'      
+	+'<div>'        
+	+buttons          
+	+'</div>'        
+	+'</div>'     
+	+'</div>'   
+	+'</div><!-- /.col -->' ;
+	
+	return taskBox;
+}
+
+var currentIndex;
+ function setCustomerTarget(index){
+	 currentIndex  = index;
+	console.info(eventData[index].expectedCustomerVisit);
+	$("#expectedCustomerCount").val(eventData[index].expectedCustomerVisit);
+	$("#targetCustomerCount").val(eventData[index].expectedCustomerVisit);
+	$("#customer-visit-Modal").modal('show');
+	
+}
+ 
+ function saveCustomerTarget(index){
+
+	 $.ajax({
+			url : 'saveCustomerTarget',
+			type : 'GET',
+			data : {target: $("#targetCustomerCount").val(), eventId:eventData[currentIndex].id },
+			contentType : "application/json",
+			success : function(data) {
+				console.log(data);
+				swal("Customer target created!", "", "success")
+			},
+			
+			error : function(e) {
+				alert ("sorry! Due to some problem couldn't fetch the gift-card details");
+			},
+		}).done(function() {
+			console.log("Done fetching gift-card details");
+			$("#customer-visit-Modal").modal("hide");
+			fetchEventList();
+		});
+ }
+
+ function sendEmail(index){
+	 
+	$("#subjectId").val("Products Available For Event- "+eventData[index].eventName);
+	console.info(eventData[index].id);
+	$("#email-Modal").modal('show');
+	var editor = '<label for="body">Body</label>'
+		+ '<textarea class="textarea form-control" id="mailSubject" name="mailSubject"  placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>'
+	document.getElementById('SubjectArea-div').innerHTML = editor;
+	$("#mailSubject").val("<p>"
+
+		+	"<p>Dear Customer,</p><p>The Product is available in your nearest SportsWARM store. Hurry Up! The Stock is limited. Avail the discount on refering new Customers.</p><p>Thanks</p><p>Manish Agrawal</p><p>Sales Manager </p><p>SportsWarm </p><p></p>"
+
+		+	"<br></p>");
+	$("#mailSubject").wysihtml5();
+}
+
+ function setProuctTarget(index){
+	 console.info(eventData);
+	 console.info(index);
+	console.info(eventData[index].id);
+	$("#product-target-setting").modal('show');
+	
+}
+
+var getCommonTaskBox = function(header,value){
+	
+	var commonTaskBox = '<div class="col-md-4">'
+		+'<div class="box" style="min-height:90px;">'
+		+'<div class="box-header ">'      
+		+'<span class="info-box-text">'+ header+'</span>'      
+		+'<div>'        
+		+ value
+		+'</div>'        
+		+'</div>'     
+		+'</div>'   
+		+'</div><!-- /.col -->' ;
+	
+	return commonTaskBox;
+}
+
+var getProgressBarBox = function(type, achieved, target){
+	
+	var per = ((achieved/target) * 100).toFixed(0);
+	console.info(per);
+	if(type=="Revenue"){
+		var progressBarBox = '<div class="col-md-4">' 
+		+'<div class="box">'
+		+'<div class="box-header ">'      
+		+'<div class="progress-group">'       
+		+'<span class="progress-text">'+type+'</span>'          
+		+'<span class="progress-number"><b>'+achieved+'M</b>/'+ target+'M</span>'          
+		+'<div class="progress" style = "margin-top:7px">'          
+		+' <div class="progress-bar progress-bar-aqua" style="width:'+ per +'%">'           
+		+ per +'% Complete'             
+		+'</div>'            
+		+'</div>'          
+		+' </div><!-- /.progress-group -->'       
+		+'</div>'     
+		+'</div>' 
+		+'</div>' ;
+		
+		return progressBarBox;
+	}
+	else{
+		
+		var progressBarBox = '<div class="col-md-4">' 
+			+'<div class="box">'
+			+'<div class="box-header ">'      
+			+'<div class="progress-group">'       
+			+'<span class="progress-text">'+type+'</span>'          
+			+'<span class="progress-number"><b>'+achieved+'</b>/'+ target+'</span>'          
+			+'<div class="progress" style = "margin-top:7px">'          
+			+' <div class="progress-bar progress-bar-aqua" style="width:'+ per +'%">'           
+			+ per +'% Complete'             
+			+'</div>'            
+			+'</div>'          
+			+' </div><!-- /.progress-group -->'       
+			+'</div>'     
+			+'</div>' 
+			+'</div>';
+
+		return progressBarBox;
+	}
+	
+}
+
+
 
 

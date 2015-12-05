@@ -1,6 +1,13 @@
 /* MY CSS */
 
 
+.event-form-group{
+    margin-top:12px;
+}
+
+.taskElement{
+    cursor: pointer;
+}
 
 .modal-dialog .modal-body{
     height:700px;

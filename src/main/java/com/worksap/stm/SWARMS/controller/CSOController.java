@@ -32,6 +32,7 @@ import com.worksap.stm.SWARMS.dto.EventDto;
 import com.worksap.stm.SWARMS.dto.GiftCardDto;
 import com.worksap.stm.SWARMS.service.spec.CustomerRelationService;
 import com.worksap.stm.SWARMS.utils.KmeanClustering;
+import com.worksap.stm.SWARMS.utils.Utilities;
 import com.worksap.stm.SWARMS.dto.TemplatMailDto;
 import com.worksap.stm.SWARMS.entity.CustomerClusterEntity;
 import com.worksap.stm.SWARMS.entity.StoreFetchEntity;
@@ -203,31 +204,34 @@ public class CSOController {
 	
 	@RequestMapping(value = "/addEvent", method = RequestMethod.POST )
 	@ResponseBody
-	public int addEvent(@RequestBody EventDto eventDto ){
+	public EventDto addEvent(@RequestBody EventDto eventDto ){
 		
 		//List<StoreFetchEntity> storeFetchEntities = customerClusterEntity
 		System.out.println(eventDto);
-		
-//		for(int i=0; i<storeFetchEntities.size(); i++)
-//			System.out.println(eventDao.get(i));
+		int partCount = eventDto.getParticipantCount();
+		int expectedCustomerVisitCount = (int) (partCount*(Utilities.getRandomFloat(35, 55)))/100;
+		int expectedRevenue =  (int) ((int)expectedCustomerVisitCount* (Utilities.getRandomFloat(900, 1000))) ;
+		eventDto.setExpectedRevenue(expectedRevenue);
+		eventDto.setExpectedCustomerVisit(expectedCustomerVisitCount);
 		
 		try {
-			return eventDao.insert(eventDto);
+			 eventDto.setId(eventDao.insert(eventDto));
+			return eventDto;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return 0;
+			return null;
 		}
 	}
 	
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/fetchEventList", method = RequestMethod.GET )
 	@ResponseBody
-	public List<EventDto> fetchEventList(@RequestParam("sport") String sport, @RequestParam("store") String store,  @RequestParam("fromDate") String fromDate,  @RequestParam("toDate") String toDate) {	
+	public List<EventDto> fetchEventList(@RequestParam("sport") String sport, @RequestParam("fromDate") String fromDate,  @RequestParam("toDate") String toDate) {	
 		
-		System.out.println(sport+ " "+store +" "+ fromDate + " "+ toDate);
+		//System.out.println(sport+ " "+store +" "+ fromDate + " "+ toDate);
 		//return null;
-		return eventDao.fetchEventDto(sport, store, fromDate, toDate);
+		return eventDao.fetchEventDto(sport, fromDate, toDate);
 	
 	}
 

@@ -80,7 +80,6 @@ $(document).ready(function() {
 			          {data : 'profitSelect'},
 			          {data : 'discountSelect'}
 			      	],
-					select: "single",
 					sort: "true"
 		});
 		 
