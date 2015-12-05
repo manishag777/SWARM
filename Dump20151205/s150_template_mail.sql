@@ -16,31 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `store`
+-- Table structure for table `template_mail`
 --
 
-DROP TABLE IF EXISTS `store`;
+DROP TABLE IF EXISTS `template_mail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `store` (
-  `id` varchar(50) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `lng` double DEFAULT NULL,
-  `lat` double DEFAULT NULL,
-  `pincode` int(11) DEFAULT NULL,
-  `address` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `template_mail` (
+  `tag` varchar(50) NOT NULL,
+  `subject` text NOT NULL,
+  `body` text NOT NULL,
+  PRIMARY KEY (`tag`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `store`
+-- Dumping data for table `template_mail`
 --
 
-LOCK TABLES `store` WRITE;
-/*!40000 ALTER TABLE `store` DISABLE KEYS */;
-INSERT INTO `store` VALUES ('delhi','Delhi',77.195334,28.555153,110016,NULL),('ranchi','Gurgaon',77.004199,28.455913,122001,NULL);
-/*!40000 ALTER TABLE `store` ENABLE KEYS */;
+LOCK TABLES `template_mail` WRITE;
+/*!40000 ALTER TABLE `template_mail` DISABLE KEYS */;
+INSERT INTO `template_mail` VALUES ('#discount','discount','<p>fdd</p>'),('product_availabilty','Your product is available in the store','<p>Dear %cust_name,</p><p>Thank you for visiting the store. The product you saw on the day {date} is available in the store.</p><p>Product details:</p><p>Name : %pdt_name</p><p>Color : %color</p><p>Size : %size</p><p>Price after discount : %price</p><p>Thanks</p><p>Chief of Sales Officer</p><p>Manish Agrawal</p>');
+/*!40000 ALTER TABLE `template_mail` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-04 22:23:14
+-- Dump completed on 2015-12-05 23:11:11

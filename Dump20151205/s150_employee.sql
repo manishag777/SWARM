@@ -16,28 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `event_store`
+-- Table structure for table `employee`
 --
 
-DROP TABLE IF EXISTS `event_store`;
+DROP TABLE IF EXISTS `employee`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `event_store` (
-  `event_id` int(11) NOT NULL AUTO_INCREMENT,
-  `store_id` varchar(50) NOT NULL,
-  UNIQUE KEY `id_store_id` (`event_id`,`store_id`),
-  CONSTRAINT `event_store_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `sportevent` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+CREATE TABLE `employee` (
+  `username` varchar(50) NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `phoneno` varchar(15) NOT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `event_store`
+-- Dumping data for table `employee`
 --
 
-LOCK TABLES `event_store` WRITE;
-/*!40000 ALTER TABLE `event_store` DISABLE KEYS */;
-INSERT INTO `event_store` VALUES (7,'delhi'),(7,'ranchi'),(8,'delhi'),(8,'ranchi'),(9,'delhi'),(9,'ranchi'),(10,'delhi'),(11,'delhi'),(13,'delhi');
-/*!40000 ALTER TABLE `event_store` ENABLE KEYS */;
+LOCK TABLES `employee` WRITE;
+/*!40000 ALTER TABLE `employee` DISABLE KEYS */;
+INSERT INTO `employee` VALUES ('manish','Manish','Agrawal','59c95189ac895fcc1c6e1c38d067e244','magrawal6055@gmail.com','9103-6635'),('neeraj','Neeraj','Taraka','e73efee274e35cd0f133624774d16006','neeraj@gmail,com','91036635'),('piyush','Piyush','Dane','86f500cd7b7d38e5d4ae6cde3920f589','Piyush@gmail.com',''),('rahul','Rahul','Nagar','439ed537979d8e831561964dbbbd7413','','');
+/*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-04 22:23:13
+-- Dump completed on 2015-12-05 23:11:11

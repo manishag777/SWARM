@@ -16,31 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `employee`
+-- Table structure for table `notification`
 --
 
-DROP TABLE IF EXISTS `employee`;
+DROP TABLE IF EXISTS `notification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `employee` (
+CREATE TABLE `notification` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
-  `firstname` varchar(50) NOT NULL,
-  `lastname` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `phoneno` varchar(15) NOT NULL,
-  PRIMARY KEY (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `message` text NOT NULL,
+  `seen` tinyint(4) DEFAULT '0',
+  `post_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `employee`
+-- Dumping data for table `notification`
 --
 
-LOCK TABLES `employee` WRITE;
-/*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` VALUES ('manish','Manish','Agrawal','59c95189ac895fcc1c6e1c38d067e244','magrawal6055@gmail.com','9103-6635'),('neeraj','Neeraj','Taraka','e73efee274e35cd0f133624774d16006','neeraj@gmail,com','91036635'),('piyush','Piyush','Dane','86f500cd7b7d38e5d4ae6cde3920f589','Piyush@gmail.com',''),('rahul','Rahul','Nagar','439ed537979d8e831561964dbbbd7413','','');
-/*!40000 ALTER TABLE `employee` ENABLE KEYS */;
+LOCK TABLES `notification` WRITE;
+/*!40000 ALTER TABLE `notification` DISABLE KEYS */;
+INSERT INTO `notification` VALUES (7,'manish','PSC Scorer Kashmir Willow Cricket Bat, Short Handle&DSCS&1-2-3&5&small&blue',1,'2015-11-18 02:16:38'),(8,'manish','SG Super League Batting Gloves&Sanspareils Greenlands&23234&9&Men RH&black ',1,'2015-11-17 14:06:08'),(9,'manish','SG Super League Batting Gloves&Sanspareils Greenlands&23234&10&Men RH&white',1,'2015-11-18 02:16:54'),(10,'manish','Wilson Titanium 3 Tennis Ball, Pack of 3&Wilson&B00426AHGA&23&&',1,'2015-11-25 11:10:57');
+/*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-04 22:23:13
+-- Dump completed on 2015-12-05 23:11:10

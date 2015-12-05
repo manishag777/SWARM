@@ -16,29 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `customer_sport`
+-- Table structure for table `employee_role`
 --
 
-DROP TABLE IF EXISTS `customer_sport`;
+DROP TABLE IF EXISTS `employee_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `customer_sport` (
-  `cust_id` int(11) NOT NULL,
-  `sport_id` varchar(50) NOT NULL,
-  UNIQUE KEY `cust_sport` (`cust_id`,`sport_id`),
-  KEY `sport_id` (`sport_id`),
-  CONSTRAINT `customer_sport_ibfk_1` FOREIGN KEY (`cust_id`) REFERENCES `customer` (`id`),
-  CONSTRAINT `customer_sport_ibfk_2` FOREIGN KEY (`sport_id`) REFERENCES `sport` (`id`)
+CREATE TABLE `employee_role` (
+  `username` varchar(50) NOT NULL,
+  `role` varchar(50) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  UNIQUE KEY `username_role` (`username`,`role`),
+  CONSTRAINT `employee_role_ibfk_1` FOREIGN KEY (`username`) REFERENCES `employee` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `customer_sport`
+-- Dumping data for table `employee_role`
 --
 
-LOCK TABLES `customer_sport` WRITE;
-/*!40000 ALTER TABLE `customer_sport` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_sport` ENABLE KEYS */;
+LOCK TABLES `employee_role` WRITE;
+/*!40000 ALTER TABLE `employee_role` DISABLE KEYS */;
+INSERT INTO `employee_role` VALUES ('manish','cso',1),('manish','MD',1),('neeraj','ss',1),('piyush','cso',1),('rahul','ss',1);
+/*!40000 ALTER TABLE `employee_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-04 22:23:10
+-- Dump completed on 2015-12-05 23:11:08

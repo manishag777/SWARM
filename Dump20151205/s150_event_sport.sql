@@ -16,28 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `discount`
+-- Table structure for table `event_sport`
 --
 
-DROP TABLE IF EXISTS `discount`;
+DROP TABLE IF EXISTS `event_sport`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `discount` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `discount` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+CREATE TABLE `event_sport` (
+  `event_id` int(11) NOT NULL AUTO_INCREMENT,
+  `sport_id` varchar(50) NOT NULL,
+  UNIQUE KEY `id_store_id` (`event_id`,`sport_id`),
+  CONSTRAINT `event_sport_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `sportevent` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `discount`
+-- Dumping data for table `event_sport`
 --
 
-LOCK TABLES `discount` WRITE;
-/*!40000 ALTER TABLE `discount` DISABLE KEYS */;
-INSERT INTO `discount` VALUES (1,'default',0),(2,'low',15),(3,'moderate',30),(4,'high',50);
-/*!40000 ALTER TABLE `discount` ENABLE KEYS */;
+LOCK TABLES `event_sport` WRITE;
+/*!40000 ALTER TABLE `event_sport` DISABLE KEYS */;
+INSERT INTO `event_sport` VALUES (7,'athletics'),(8,'athletics'),(9,'athletics'),(10,'athletics'),(11,'athletics'),(13,'athletics');
+/*!40000 ALTER TABLE `event_sport` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-04 22:23:10
+-- Dump completed on 2015-12-05 23:11:09

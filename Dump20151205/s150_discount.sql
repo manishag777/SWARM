@@ -16,28 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `giftcard`
+-- Table structure for table `discount`
 --
 
-DROP TABLE IF EXISTS `giftcard`;
+DROP TABLE IF EXISTS `discount`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `giftcard` (
+CREATE TABLE `discount` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `expiry` date NOT NULL,
-  `amt` int(11) DEFAULT NULL,
+  `name` varchar(50) NOT NULL,
+  `discount` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `giftcard`
+-- Dumping data for table `discount`
 --
 
-LOCK TABLES `giftcard` WRITE;
-/*!40000 ALTER TABLE `giftcard` DISABLE KEYS */;
-INSERT INTO `giftcard` VALUES (1,'2016-11-16',0),(2,'2016-11-09',20),(3,'2016-11-09',20),(4,'2016-11-09',20),(5,'2016-11-16',130),(6,'2016-11-16',60),(7,'2016-11-16',90),(8,'2016-11-25',190),(9,'2016-11-16',60),(10,'2016-11-25',420),(11,'2016-11-25',80),(12,'2016-11-16',130),(13,'2016-11-25',1472),(14,'2016-11-17',950),(15,'2016-11-17',30),(16,'2016-11-25',90),(17,'2016-11-29',380);
-/*!40000 ALTER TABLE `giftcard` ENABLE KEYS */;
+LOCK TABLES `discount` WRITE;
+/*!40000 ALTER TABLE `discount` DISABLE KEYS */;
+INSERT INTO `discount` VALUES (1,'default',0),(2,'low',15),(3,'moderate',30),(4,'high',50);
+/*!40000 ALTER TABLE `discount` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-04 22:23:10
+-- Dump completed on 2015-12-05 23:11:09

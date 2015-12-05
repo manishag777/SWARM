@@ -16,30 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user`
+-- Table structure for table `store`
 --
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `store`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
-  `username` varchar(50) NOT NULL,
-  `firstname` varchar(50) NOT NULL,
-  `lastname` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `address` varchar(200) NOT NULL,
-  PRIMARY KEY (`username`)
+CREATE TABLE `store` (
+  `id` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `lng` double DEFAULT NULL,
+  `lat` double DEFAULT NULL,
+  `pincode` int(11) DEFAULT NULL,
+  `address` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `store`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('mandeep','mandeep','singh','502b7dfff6fb4dc619b4933e1cb122df34605430','punjab'),('manish','manish','agrawal','abdf933375ec9351a3291e2c827182eebe93847c','jharkhand'),('piyush','piyush','dane','7caf4fada912172ae38c6555f73b0fcf5f41c218','mp');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+LOCK TABLES `store` WRITE;
+/*!40000 ALTER TABLE `store` DISABLE KEYS */;
+INSERT INTO `store` VALUES ('delhi','Delhi',77.195334,28.555153,110016,NULL),('ranchi','Gurgaon',77.004199,28.455913,122001,NULL);
+/*!40000 ALTER TABLE `store` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-04 22:23:14
+-- Dump completed on 2015-12-05 23:11:11

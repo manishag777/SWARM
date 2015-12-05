@@ -16,28 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `template_mail`
+-- Table structure for table `marking_status`
 --
 
-DROP TABLE IF EXISTS `template_mail`;
+DROP TABLE IF EXISTS `marking_status`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `template_mail` (
-  `tag` varchar(50) NOT NULL,
-  `subject` text NOT NULL,
-  `body` text NOT NULL,
-  PRIMARY KEY (`tag`)
+CREATE TABLE `marking_status` (
+  `pid` int(11) NOT NULL,
+  `lmarking` int(11) DEFAULT NULL,
+  `ldate` date DEFAULT NULL,
+  `cmarking` int(11) DEFAULT NULL,
+  `cdate` date DEFAULT NULL,
+  UNIQUE KEY `pid` (`pid`),
+  KEY `lmarking` (`lmarking`),
+  KEY `cmarking` (`cmarking`),
+  CONSTRAINT `marking_status_ibfk_1` FOREIGN KEY (`lmarking`) REFERENCES `profit` (`id`),
+  CONSTRAINT `marking_status_ibfk_2` FOREIGN KEY (`cmarking`) REFERENCES `profit` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `template_mail`
+-- Dumping data for table `marking_status`
 --
 
-LOCK TABLES `template_mail` WRITE;
-/*!40000 ALTER TABLE `template_mail` DISABLE KEYS */;
-INSERT INTO `template_mail` VALUES ('#discount','discount','<p>fdd</p>'),('product_availabilty','Your product is available in the store','<p>Dear %cust_name,</p><p>Thank you for visiting the store. The product you saw on the day {date} is available in the store.</p><p>Product details:</p><p>Name : %pdt_name</p><p>Color : %color</p><p>Size : %size</p><p>Price after discount : %price</p><p>Thanks</p><p>Chief of Sales Officer</p><p>Manish Agrawal</p>');
-/*!40000 ALTER TABLE `template_mail` ENABLE KEYS */;
+LOCK TABLES `marking_status` WRITE;
+/*!40000 ALTER TABLE `marking_status` DISABLE KEYS */;
+/*!40000 ALTER TABLE `marking_status` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-04 22:23:13
+-- Dump completed on 2015-12-05 23:11:08
