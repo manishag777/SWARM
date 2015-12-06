@@ -5,6 +5,8 @@ var eventType1 = 'past-event"';
 var currentEventId = '';
 var eventData;
 
+var modelProductMap = new Object();
+
 $(document).ready(function(){
 	
 	
@@ -85,16 +87,7 @@ var addEvent = function(){
 
 
 	var formData = $('#template-form').serializeObject();
-	delete formData._wysihtml5_mode;
-//	if (typeof(formData.sportId) === 'string') {
-//		//console.info(formData.sportId);
-//		formData.sportId = [formData.sportId];
-//	}
-//	if (typeof(formData.storeId) === 'string') {
-//		//console.info(formData.storeId);
-//		formData.storeId = [formData.storeId];
-//	}
-	
+	delete formData._wysihtml5_mode;	
 	console.info(formData);
 	$.ajax({
 		url : 'addEvent',
@@ -156,7 +149,6 @@ var createEventAdder = function(){
 }
 
 function createAddEvent(e){
-
 
 	console.info("clicked");
 	$("#event-modal").modal('show');
@@ -222,6 +214,9 @@ var fetchStoreList = function(){
 				
 	});
 }
+
+
+
 
 var fetchEventList = function(){
 
@@ -338,13 +333,13 @@ var getTimelineBody = function(data,eventNumber){
 
 var getTimelineUnitFooter = function(data, eventNumber, index){
 
-	
+
 	var task = [data.task1, data.task2, data.task3];
 	var timeLineUnit = '' ;
 	if(eventNumber==0){
 		timeLineUnit = '<div class="row">'
-			+ getCommonTaskBox("Generated Revenue", 20)
-			+ getProgressBarBox("Cutomer Visited", 70,99)
+			+ getCommonTaskBox("Generated Revenue", data.revenueGenerated)
+			+ getCommonTaskBox("Cutomer Visited", data.customerVisited)
 			+'</div>';
 	}
 	else{
@@ -355,7 +350,7 @@ var getTimelineUnitFooter = function(data, eventNumber, index){
 			revenueTaskBox = getCommonTaskBox("Expected Revenue", revenue);
 		}
 		else{
-			revenueTaskBox = getProgressBarBox("Revenue", 70,99);
+			revenueTaskBox = getProgressBarBox("Revenue", data.revenueGenerated, data.targetedRevenue);
 		}
 		
 		var customerTaskBox = "";
@@ -424,8 +419,7 @@ var currentIndex;
 	
 }
  
- function saveCustomerTarget(index){
-
+ function saveCustomerTarget(){
 	 $.ajax({
 			url : 'saveCustomerTarget',
 			type : 'GET',
@@ -433,7 +427,31 @@ var currentIndex;
 			contentType : "application/json",
 			success : function(data) {
 				console.log(data);
-				swal("Customer target created!", "", "success")
+				swal("Customer target updated!", "", "success")
+			},
+			
+			error : function(e) {
+				alert ("sorry! Due to some problem couldn't fetch the gift-card details");
+			},
+		}).done(function() {
+			console.log("Done fetching gift-card details");
+			$("#customer-visit-Modal").modal("hide");
+			fetchEventList();
+		});
+ }
+ 
+ function saveProductTarget(){
+
+	 console.info(currentIndex);
+	 $.ajax({
+			url : 'saveProductTarget',
+			type : 'GET',
+			data : {target: updateTotal(), eventId:eventData[currentIndex].id },
+			contentType : "application/json",
+			success : function(data) {
+				console.log(data);
+				swal("Product target updated!", "", "success")
+				$("#product-target-setting").modal("hide");
 			},
 			
 			error : function(e) {
@@ -447,8 +465,10 @@ var currentIndex;
  }
 
  function sendEmail(index){
+	 	currentIndex = index;	
 	 
 	$("#subjectId").val("Products Available For Event- "+eventData[index].eventName);
+	document.getElementById("relevantCustomerCount").innerHTML = (eventData[index].expectedCustomerVisit * 3.6).toFixed(0);
 	console.info(eventData[index].id);
 	$("#email-Modal").modal('show');
 	var editor = '<label for="body">Body</label>'
@@ -461,17 +481,123 @@ var currentIndex;
 		+	"<br></p>");
 	$("#mailSubject").wysihtml5();
 }
+ 
+function saveMailStatus(){
+	console.info("At mail status");
+	var val = $("#dropdown_customer").val();
+	swal({   title: "Sending mail to "+val+"% relevant customers",   text: "",   type: "info",   showCancelButton: true,   closeOnConfirm: false,   showLoaderOnConfirm: true, }, 
+			 function(){
+					setTimeout(function(){
+						swal("Successfully sent mail to the customers"); 
+						$("#email-Modal").modal('hide');
+						saveMailStatusInDatabase();
+					}, val*100);  });
+} 
 
- function setProuctTarget(index){
+function saveMailStatusInDatabase(){
+	 $.ajax({
+			url : 'saveMailTask',
+			type : 'GET',
+			data : {eventId:eventData[currentIndex].id},
+			contentType : "application/json",
+			success : function(data) {
+				console.log(data);
+			//	swal("Customer target created!", "", "success")
+			},
+			
+			error : function(e) {
+				//alert ("sorry! Due to some problem couldn't fetch the gift-card details");
+				
+			},
+		}).done(function() {
+			//console.log("Done fetching gift-card details");
+			//$("#customer-visit-Modal").modal("hide");
+			fetchEventList();
+		});
+
+}
+
+var getTop10RelevantProducts = function(eventId, customerCount){
+	
+	$.ajax({
+		url : 'getTop10RelevantProducts',
+		type : 'GET',
+		contentType : "application/json",
+		data : {eventId:eventId, customerCount:customerCount},
+		success : function(data) {
+			console.info(data);
+			updateProductDataTable(data);
+			
+		},
+	}).done(function() {
+		//$(".timeline-centered").append(createEventAdder());
+				
+	});
+	
+}
+
+var updateProductDataTable = function(productData){
+	
+	for(var i in productData ){
+		productData[i].target = productData[i].expectedSales;
+		modelProductMap[productData[i].modelNo] = productData[i];
+	}
+	document.getElementById("expectedTarget").innerHTML = "Rs." + (updateTotal()/1000000).toFixed(3) + "M";
+	
+	$('#product-table').DataTable({
+    	data: productData,
+    	columns: [
+					{ data: 'modelNo' },
+		          	{ data: 'name' },
+		          	{data : 'expectedSales'},
+		          	{data : null ,
+		          	  mRender : function(data, type, full){
+		          		  var val = '"'+data.expectedSales+'"';
+		          		  var modelNo = "'"+data.modelNo + "'";
+		          		  var html =  '<input name="target" type="number" value = '+ val+' class="form-control" id="targetCustomerCount" onKeyUp = "evaluateTotalTarget(this,'+modelNo+')"/>' ;
+		          		  return html;
+		          	  }	
+		          	}
+		      	],
+        filter: false,
+        sort: false,
+        paging: true
+  });
+	
+}
+
+var evaluateTotalTarget = function(input, modelNo ){
+	console.info($(input).val() + " "+modelNo);
+	modelProductMap[modelNo].target = $(input).val();
+	updateTotal();
+}
+
+var updateTotal = function(){	
+		var total = 0;
+		$.each( modelProductMap, function(index,value){
+			total += (value.price)*(value.target);
+		});
+		
+		document.getElementById("setTarget").innerHTML = "Rs." + (total/1000000).toFixed(3) + "M";
+		
+		console.info(total);
+		return total;
+}
+
+function setProuctTarget(index){
+	 currentIndex = index;
 	 console.info(eventData);
 	 console.info(index);
-	console.info(eventData[index].id);
-	$("#product-target-setting").modal('show');
+	 console.info(eventData[index].id);
+	 $("#product-target-setting").modal('show');
+	 getTop10RelevantProducts(eventData[index].id,eventData[index].expectedCustomerVisit);
 	
 }
 
 var getCommonTaskBox = function(header,value){
 	
+	if(value>10000)
+		value = "Rs." + (value/100000).toFixed(3) + "M" ;
 	var commonTaskBox = '<div class="col-md-4">'
 		+'<div class="box" style="min-height:90px;">'
 		+'<div class="box-header ">'      
@@ -489,8 +615,11 @@ var getCommonTaskBox = function(header,value){
 var getProgressBarBox = function(type, achieved, target){
 	
 	var per = ((achieved/target) * 100).toFixed(0);
+	
 	console.info(per);
 	if(type=="Revenue"){
+		achieved = (achieved/100000).toFixed(3);
+		target = (target/100000).toFixed(3);
 		var progressBarBox = '<div class="col-md-4">' 
 		+'<div class="box">'
 		+'<div class="box-header ">'      

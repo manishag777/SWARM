@@ -22,11 +22,14 @@ import org.springframework.stereotype.Repository;
 
 
 
+
 import com.worksap.stm.SWARMS.dto.CustomerDto;
 import com.worksap.stm.SWARMS.dto.EventDto;
 import com.worksap.stm.SWARMS.entity.TopProductsEntity;
 import com.worksap.stm.SWARMS.entity.TopSeperateProductEntity;
+import com.worksap.stm.SWARMS.entity.event.ProductEntity;
 import com.worksap.stm.SWARMS.utils.Utilities;
+
 
 
 
@@ -196,6 +199,38 @@ public class EventDao {
 			ps.setInt(1,id);
 		});
 		
+	}
+
+	public List<ProductEntity> getTop10RelevantProducts(int eventId, int customerCount) {
+		String id[] = {"8Y4J4AWY1I","BTJQ1PMAZG", "P62KMRKXGJ", "XPE7F9GTCA", "3YGDAU295D", "A50IAT84KB", "9UOB8IPD7I", "8T6SHSZC9T", "5KXEQ50ZT6", "YEKQ9TULTS"};
+		String name[] = {"Sparx Men's Mesh Running Shoes", "Port Marathon Running Shoes", "Reebok Men's Performer 2.0 LP Running", "Puma Men's Strike Dp Running", "Adidas Slim Fit Cricket Polo T-Shirt", "Salomon Agile SS polyester T-Shirt", "Valentine Men's White V-Neck Sportswear", "Nike Sport Sipper Water Bottle", "Nike Performance Cotton", "Puma Terry Ankle length Socks"   };
+		int price[] = {1099, 699, 1578, 1499, 890, 780, 650, 240, 120,150 };
+		int expectedSales[] = {2*customerCount/20, 5*customerCount/20, customerCount/20, 3*customerCount/20, 7*customerCount/40, 6*customerCount/20, 8*customerCount/20, 48*customerCount/100, 33*customerCount/100, 43*customerCount/100 };
+		
+		List<ProductEntity> res = new ArrayList<>();
+		
+		for(int i=0; i<10; i++){
+			ProductEntity pe = new ProductEntity();
+			pe.setModelNo(id[i]);
+			pe.setName(name[i]);
+			pe.setPrice(price[i]);
+			pe.setExpectedSales(expectedSales[i]);
+			res.add(pe);
+		}
+
+		return res;
+	}
+
+	public int getExpectedRevenue(int eventId, int expectedCustomerVisitCount) {
+		// TODO Auto-generated method stub
+		List<ProductEntity> list = getTop10RelevantProducts(eventId, expectedCustomerVisitCount);
+		int res = 0;
+		for(int i=0; i<list.size(); i++){
+			int cp  =  list.get(i).getExpectedSales()*list.get(i).getPrice() ;
+			res = res +  (cp*25)/100 + cp ;
+		}
+		
+		return res;
 	}
 
 	

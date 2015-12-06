@@ -13,5 +13,6 @@ public class ProductEntity {
 	String name;
 	int expectedSales;
 	int remainingSales;
+	int price;
 	
 }

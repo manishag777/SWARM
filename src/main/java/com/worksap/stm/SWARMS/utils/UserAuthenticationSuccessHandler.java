@@ -29,9 +29,17 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
 			if(authority.getAuthority().equals("MD")){
 				redirectStrategy.sendRedirect(request, response, "/admin");
 			}
-			else{
-				redirectStrategy.sendRedirect(request, response, "/hello");
-
+			else if(authority.getAuthority().equals("ss")){
+				redirectStrategy.sendRedirect(request, response, "/searchProduct");
+			}
+			else if(authority.getAuthority().equals("cso")){
+				redirectStrategy.sendRedirect(request, response, "/csodashboard");
+			}
+			else if(authority.getAuthority().equals("cashier")){
+				redirectStrategy.sendRedirect(request, response, "/manageTransaction");
+			}
+			else if(authority.getAuthority().equals("sm")){
+				redirectStrategy.sendRedirect(request, response, "/manageProduct");
 			}
 		}
 		

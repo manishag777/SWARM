@@ -88,7 +88,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					<h4 class="modal-title" id="myModalLabel">Customers' visit Target Setting</h4>
 				</div>
 				<div class="modal-body" style="height:200px;">
-					<form id="template-form">
+					<form>
 						
 						<div class="box">
 			                <div class="box-header">
@@ -122,52 +122,36 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		
 		<div class="modal fade" id="product-target-setting" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" data-mode="add" >
-		<div class="modal-dialog analysis-modal-dialog" role="document">
+		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">Event Name(future)</h4>					
+					<h4 class="modal-title" id="myModalLabel">Set target for top 10 relevant products</h4>					
 				</div>
 				<div class="modal-body">
-				
-				 <div id="future-rangeDiv" class = "col-md-9 pull-right"> 
-					<div id="future-date-range">
-					    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-					    <span></span> <b class="caret"></b>
-					</div>
-				  </div>
-				  
-                
+                	<h4><b>Expected Target:</b> <span id = "expectedTarget"> </span> </h4>
+                	<h4><b>New Target:</b> <span id = "setTarget"> </span> </h4>
 					<div id= "top-product">
-						<div class ="col-md-6 tableDiv" id = "future-tableDiv">
-							<table id="future-product-table" class="table table-striped table-bordered">
+						<div class ="col-md-12 tableDiv" id = "future-tableDiv">
+							<table id="product-table" class="table table-striped table-bordered">
 								<thead>
 			                    	<tr class = "table-header">
-			                    		<td style= 'width: 4%'/>
-			                    		<td style= 'width: 12%'> pid </td>
 			                    		<td style= 'width: 12%' > Model No. </td>
 			                    		<td style= 'width: 20%'> Name</td>
 			                    		<td style= 'width: 20%'> Expected sales(Qty.)</td>
-			                    		<td style= 'width: 20%' id = "achievedTarget"> Target Achieved(Qty.)</td>
+			                    		<td style= 'width: 20%' id = "targetSet"> Set Target(Qty.)</td>
 			                    	</tr>
 			                    </thead>
 				              </table>
-						</div>
-						<div class ="col-md-6 chartDiv box-body chart-responsive">
-							<canvas id="lineChart" style="height:250px"></canvas>
-<!-- 							<div id = "futureChartDiv" class="chart" style = "height:500px; width:inherit;"> -->
-								
-<!-- 							</div>  -->
-							
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button id="save-event" type="button" class="btn btn-primary">Save Event</button>
+					<button type="button" onClick = "saveProductTarget()" class="btn btn-primary">Save Target</button>
 				</div>
 			</div>
 		</div>
@@ -185,7 +169,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					<h4 class="modal-title" id="myModalLabel">Send Email to Relevant Customer</h4>
 				</div>
 				<div class="modal-body" style="height:600px;">
-					<form id="template-form">
+					<form >
 						
 						<div class="box">
 			                <div class="box-header">
@@ -193,14 +177,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							  <h4><b> Number of Relevant Customers is </b><span id = "relevantCustomerCount">1398</span></h4>
 							  <label for="tag">Select customers</label>
 							  <select id="dropdown_customer" class="form-control" name="percentageOfCustomer">
-							  	<option value = "20"> Top 20% relevant customers </option>
+							  	<option value = "20" selected = "selected"> Top 20% relevant customers </option>
 							  	<option value = "40"> Top 40% relevant customers </option>
 							  	<option value = "60"> Top 60% relevant customers </option>
 							  	<option value = "100"> All relevant customers </option>
 							  </select>
 							 	
-			                  <label for="subject" style = "margin-top:20px;">Subject</label> <input name="subjectText"
-								type="text" class="form-control" id="subjectId"/>
+			                  <label for="subject" style = "margin-top:20px;">Subject</label>
+			                   <input name="subjectText" type="text" class="form-control" id="subjectId"/>
 			                 
 			                </div><!-- /.box-header -->
 			                <div class="box-body pad" id = "SubjectArea-div">
@@ -216,7 +200,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button id="save-template" type="button" class="btn btn-primary">Send</button>
+					<button id="send-mail" onClick = "saveMailStatus()" type="button" class="btn btn-primary">Send</button>
 				</div>
 			</div>
 		</div>

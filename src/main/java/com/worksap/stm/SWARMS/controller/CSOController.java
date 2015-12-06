@@ -202,27 +202,7 @@ public class CSOController {
 		return kmeanClustering.findClusterEntities(storeFetchEntities);
 	}
 	
-	@RequestMapping(value = "/addEvent", method = RequestMethod.POST )
-	@ResponseBody
-	public EventDto addEvent(@RequestBody EventDto eventDto ){
-		
-		//List<StoreFetchEntity> storeFetchEntities = customerClusterEntity
-		System.out.println(eventDto);
-		int partCount = eventDto.getParticipantCount();
-		int expectedCustomerVisitCount = (int) (partCount*(Utilities.getRandomFloat(35, 55)))/100;
-		int expectedRevenue =  (int) ((int)expectedCustomerVisitCount* (Utilities.getRandomFloat(900, 1000))) ;
-		eventDto.setExpectedRevenue(expectedRevenue);
-		eventDto.setExpectedCustomerVisit(expectedCustomerVisitCount);
-		
-		try {
-			 eventDto.setId(eventDao.insert(eventDto));
-			return eventDto;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-	}
+	
 	
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/fetchEventList", method = RequestMethod.GET )
