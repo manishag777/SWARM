@@ -21,7 +21,7 @@ function initMap() {
 var addMarker =  function(location, icon, pinCode, draggable) {
 
   // from the array of alphabetical characters.
-	console.info(location);
+	//console.info(location);
   var marker = new google.maps.Marker({
     position: location,
    // label: labels[labelIndex++ % labels.length],
@@ -115,6 +115,9 @@ function drawCircle(centroids,radius){
 	    center: centroids[i],
 	    radius: 1000*radius[i]
 	  });
+	  
+	  circleMarker.push(cityCircle);
+	  
 	}
 
 }
@@ -132,7 +135,6 @@ function drawCircleStore(location,radius,index){
 	    center: location,
 	    radius: radius*1000
 	  });
-	  
 	  return storeCircle;
 	  
 	}

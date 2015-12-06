@@ -86,6 +86,7 @@ var removeFromStoreDropDown = function(storeVal){
 }
 
 var drawClusterDonutGraph = function(clusterData){
+
 	
 	var clusters = clusterData.clusters;
 	var unused  = clusterData.unusedIndex;
@@ -100,10 +101,15 @@ var drawClusterDonutGraph = function(clusterData){
 	var plotData  = [];
 	for(var i=0; i<indexesArr.length; i++){
 		var storeDto = storeDtoArr[i];
-		plotData.push({label:storeDto.name, value : totalArr[indexesArr[i]] });
+		plotData.push({label:storeDto.name, value : totalArr[indexesArr[i]]*23 });
 	}
 	
-	plotData.push({label:"New Store", value : totalArr[unused] });
+	plotData.push({label:"New Store", value : totalArr[unused]*23 });
+	
+	 var chartDiv = ' <div  id = "sales-chart"></div>';
+	 document.getElementById("sales-chart2").innerHTML = "";
+	 document.getElementById("sales-chart2").innerHTML = chartDiv;
+								 	
 	
 	var donut = new Morris.Donut({
 	    element: 'sales-chart',
@@ -154,7 +160,7 @@ function updateMap(storeVal){
 	//drawCircleStore(location,15,address.index);
 	
 }
-
+var mycount = 1;
 var getSuggestion = function(){
 
 
@@ -177,10 +183,26 @@ var getSuggestion = function(){
 	    count++;	    
 	});
 	
-	for(var i=0; mapMarker.length;  i++){
-		mapMarker[i].setMap = null;
+	for(var i=0; i<mapMarker.length;  i++){
+		//if(isRealValue(mapMarker[i]) && isRealValue(mapMarker[i].setMap))//console.info(mapMarker[i]);
+		if(isRealValue(mapMarker[i])){
+			mapMarker[i].setMap(null);
+			mapMarker[i] = null;
+		}
 	}
 	mapMarker = [];
+	
+	console.info("circleMarker Length = " + circleMarker.length);
+	for(var i=0; i<circleMarker.length;  i++){
+		//if(isRealValue(mapMarker[i]) && isRealValue(mapMarker[i].setMap))//console.info(mapMarker[i]);
+		if(isRealValue(circleMarker[i])){
+			console.info(circleMarker[i]);
+			circleMarker[i].setMap(null);
+			circleMarker[i] = null;
+		}
+	}
+	
+	circleMarker = [];
 	getClusteringResult(res);
 }
 
@@ -275,4 +297,8 @@ var getAddress = function(lat, long, address){
 	    }
 	);
 	return res;
+}
+
+function NotifyMD(){
+	swal("Notification sent to MD", "", "success");
 }
