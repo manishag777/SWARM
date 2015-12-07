@@ -39,7 +39,7 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				redirectStrategy.sendRedirect(request, response, "/manageTransaction");
 			}
 			else if(authority.getAuthority().equals("sm")){
-				redirectStrategy.sendRedirect(request, response, "/manageProduct");
+				redirectStrategy.sendRedirect(request, response, "/smDashboard");
 			}
 		}
 		

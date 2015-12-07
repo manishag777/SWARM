@@ -50,12 +50,14 @@ var openNotificationDialog = function(idParam, nids){
 	$("#notification-dialog").modal("show");
 	id = idParam;
 	$.ajax({
+		
 		url : 'getProductDetailById',
 		type : 'GET',
 		data : {id : idParam },
 		contentType : "application/json",
 		success : function(data) {
 			console.log(data);
+			console.info(data);
 			$("#psno").val(data.pid);
 			$("#pname").val(data.name);
 			$("#pcolor").val(data.color);
@@ -132,12 +134,14 @@ var updateNotificationPanel = function(){
 
 var updateNotificationProduct = function(status){
 	
-	var wq = $("#wq").val();
-	var pq = $("#pq").val();
-	var ipq = $("#ipq").val()
+	var wq = parseInt($("#wq").val());
+	var pq = parseInt($("#pq").val());
+	var ipq = parseInt($("#ipq").val());
 	
 	
-	
+	console.info(wq);
+	console.info(pq);
+	console.info(ipq);
 	if(status==3 && pq+ipq<= wq){
 		alert("Make sure total quantity is greater the warning quantity");
 		return;

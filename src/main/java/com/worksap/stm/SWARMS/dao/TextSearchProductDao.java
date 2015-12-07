@@ -58,6 +58,7 @@ public class TextSearchProductDao {
 			
 			return template.query(FILTER_ENTITY, new Object[]{brand,sportId,lowerLimit,higherLimit,marginType,discountRange,searchText,searchText,searchText,searchText,searchText}, (rs, column)->{
 				ProductSearchFetchEntity product = new 	ProductSearchFetchEntity();
+				product.setPdetailId(rs.getInt("id"));
 				product.setModelNo(rs.getString("model_no"));
 				product.setBrand(rs.getString("brand"));
 				product.setColor(rs.getString("color"));

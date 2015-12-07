@@ -96,7 +96,8 @@ var addEvent = function(){
 		contentType : "application/json",
 		success : function(data) {
 			console.log("Done saving event");
-			
+	        fetchEventList();
+
 		},
 		
 		error : function(e) {
@@ -104,6 +105,7 @@ var addEvent = function(){
 		},
 	}).done(function() {
 		console.log("Done adding event");
+		
 		$('#event-modal').modal('hide');
 	});
 
@@ -597,7 +599,7 @@ function setProuctTarget(index){
 var getCommonTaskBox = function(header,value){
 	
 	if(value>10000)
-		value = "Rs." + (value/100000).toFixed(3) + "M" ;
+		value = "Rs." + (value/1000000).toFixed(3) + "M" ;
 	var commonTaskBox = '<div class="col-md-4">'
 		+'<div class="box" style="min-height:90px;">'
 		+'<div class="box-header ">'      
@@ -618,8 +620,8 @@ var getProgressBarBox = function(type, achieved, target){
 	
 	console.info(per);
 	if(type=="Revenue"){
-		achieved = (achieved/100000).toFixed(3);
-		target = (target/100000).toFixed(3);
+		achieved = (achieved/1000000).toFixed(3);
+		target = (target/1000000).toFixed(3);
 		var progressBarBox = '<div class="col-md-4">' 
 		+'<div class="box">'
 		+'<div class="box-header ">'      

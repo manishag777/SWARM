@@ -499,7 +499,7 @@ var serializeProductInfo = function(){
 	orderDto = new Object();
 	orderDto['custId'] = custId;
 	orderDto['subTotal'] = total;
-	orderDto['storeId'] = 'ranchi';  // change it later 
+	orderDto['storeId'] = 'delhi';  // change it later 
 }
 
 

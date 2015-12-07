@@ -131,7 +131,7 @@ public class CashierController {
 	@ResponseBody
 	public ProductSearchFetchEntity getProductDetailByIdAndStore(@RequestParam("id") String id, @RequestParam("storeId") String storeId) {	
 		  
-		
+		storeId = "delhi";
 		System.out.println(id + " "+ storeId);
 		
 		try{

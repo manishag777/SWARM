@@ -303,6 +303,8 @@ function format (d) {
 			  +	"<img src =" + d.url + "> </img>" 
 			  +"</div>"
 			  +"<div class='col-lg-4'>"
+			  + "<p><b>Location:</b>" + "R5C4"  + "</p>" 
+			  + "<p><b>ProductId:</b>" + d.pdetailId  + "</p>" 
 			  +	"<p><b>Brand:</b>" + d.brand  + "</p>" 
 			  + "<p>Only <b>" + d.qty  + "</b> in stock.</p>" 
 			  +  "<p" +d.info +"</p><br/>" 

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class ProductSearchFilterEntity {
-
+	
 	private String sportId;
 	private String brand;
 	private String priceRange;

@@ -89,6 +89,24 @@ public class salesManagerController {
 	@Autowired
 	private EventDao eventDao;
 	
+	
+	@PreAuthorize("MD")
+	@RequestMapping("/smDashboard")
+    public ModelAndView smDashboard(Principal principal) {
+		
+		 //String filename = "/WEB-INF/customer.csv";
+	        
+	     //ServletContext context = getServletContext();
+		//String fileName = System.getProperty("user.home")+"/customer.csv";
+		//System.out.println(fileName);
+		//csvFileReader.readCsvFile(fileName);
+		
+		//populateMarkingTable.populateMarkingTable();
+		return createModelAndView(principal,"sm-dashboard");
+      //  return new ModelAndView("search-product2", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
+    }
+	
+	
 	@PreAuthorize("MD")
 	@RequestMapping("/manageEvent")
     public ModelAndView manageEvent(Principal principal) {
