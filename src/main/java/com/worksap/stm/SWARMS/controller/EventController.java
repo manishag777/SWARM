@@ -26,6 +26,8 @@ public class EventController {
 	@Autowired
 	EventDao eventDao;
 	
+	
+	
 	@RequestMapping(value = "/getFutureEventData", method = RequestMethod.POST)
 	@ResponseBody
 	public FutureEventProductsFetchEntity getFutureEventData(@RequestBody FutureEventEntity futureEventEntity){

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>SportWarms</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+
+    <ct th:replace="fragments/header :: commonhead"></ct>
+	<link rel="stylesheet" href="resources/app/css/mynav-bar.css"/>
+	<link rel="stylesheet" href="resources/app/css/event-timeline.css"/>
+    <link rel="stylesheet" href="resources/app/css/event-timeline-custom.css"/>
+    <link rel="stylesheet" href="resources/app/css/sales-report2.css"/>
+    <link rel="stylesheet" href="resources/app/css/statusbar.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"/>
+    
+    
+    
+	
+	
+	
+  </head>
+    
+  <body class="hold-transition skin-blue sidebar-mini">
+  
+  
+    <div class="wrapper">
+    
+	<!-- Main Header -->
+	<div th:replace="fragments/header :: header"></div>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+         	<div class="container">
+				<div class="col-md-12 productGrid">
+		                  <div class="box box-danger">
+		                    <div class="box-header with-border">
+		                    
+		                    <div class = "box-title col-md-5">
+			                    <h>Store: &nbsp;</h>
+			                      <div class="box-title">
+										<select id="store-type-filter2" class="form-control select-box-inline office-selects" style = "width:120px"/>
+								  </div>
+								  					  
+								  <h>&nbsp;&nbsp;&nbsp;&nbsp;Sport: &nbsp;</h>
+			                      <div class="box-title">
+										<select id="sport-type-filter" class="form-control select-box-inline office-selects" style = "width:120px"/>
+								  </div>
+							  </div>
+						
+		                      <div class="box-title pull-right">
+		                      <div id="rangeDiv" class = "col-md-9"> 
+								<div id="date-range">
+								    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+								    <span></span> <b class="caret"></b>
+								</div>
+							  </div>
+		                      	<button type="button" class="add-event btn btn-default btn-md col-md-3" onClick = "createAddEvent()">
+									<span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
+									<span >Add New Event</span>
+								</button>
+		                      </div>
+		                    </div>
+		                    
+		                  </div>
+		        </div>
+			    <div class="row">
+			        <div class="timeline-centered">
+			   		</div>
+				</div>
+				
+		        
+		</div>
+		
+	<div class="modal fade" id="set-timeModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-mode="add">
+		<div class="modal-dialog customer-modal" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					
+					<h4 class="modal-title">Set meeting time</h4>
+					<table style = "width:100%; margin-top:10px;">
+						<tr>
+                    <td style = "width:80%"><div class='input-group date' id='datetimepicker1'>
+	                    <input type='text' class="form-control" />
+	                    <span class="input-group-addon">
+	                        <span class="glyphicon glyphicon-calendar"></span>
+	                    </span>
+                    </div></td>
+                    <td style = "width:20%"><button type="button" class="btn btn-default" data-dismiss="modal">Save</button></td>
+                    </tr>
+                    </table>
+					
+					
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="callOnThisNumberModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-mode="add">
+		<div class="modal-dialog customer-modal" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<table style = "width:100%; margin-top:10px;">
+					<tr>
+	                    <td style = "width:80%"><h4> Call On +65-9103-6635</h4></td>
+	                    <td style = "width:20%"><button type="button" class="btn btn-default" data-dismiss="modal">Ok</button></td>
+                    </tr>
+                    </table>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="set-fees" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" data-mode="add">
+	<div class="modal-dialog customer-modal" role="document">
+		<div class="modal-content">
+			<div class="modal-header" style = "height:225px;">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			
+                
+                			  <label for="To" style = "margin-top:20px;">Number of stall</label>
+			                  		<input name="stallNumber" type="text" class="form-control" id="stallNo" value = "1"/>
+			                   	
+			                  <label for="subject" style = "margin-top:20px;">Total fees(INR.)</label>
+			                   		<input name="fee" type="NUMBER" class="form-control" id="fee"/>
+			                  
+			                  <button type="button" id = "saveFees" class="pull-right btn btn-default" data-dismiss="modal" style = "margin-top:10px;">Save</button>
+                
+			</div>
+			
+		</div>
+	</div>
+</div>
+	
+	
+	<div class="modal fade" id="send-mail-Modal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-mode="add">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Send Email to Relevant Customer</h4>
+				</div>
+				<div class="modal-body" style="height:600px;">
+					<form >
+						
+						<div class="box">
+			                <div class="box-header">
+
+							  <h4><b> Number of Relevant Customers is </b><span id = "relevantCustomerCount">1398</span></h4>
+							  <label for="tag">Select customers</label>
+							  <select id="dropdown_customer" class="form-control" name="percentageOfCustomer">
+							  	<option value = "20" selected = "selected"> Top 20% relevant customers </option>
+							  	<option value = "40"> Top 40% relevant customers </option>
+							  	<option value = "60"> Top 60% relevant customers </option>
+							  	<option value = "100"> All relevant customers </option>
+							  </select>
+							  
+							  <label for="To" style = "margin-top:20px;">To</label>
+			                  <input name="subjectText" type="text" class="form-control" id="emailId" value = "magrawal6055@gmail.com"/>
+			                   	
+			                  <label for="subject" style = "margin-top:20px;">Subject</label>
+			                   <input name="subjectText" type="text" class="form-control" id="subjectId"/>
+			                 
+			                </div><!-- /.box-header -->
+			                <div class="box-body pad" id = "SubjectArea-div">
+			                </div>
+			                
+			                
+			                
+			                
+            			</div>
+						
+					</form>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button id="send-mail" onClick = "saveMailStatus()" type="button" class="btn btn-primary">Send</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+		
+		
+		
+		
+		
+		<div class="modal fade" id="customer-visit-Modal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-mode="add">
+		<div class="modal-dialog customer-modal" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Customers' visit Target Setting</h4>
+				</div>
+				<div class="modal-body" style="height:200px;">
+					<form>
+						
+						<div class="box">
+			                <div class="box-header">
+							  
+							 <div class = "row">
+							  <div class="col-lg-12">
+								  <label>Expected Number of Customers' Visit on purpose for event</label> 
+								  <input readonly = "readonly" type="text" class="form-control" id="expectedCustomerCount"/><br/>
+							 </div>
+							 
+							 <div class="col-lg-12">
+								  <label for="eventName">Set the target for customers' Visit on purpose for event </label> 
+								  <input name="eventName" type="text" class="form-control" id="targetCustomerCount"/><br/>
+							 </div>
+							 
+							
+			                </div>
+			              </div><!-- /.box-header -->
+            			</div>
+						
+					</form>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button id = "saveCustomerTarget" onClick = "saveCustomerTarget()"  type="button" class="btn btn-primary">Save the target</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+		
+		<div class="modal fade" id="product-target-setting" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-mode="add" >
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Set target for top 10 relevant products</h4>					
+				</div>
+				<div class="modal-body">
+                	<h4><b>Expected Target:</b> <span id = "expectedTarget"> </span> </h4>
+                	<h4><b>New Target:</b> <span id = "setTarget"> </span> </h4>
+					<div id= "top-product">
+						<div class ="col-md-12 tableDiv" id = "future-tableDiv">
+							<table id="product-table" class="table table-striped table-bordered">
+								<thead>
+			                    	<tr class = "table-header">
+			                    		<td style= 'width: 12%' > Model No. </td>
+			                    		<td style= 'width: 20%'> Name</td>
+			                    		<td style= 'width: 20%'> Expected sales(Qty.)</td>
+			                    		<td style= 'width: 20%' id = "targetSet"> Set Target(Qty.)</td>
+			                    	</tr>
+			                    </thead>
+				              </table>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" onClick = "saveProductTarget()" class="btn btn-primary">Save Target</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+		
+		<div class="modal fade" id="email-Modal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-mode="add">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Send Email to Relevant Customer</h4>
+				</div>
+				<div class="modal-body" style="height:600px;">
+					<form >
+						
+						<div class="box">
+			                <div class="box-header">
+
+							  <h4><b> Number of Relevant Customers is </b><span id = "relevantCustomerCount">1398</span></h4>
+							  <label for="tag">Select customers</label>
+							  <select id="dropdown_customer" class="form-control" name="percentageOfCustomer">
+							  	<option value = "20" selected = "selected"> Top 20% relevant customers </option>
+							  	<option value = "40"> Top 40% relevant customers </option>
+							  	<option value = "60"> Top 60% relevant customers </option>
+							  	<option value = "100"> All relevant customers </option>
+							  </select>
+							 	
+			                  <label for="subject" style = "margin-top:20px;">Subject</label>
+			                   <input name="subjectText" type="text" class="form-control" id="subjectId"/>
+			                 
+			                </div><!-- /.box-header -->
+			                <div class="box-body pad" id = "SubjectArea-div">
+			                </div>
+			                
+			                
+			                
+			                
+            			</div>
+						
+					</form>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button id="send-mail" onClick = "saveMailStatus()" type="button" class="btn btn-primary">Send</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+		
+		
+		
+		<div class="modal fade" id="event-modal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-mode="add">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Add upcoming sport event</h4>
+				</div>
+				<div class="modal-body">
+					<form id="template-form">
+						
+						<div class="box">
+			                <div class="box-header">
+							  
+							 <div class = "row">
+							  <div class="col-lg-12">
+								  <label for="eventName">Name of event</label> 
+								  <input name="eventName"
+									type="text" class="form-control" id="eventName"/><br/>
+							 </div>
+							 
+							  <div class="col-lg-12">		
+				                  <label for="eventDate">Date range of event</label> 
+				                  <div class="input-group">
+				                      <div class="input-group-addon">
+				                        <i class="fa fa-calendar"></i>
+				                      </div>
+				                      <input type="text" class="form-control pull-right" name = "eventDate" id="reservation"/>
+				                  </div><!-- /.input group -->
+			                 </div>
+															
+							  <div class="col-lg-4 event-form-group">
+								<label for="sport">Sport</label>
+								<select id="dropdown_sport" class="form-control" name="sportType">
+								</select>
+							  </div>
+							  
+							  <div class="col-lg-4 event-form-group">
+								<label for="participantCount">Number of Participant</label>
+								<input type="number" class="form-control" name = "participantCount"/>
+							  </div>
+							  
+							  <div class="col-lg-4 event-form-group">
+								<label for="pincode">Location PinCode</label>
+								<input type="number" class="form-control" name = "pinCode"/>
+							  </div>
+							  
+							  <div class="col-lg-12 event-form-group">
+								<label for="pincode">Address</label>
+								<input type="text" class="form-control" name = "address"/>
+							  </div>
+							  
+							
+			              	<div class="col-lg-12 event-form-group">
+			                	<div class="box-body pad" id = "textarea-div">
+			                	</div>
+			                </div>
+			                </div>
+			              </div><!-- /.box-header -->
+            			</div>
+						
+					</form>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button id="save-event" type="button" class="btn btn-primary">Save Event</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+		
+		<div class="modal fade analysis-modal" id="analysis-modal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-mode="add" >
+		<div class="modal-dialog analysis-modal-dialog" id = "analysis-modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<ul class="nav nav-pills">
+					  <li class="active" id = "topSellingProductsTab"><a href="#">Top Selling Products</a></li>
+					  <li id = "topCustomersTab"><a href="#" >Top Customers</a></li>
+					</ul>
+					
+				</div>
+				<div class="modal-body">
+					<div id= "top-product">
+						<div class ="col-md-7" id = "tableDiv">
+							<table id="top-product-table" class="table table-striped table-bordered">
+								<thead>
+			                    	<tr class = "table-header">
+			                    		<td style= 'width: 4%'/>
+			                    		<td style= 'width: 16%'> Products(Top) </td>
+			                    		<td style= 'width: 40%' > Sales(INR.) </td>
+			                    		<td style= 'width: 20%'> % </td>
+			                    		<td style= 'width: 20%'> Cumulative(%) </td>
+			                    	</tr>
+			                    </thead>
+				              </table>
+						</div>
+						<div class ="col-md-5" id = "chartDiv">
+					
+						</div>
+					</div>
+					
+					<div id= "top-customer" style = "display:none">
+						<div class ="col-md-7" id = "tableDiv1">
+							<table id="top-customer-table" class="table table-striped table-bordered">
+								<thead>
+			                    	<tr class = "table-header">
+			                    		<td style= 'width: 4%'/>
+			                    		<td style= 'width: 16%'> Customer(Top) </td>
+			                    		<td style= 'width: 40%' > Sales(INR.) </td>
+			                    		<td style= 'width: 20%'> % </td>
+			                    		<td style= 'width: 20%'> Cumulative(%) </td>
+			                    	</tr>
+			                    </thead>
+				              </table>
+						</div>
+						<div class ="col-md-5" id = "chartDiv1">
+					
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button id="save-event" type="button" class="btn btn-primary">Save Event</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+		
+		<div class="modal fade analysis-modal" id="future-analysis-modal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-mode="add" >
+		<div class="modal-dialog analysis-modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Event Name(future)</h4>					
+				</div>
+				<div class="modal-body">
+				
+				 <div id="future-rangeDiv" class = "col-md-9 pull-right"> 
+					<div id="future-date-range">
+					    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+					    <span></span> <b class="caret"></b>
+					</div>
+				  </div>
+				  
+                
+					<div id= "top-product">
+						<div class ="col-md-6 tableDiv" id = "future-tableDiv">
+							<table id="future-product-table" class="table table-striped table-bordered">
+								<thead>
+			                    	<tr class = "table-header">
+			                    		<td style= 'width: 4%'/>
+			                    		<td style= 'width: 12%'> pid </td>
+			                    		<td style= 'width: 12%' > Model No. </td>
+			                    		<td style= 'width: 20%'> Name</td>
+			                    		<td style= 'width: 20%'> Expected sales(Qty.)</td>
+			                    		<td style= 'width: 20%' id = "achievedTarget"> Target Achieved(Qty.)</td>
+			                    	</tr>
+			                    </thead>
+				              </table>
+						</div>
+						<div class ="col-md-6 chartDiv box-body chart-responsive">
+							<canvas id="lineChart" style="height:250px"></canvas>
+<!-- 							<div id = "futureChartDiv" class="chart" style = "height:500px; width:inherit;"> -->
+								
+<!-- 							</div>  -->
+							
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button id="save-event" type="button" class="btn btn-primary">Save Event</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+		
+		<div class="modal fade analysis-modal" id="current-analysis-modal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-mode="add" >
+		<div class="modal-dialog analysis-modal-dialog" id = "analysis-modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Current Event</h4>
+					
+				</div>
+				<div class="modal-body">
+					
+					<div id= "top-product">
+						<div class ="col-md-7 tableDiv" id = "tableDiv">
+							<table id="top-product-table" class="table table-striped table-bordered">
+								<thead>
+			                    	<tr class = "table-header">
+			                    		<td style= 'width: 4%'/>
+			                    		<td style= 'width: 16%'> Pid </td>
+			                    		<td style= 'width: 40%' > Model No. </td>
+			                    		<td style= 'width: 20%'> Name </td>
+			                    		<td style= 'width: 20%'> Expected Target</td>
+			                    		<td style= 'width: 20%'> Remaining Target </td>
+			                    	</tr>
+			                    </thead>
+				              </table>
+						</div>
+						<div class ="col-md-5 chartDiv" id = "chartDiv">
+					
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button id="save-event" type="button" class="btn btn-primary">Save Event</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+		
+		
+    </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+          <!-- Your Page Content Here -->
+
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+
+
+
+
+ <div th:replace="fragments/footer :: footer"></div>
+<!--       Main Footer -->
+<!--       <footer class="main-footer"> -->
+<!--         To the right -->
+<!--         <div class="pull-right hidden-xs"> -->
+<!--           Anything you want -->
+<!--         </div> -->
+<!--         Default to the left -->
+<!--         <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved. -->
+<!--       </footer> -->
+      
+       <div class="control-sidebar-bg"></div>
+    </div><!-- ./wrapper -->
+
+   
+     <!-- jQuery 2.1.4 -->
+    <script src="resources/lib/js/jquery-2.1.4.min.js" type="text/javascript"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="resources/lib/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- AdminLTE App -->
+    <script src="resources/app/js/app.min.js" type="text/javascript"></script>
+    
+    <script src="resources/app/js/common.js" type="text/javascript"></script>
+    
+    
+    <script src="resources/lib/js/bootstrap3-wysihtml5.all.min.js"></script>
+    <script src="resources/app/js/jquery.timeago.js" type="text/javascript"></script>
+ 	<script src="resources/lib/js/bootstrap3-wysihtml5.all.min.js"></script>
+ 	 <script src="resources/lib/js/daterangepicker/moment.min.js"></script>
+ 	<script src="resources/lib/js/daterangepicker/daterangepicker.js"></script>
+ 	<script src="resources/lib/js/datatables.min.js" type="text/javascript"></script>
+ 	<script src="resources/app/js/customer-analysis.js" type="text/javascript"></script>
+    <script src="resources/app/js/event-analysis.js" type="text/javascript"></script>
+    <script type="text/javascript" src="resources/lib/js/Chart.min.js"></script>
+    <script src="resources/app/js/timeline-modal/future.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="resources/lib/js/fnReloadAjax.js" type="text/javascript"></script>
+    <script src="resources/app/js/notification.js" type="text/javascript"></script>
+    <script src="resources/app/js/timeline-modal/contactManager.js" type="text/javascript"></script>
+        <script src="resources/app/js/timeline-modal/meeting.js" type="text/javascript"></script>
+    <script src="resources/app/js/timeline-modal/statusbar.js" type="text/javascript"></script>
+        <script src="resources/app/js/timeline-modal/statusbar.js" type="text/javascript"></script>
+		    <script src="resources/app/js/timeline-modal/eventStatus.js" type="text/javascript"></script>
+		
+    <script src="resources/app/js/timeline-modal/event-timeline2.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js">  </script>
+     <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+    </script>
+    
+    
+    
+    
+    <script>
+    $(window).load(function() {
+        $('#out-of-stock-notification').css('display','block');
+    });
+
+    </script>
+        
+  </body>
+  </html>
