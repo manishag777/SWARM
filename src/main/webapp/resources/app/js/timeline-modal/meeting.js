@@ -19,10 +19,10 @@ var  getMeetingDiv = function(id){
 }
 
 function getMeetingHeader(id){
-	
+	var meetingHeaderId = '"meetingHeader' + id + '"' ; 
 	id = "'"+ id +"'";
   var html = '<div class="box-header with-border">'
-    +'<h3 class="box-title">Meeting on 5 pm tomorrow</h3>'
+    +'<h3 class="box-title" id ='+meetingHeaderId+'>Meeting on 5 pm tomorrow</h3>'
     
  +'</div><!-- /.box-header -->'  ;
   
@@ -59,26 +59,33 @@ function getMeetingBody(id){
 }
 
 function getMeetingFooter(id){
-
+	
+	var stallParaId = '"stallPara'+id+'"' ;
+	var feesParaId = '"feesPara'+id+'"' ;
 	id = "'"+ id +"'";
 
 	var html = '<div class = "box-footer">'
     +'<table style = "width:100%">'
      +'<tr>' 
-      +'<td style = "width:60%"><p>Number of stall is 2</p></td>'
+      +'<td style = "width:60%"><p id = '+ stallParaId +'>Number of stall is 2</p></td>'
      +'</tr>'
      +'<tr>' 
-  		+'<td style = "width:60%"><p>Total fees Rs. 5000<p></td>'
+  		+'<td style = "width:60%"><p id = '+ feesParaId +'>Total fees Rs. 5000<p></td>'
   	 +'</tr>'
 
   +'</table>'
 +'</div>' ;
 	
+	console.info(html);
 	return html;
 }
 
+var eventId;
+
 function meetingRadioListener(id){
 
+   
+	eventId = id;
 
 	var name = "meetingRadio" +  id;
 	var input = "input[type=radio][name="+name+"]";	
@@ -97,8 +104,61 @@ function meetingRadioListener(id){
         if(this.value==-1)
         	$("#meeting" + id).addClass("btn-danger");
 		
+        updateMStatus(this.value, id);
 	});
 }
 
+function checkTheMeetingRadioButton(id, value){
+	
+	var name = "meetingRadio" +  id;
+	var input = "input[type=radio][name="+name+"]";
+	if(value == 0){
+		$(input)[0].checked = true;
+		//$("#reschedule" + id).css("display", "none");
+	}
+	else if(value == 1){
+		$(input)[1].checked = true;
+		//$("#reschedule"+id).css("display", "show");
+		
+	}
+	else if(value == -1){
+		$(input)[2].checked = true;
+		//$("#reschedule" +id).css("display", "none");
+	}
+}
 
+function updateMStatus(value, id){
+	$.ajax({
+		url : 'updateMStatus',
+		type : 'GET',
+		data : {value : value, eventId : id},
+		contentType : "application/json",
+		success : function() {
+			
+		},
+	}).done(function() {
+				
+	});
+}
 
+function saveFeesAndStallCount(){
+	
+	console.info("At saveFeesAndStallCount" + " "+ $("#stallCount").val());
+	
+	stallParaId = "stallPara" + eventId;
+	feesParaId = "feesPara" + eventId;
+	
+	document.getElementById(stallParaId).innerHTML = "Number of Stall is "+ $("#stallCount").val();
+	document.getElementById(feesParaId).innerHTML = "Total fees Rs. "+ $("#fees").val();
+	$.ajax({
+		url : 'saveFeesAndStallCount',
+		type : 'GET',
+		data : {fees : $("#fees").val(), eventId : eventId, stallCount : $("#stallNo").val()},
+		contentType : "application/json",
+		success : function() {
+			
+		},
+	}).done(function() {
+		$("#set-fees").modal("hide");
+	});
+}

@@ -3,8 +3,6 @@ package com.worksap.stm.SWARMS.dao;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,18 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-
-
-
-
-
-
-
-
-
-
-import com.worksap.stm.SWARMS.dto.CustomerDto;
 import com.worksap.stm.SWARMS.dto.EventDto;
 import com.worksap.stm.SWARMS.entity.TopProductsEntity;
 import com.worksap.stm.SWARMS.entity.TopSeperateProductEntity;
@@ -31,19 +17,11 @@ import com.worksap.stm.SWARMS.entity.event.ProductEntity;
 import com.worksap.stm.SWARMS.utils.Utilities;
 
 
-
-
-
-
-
-
-
-
-
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 
 @Repository
 public class EventDao {
+	
 	
 	@Autowired
 	private JdbcTemplate template;
@@ -59,6 +37,9 @@ public class EventDao {
 //			+ " event_store est on se.id = est.event_id where es.sport_id = ? and est.store_id = ? and ((fromDate between ? and ?) or (toDate between ? and ?)) order by fromDate DESC ";
 	private static final String FETCH_EVENT_LISTS = "select * from new_events where sportsType = ? and ((fromDate between ? and ?) or (toDate between ? and ?)) order by fromDate DESC ";
 
+	
+	
+	
 	public List<EventDto> fetchEventDto(String sport, String fromDate, String toDate){
 		
 		return template.query(FETCH_EVENT_LISTS, new Object[]{sport,fromDate,toDate,fromDate,toDate}, (rs,column)->{
@@ -85,6 +66,7 @@ public class EventDao {
 		});
 		
 	}; 
+	
 	
 	public int insert(EventDto eventDto) throws IOException {
 		try {

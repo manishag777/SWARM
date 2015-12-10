@@ -204,16 +204,6 @@ public class CSOController {
 	
 	
 	
-	@PreAuthorize("hasAuthority('MD')")
-	@RequestMapping(value = "/fetchEventList", method = RequestMethod.GET )
-	@ResponseBody
-	public List<EventDto> fetchEventList(@RequestParam("sport") String sport, @RequestParam("fromDate") String fromDate,  @RequestParam("toDate") String toDate) {	
-		
-		//System.out.println(sport+ " "+store +" "+ fromDate + " "+ toDate);
-		//return null;
-		return eventDao.fetchEventDto(sport, fromDate, toDate);
 	
-	}
-
 
 }

@@ -86,8 +86,6 @@ var createRangeCalender =  function(id) {
 
 var addEvent = function(){
 
-
-
 	var formData = $('#template-form').serializeObject();
 	delete formData._wysihtml5_mode;	
 	console.info(formData);
@@ -114,6 +112,7 @@ var addEvent = function(){
 }
 
 var createDiv = function(eventType, date, eventNumber, data, index){
+
 
 
 	console.info("eventNumber = ");
@@ -223,6 +222,7 @@ var fetchEventList = function(){
 
 
 
+
 	var sport = $("#sport-type-filter").val();
 	var today =  new Date();
 	
@@ -247,8 +247,11 @@ var fetchEventList = function(){
 				var date = getStandardDate(toDate);
 				$(".timeline-centered").append(createDiv(getEventType(data[i]), getFormattedDate(getStandardDate(data[i].fromDate)), getEventNumber(data[i]), data[i], i ));
 				//addListenerEvent(data[i].id);
+				setBreadCrumbStatusColor(data[i]);
 				contactManagerRadioListener(data[i].id);
 				meetingRadioListener(data[i].id)
+				setDateTimePicker(data[i].id);
+				assignTaskButtonListener(data[i].id)
 			}
 		},
 	}).done(function() {
@@ -295,9 +298,6 @@ var openAnalysisModal = function(eventNumber,id){
 }
 
 var getTimelineBox = function(data,eventNumber, index){
-
-
-	
    var timelineUnit =  '<div class = "row"><div class="col-md-12">'
     +'<div class="box box-default">'
     +'<div class="box-header with-border">'
@@ -323,7 +323,7 @@ var getTimelineBody = function(data,eventNumber){
     +' <p><b> Location of event: </b>'+data.address+'</p>'  
     +'<p><b>Number of particpant: </b>'+ data.participantCount +'</p>'   
     +'<p><b>Sport Type : </b>'+ data.sportType +'</p>' 
-    + getBreadCrumbPanel(data.id)
+    + getBreadCrumbPanel(data.id, data)
     +'</div><!-- /.box-body -->';
 	
 	
@@ -337,7 +337,7 @@ var getTimelineUnitFooter = function(data, eventNumber, index){
 			  +getMeetingDiv(data.id)
 			  +getAssignTaskDiv(data.id)
 			  +getEventStatusDiv(data.id)
-			  +getEventOutputDiv(data.id)
+			  +getEventAnalysisDiv(data.id)
 			  + '</div>' ;
 	return res;
 }
@@ -378,8 +378,7 @@ var getPendingTaskBox = function(task, index){
 
 var currentIndex; 
  
-var getBreadCrumbPanel = function(eventId){
-
+var getBreadCrumbPanel = function(eventId, data){
 
 
 	var id1 = '"contactManager'+eventId+'"';
@@ -389,57 +388,114 @@ var getBreadCrumbPanel = function(eventId){
 	var id5 = '"eventOuput'+eventId+'"';
 	
     eventId = "'" + eventId + "'" ;
+		
+	var res = '<button type="button" id ='+ id1 +' onClick = "contactManager('+ eventId +')" class="btn btn-arrow-right contactManagerButton">Contact Manager</button>'
+	     + '<button type="button" id ='+ id2 +' onClick = "meeting('+ eventId +')" class="btn btn-arrow-right meetingButton">Meeting</button>'
+	    + '<button type="button" id ='+ id3 +' onClick = "assignTask('+ eventId +')" class="btn btn-arrow-right assignTaskButton">Assign Task</button>'
+	    + '<button type="button" id ='+ id4 +' onClick = "eventStatus('+ eventId +')" class="btn btn-arrow-right eventStatusButton">Event Status</button>'
+	    + '<button type="button" id ='+ id5 +' onClick = "eventOuput('+ eventId +')" class="btn btn-arrow-right eventOutputButton">Event Analysis</button>' ;
 	
-	
-	
-	var res = '<button type="button" id ='+ id1 +' onClick = "contactManager('+ eventId +')" class="btn btn-info btn-arrow-right contactManagerButton">Contact Manager</button>'
-	     + '<button type="button" id ='+ id2 +' onClick = "meeting('+ eventId +')" class="btn btn-warning btn-arrow-right meeting meetingButton">Meeting</button>'
-	    + '<button type="button" id ='+ id3 +' onClick = "assignTask('+ eventId +')" class="btn btn-danger btn-arrow-right assignTaskButton">Assign Task</button>'
-	    + '<button type="button" id ='+ id4 +' onClick = "eventStatus('+ eventId +')" class="btn btn-success btn-arrow-right eventStatusButton">Event Status</button>'
-	    + '<button type="button" id ='+ id5 +' onClick = "eventOuput('+ eventId +')" class="btn btn-default btn-arrow-right eventOutputButton">Event Output</button>' ;
 	return res;
 	
 }
 
-function getAssignTaskDiv(id){
+function setBreadCrumbStatusColor(data){
 
-	var divId = '"assignTaskDiv' + id+'" ';
-	var res = '<div class = "col-md-12 " id = '+divId+' style = "display:none;">'
-    +'<h> Assign Task</h>'
-    +'</div>' ;
-	return res;
+	var eventId = data.id;
+	var contactManagerId = "#contactManager"+eventId;
+	var meetingId = "#meeting"+eventId;
+	var assignTaskId = "#assignTask"+eventId;
+	var eventStatusId = "#eventStatus"+eventId;
+	var eventOuput = "#eventOuput"+eventId;
+	checkTheContactRadioButton(eventId, data.cmStatus);
+	fillTheDiv(eventId,data);
+	if(data.cmStatus==0)
+	{
+		$(contactManagerId).addClass("btn-info");
+	}
+	else if(data.cmStatus==1)
+	{
+		// set meeting time paragraph
+		checkTheMeetingRadioButton(eventId, data.mstatus);
+		 mpid = "mpid"+eventId;
+		 meetingHeaderId = "meetingHeader"+eventId ;
+		 document.getElementById(mpid).innerHTML = "Meeting on " + data.cmTime ;
+		 document.getElementById(meetingHeaderId).innerHTML = "Meeting on " +  data.cmTime ;
+		 
+		$(contactManagerId).addClass("btn-success");
+		console.info(data);
+		if(data.mstatus==1){
+			$(meetingId).addClass("btn-success");
+			
+			stallParaId = "stallPara" + eventId;
+			feesParaId = "feesPara" + eventId;
+			document.getElementById(stallParaId).innerHTML = "Number of Stall is "+ data.stallNo;
+			document.getElementById(feesParaId).innerHTML = "Total fees Rs. "+ data.fees;
+			
+			if(data.taskStatus==0){
+				$(assignTaskId).addClass("btn-info");
+			}
+			else{
+				$(assignTaskId).addClass("btn-success");
+				if(data.eventStatus==0){ //Not started
+					//$(eventStatusId).addClass("btn-info");
+				}
+				else if(data.eventStatus==-1){ //finished
+					$(eventStatusId).addClass("btn-success");
+					$(eventOuput).addClass("btn-info");
+					
+					
+				}
+				else{
+					$(eventStatusId).addClass("btn-info");   // on going event
+					
+				}
+			}
+			
+		}
+		else if(data.mstatus==-1){
+			$(meetingId).addClass("btn-danger");
+		}
+		else if(data.mstatus==0){
+			$(meetingId).addClass("btn-info");
+		}
+	}
+	else if(data.cmStatus == -1){
+		$(contactManagerId).addClass("btn-danger");
+	}
 	
 }
 
-function getMeetingDiv2(id){
+function fillTheDiv(eventId, data){
 
-	var divId = '"meetingDiv' + id+'" ';
-	var res = '<div class = "col-md-12 " id = '+divId+' style = "display:none;">'
-    +'<h> Meeting</h>'
-    +'</div>' ;	
+
+	var leadGeneratedId = "leadGeneratedId"+eventId;  
+	var leadConvertedId = "leadConvertedId"+eventId;
+	var inputCostId = "inputCostId"+eventId; 
+	var revenueId = "revenueId"+eventId; 
+	var profitId = "profitId"+eventId;
+	var regCustCountId = "regCustCountId"+eventId; 
+	var eventStatusHeaderId = "eventStatusHeaderId" + eventId;
 	
-	return res;
+	document.getElementById(leadGeneratedId).innerHTML = data.rcustomer ;
+	document.getElementById(leadConvertedId).innerHTML = data.acustomer ;
+	document.getElementById(inputCostId).innerHTML = "2010" ;
+	document.getElementById(revenueId).innerHTML = data.revenue;
+	document.getElementById(profitId).innerHTML = data.profit;
+	document.getElementById(regCustCountId).innerHTML = data.rcustomer;
+	
+	var eventStatusHeaderTitle = "";
+	if(data.eventStatus==-1) eventStatusHeaderTitle = "Event has Finished" ;     // finished
+	if(data.eventStatus==1)  eventStatusHeaderTitle = "Event is going on";
+	if(data.eventStatus==0)  eventStatusHeaderTitle = "Event has not started";
+	document.getElementById(eventStatusHeaderId).innerHTML = eventStatusHeaderTitle;
+
+
 }
 
-function getEventStatusDiv2(id){
-
-	var divId = '"eventStatusDiv' + id+'" ';
-	var res = '<div class = "col-md-12 " id = '+divId+' style = "display:none;">'
-    +'<h>Event Status</h>'
-    +'</div>' ;	
-	
-	return res;
+function setDateTimePicker(eventId){
+	console.info("at dateTimePicker" + eventId );
+	var id = "#taskDateTimePicker"+eventId;
+	$(id).datetimepicker();
 }
-
-function getEventOutputDiv(id){
-
-	var divId = '"eventOutputDiv' + id+'" ';
-	var res = '<div class = "col-md-12 " id = '+divId+' style = "display:none;">'
-    +'<h> Event OutPut</h>'
-    +'</div>' ;	
-	
-	return res;
-}
-
-
 

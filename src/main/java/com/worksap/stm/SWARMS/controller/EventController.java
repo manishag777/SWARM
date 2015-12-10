@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,19 +14,93 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.worksap.stm.SWARMS.dao.EventDao;
-import com.worksap.stm.SWARMS.dto.EventDto;
+import com.worksap.stm.SWARMS.dao.StallEventDao;
+import com.worksap.stm.SWARMS.dto.StallEventDto;
+import com.worksap.stm.SWARMS.dto.UserEventDto;
 import com.worksap.stm.SWARMS.entity.event.FutureEventEntity;
 import com.worksap.stm.SWARMS.entity.event.ProductEntity;
 import com.worksap.stm.SWARMS.entity.event.FutureEventProductsFetchEntity;
-import com.worksap.stm.SWARMS.utils.Utilities;
 
 
 @Controller
 public class EventController {
 	
 	@Autowired
+	StallEventDao stallEventDao;
+	
+	@Autowired
 	EventDao eventDao;
 	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/fetchEventList", method = RequestMethod.GET )
+	@ResponseBody
+	public List<StallEventDto> fetchEventList(@RequestParam("sport") String sport, @RequestParam("fromDate") String fromDate,  @RequestParam("toDate") String toDate) {	
+		
+		//System.out.println(sport+ " "+store +" "+ fromDate + " "+ toDate);
+		//return null;
+		List<StallEventDto> res =  stallEventDao.fetchStallEventDto(sport, fromDate, toDate);
+		for(int i=0; i<res.size(); i++){
+			System.out.println(res.get(i).getId());
+			List<String> userList = stallEventDao.fetchUsersList(res.get(i).getId());
+			res.get(i).setUserList(userList);
+		}
+		return res;
+	
+	}
+	
+	@RequestMapping(value = "/updateCmStatus", method = RequestMethod.GET)
+	@ResponseBody
+	public void updateCmStatus(@RequestParam("eventId") int eventId, @RequestParam("value") int value){
+
+		
+		System.out.println(eventId +" "+ value);
+		stallEventDao.updateCmStatus(eventId, value);
+		
+		//return new TopReturnEntity(2,2,2,eventDao.getTopProductsData(topProductFilterEntity.getEventId()));
+	}
+	
+	@RequestMapping(value = "/updateMStatus", method = RequestMethod.GET)
+	@ResponseBody
+	public void updateMStatus(@RequestParam("eventId") int eventId, @RequestParam("value") int value){
+
+		
+		System.out.println(eventId +" "+ value);
+		stallEventDao.updateMStatus(eventId, value);
+		
+		//return new TopReturnEntity(2,2,2,eventDao.getTopProductsData(topProductFilterEntity.getEventId()));
+	}
+
+
+	
+	@RequestMapping(value = "/upDateMeetingTime", method = RequestMethod.GET)
+	@ResponseBody
+	public void upDateMeetingTime(@RequestParam("eventId") int eventId, @RequestParam("dateTime") String dateTime){
+
+		
+		System.out.println(eventId +" "+ dateTime);
+		stallEventDao.upDateMeetingTime(eventId, dateTime);
+		
+		//return new TopReturnEntity(2,2,2,eventDao.getTopProductsData(topProductFilterEntity.getEventId()));
+	}
+	
+	@RequestMapping(value = "/saveFeesAndStallCount", method = RequestMethod.GET)
+	@ResponseBody
+	public void saveFeesAndStallCount(@RequestParam("eventId") int eventId, @RequestParam("stallCount") int stallCount, @RequestParam("fees") int fees){
+
+		
+		System.out.println(eventId +" "+ stallCount + " "+fees);
+		stallEventDao.saveFeesAndStallCount(eventId, stallCount, fees);
+		
+		//return new TopReturnEntity(2,2,2,eventDao.getTopProductsData(topProductFilterEntity.getEventId()));
+	}
+	
+	@RequestMapping(value = "/saveAssignedUser", method = RequestMethod.POST)
+	@ResponseBody
+	public void saveAssignedUser(@RequestBody UserEventDto userEventDto){
+		 System.out.println(userEventDto);
+		 stallEventDao.saveAssignedUser(userEventDto);
+		//return new TopReturnEntity(2,2,2,eventDao.getTopProductsData(topProductFilterEntity.getEventId()));
+	}
 	
 	
 	@RequestMapping(value = "/getFutureEventData", method = RequestMethod.POST)
@@ -88,18 +163,11 @@ public class EventController {
 	
 	@RequestMapping(value = "/addEvent", method = RequestMethod.POST )
 	@ResponseBody
-	public EventDto addEvent(@RequestBody EventDto eventDto ){
+	public StallEventDto addEvent(@RequestBody StallEventDto eventDto ){
 		
-		//List<StoreFetchEntity> storeFetchEntities = customerClusterEntity
-		System.out.println(eventDto);
-		int partCount = eventDto.getParticipantCount();
-		int expectedCustomerVisitCount = (int) (partCount*(Utilities.getRandomFloat(35, 55)))/100;
-		int expectedRevenue =  eventDao.getExpectedRevenue(0,expectedCustomerVisitCount); ;
-		eventDto.setExpectedRevenue(expectedRevenue);
-		eventDto.setExpectedCustomerVisit(expectedCustomerVisitCount);
-		
+		System.out.println(eventDto);		
 		try {
-			 eventDto.setId(eventDao.insert(eventDto));
+			 eventDto.setId(stallEventDao.insert(eventDto));
 			return eventDto;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

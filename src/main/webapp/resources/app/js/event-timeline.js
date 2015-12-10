@@ -85,7 +85,6 @@ var createRangeCalender =  function(id) {
 
 var addEvent = function(){
 
-
 	var formData = $('#template-form').serializeObject();
 	delete formData._wysihtml5_mode;	
 	console.info(formData);
@@ -217,9 +216,6 @@ var fetchStoreList = function(){
 	});
 }
 
-
-
-
 var fetchEventList = function(){
 
 
@@ -334,7 +330,6 @@ var getTimelineBody = function(data,eventNumber){
 }
 
 var getTimelineUnitFooter = function(data, eventNumber, index){
-
 
 	var task = [data.task1, data.task2, data.task3];
 	var timeLineUnit = '' ;

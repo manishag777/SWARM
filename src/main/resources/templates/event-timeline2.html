@@ -94,12 +94,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					<table style = "width:100%; margin-top:10px;">
 						<tr>
                     <td style = "width:80%"><div class='input-group date' id='datetimepicker1'>
-	                    <input type='text' class="form-control" />
+	                    <input type='text' id = "meetingDateTime" class="form-control" />
 	                    <span class="input-group-addon">
 	                        <span class="glyphicon glyphicon-calendar"></span>
 	                    </span>
                     </div></td>
-                    <td style = "width:20%"><button type="button" class="btn btn-default" data-dismiss="modal">Save</button></td>
+                    <td style = "width:20%"><button type="button" onClick = "saveMeetingTime()" class="btn btn-default" data-dismiss="modal">Save</button></td>
                     </tr>
                     </table>
 					
@@ -146,9 +146,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			                  		<input name="stallNumber" type="text" class="form-control" id="stallNo" value = "1"/>
 			                   	
 			                  <label for="subject" style = "margin-top:20px;">Total fees(INR.)</label>
-			                   		<input name="fee" type="NUMBER" class="form-control" id="fee"/>
+			                   		<input name="fee" type="NUMBER" class="form-control" id="fees"/>
 			                  
-			                  <button type="button" id = "saveFees" class="pull-right btn btn-default" data-dismiss="modal" style = "margin-top:10px;">Save</button>
+			                  <button type="button" id = "saveFees" onClick = "saveFeesAndStallCount()" class="pull-right btn btn-default" style = "margin-top:10px;">Save</button>
                 
 			</div>
 			
@@ -369,7 +369,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									type="text" class="form-control" id="eventName"/><br/>
 							 </div>
 							 
-							  <div class="col-lg-12">		
+							  <div class="col-lg-6">		
 				                  <label for="eventDate">Date range of event</label> 
 				                  <div class="input-group">
 				                      <div class="input-group-addon">
@@ -379,25 +379,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				                  </div><!-- /.input group -->
 			                 </div>
 															
-							  <div class="col-lg-4 event-form-group">
+							  <div class="col-lg-6 event-form-group">
 								<label for="sport">Sport</label>
 								<select id="dropdown_sport" class="form-control" name="sportType">
 								</select>
 							  </div>
 							  
-							  <div class="col-lg-4 event-form-group">
-								<label for="participantCount">Number of Participant</label>
-								<input type="number" class="form-control" name = "participantCount"/>
-							  </div>
-							  
-							  <div class="col-lg-4 event-form-group">
-								<label for="pincode">Location PinCode</label>
-								<input type="number" class="form-control" name = "pinCode"/>
-							  </div>
-							  
 							  <div class="col-lg-12 event-form-group">
-								<label for="pincode">Address</label>
-								<input type="text" class="form-control" name = "address"/>
+								<label for="participantCount">Event Address</label>
+								<input type="text" class="form-control" name = "placeEvent"/>
+							  </div>
+							  
+							  <div class="col-lg-4 event-form-group">
+								<label for="pincode">Co-ordinator Name</label>
+								<input type="text" class="form-control" name = "coName"/>
+							  </div>
+							  
+							  <div class="col-lg-4 event-form-group">
+								<label for="pincode">Phone Number</label>
+								<input type="text" class="form-control" name = "coPhone"/>
+							  </div>
+							  
+							  <div class="col-lg-4 event-form-group">
+								<label for="pincode">Email Id</label>
+								<input type="text" class="form-control" name = "coEmail"/>
 							  </div>
 							  
 							
@@ -631,13 +636,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="resources/lib/js/fnReloadAjax.js" type="text/javascript"></script>
     <script src="resources/app/js/notification.js" type="text/javascript"></script>
     <script src="resources/app/js/timeline-modal/contactManager.js" type="text/javascript"></script>
-        <script src="resources/app/js/timeline-modal/meeting.js" type="text/javascript"></script>
+    <script src="resources/app/js/timeline-modal/meeting.js" type="text/javascript"></script>
     <script src="resources/app/js/timeline-modal/statusbar.js" type="text/javascript"></script>
-        <script src="resources/app/js/timeline-modal/statusbar.js" type="text/javascript"></script>
-		    <script src="resources/app/js/timeline-modal/eventStatus.js" type="text/javascript"></script>
+    <script src="resources/app/js/timeline-modal/statusbar.js" type="text/javascript"></script>
+	<script src="resources/app/js/timeline-modal/eventStatus.js" type="text/javascript"></script>
+      <script src="resources/app/js/timeline-modal/eventAnalysis.js" type="text/javascript"></script>
 		
     <script src="resources/app/js/timeline-modal/event-timeline2.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js">  </script>
+	<script src="resources/app/js/timeline-modal/task-assignment.js" type="text/javascript"></script>
+	    
      <script type="text/javascript">
             $(function () {
                 $('#datetimepicker1').datetimepicker();

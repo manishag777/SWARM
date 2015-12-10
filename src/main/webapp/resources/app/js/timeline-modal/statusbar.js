@@ -54,7 +54,7 @@ function eventStatus(eventId) {
 function eventOuput(eventId) {
 	
 	hideAll(eventId);
-	var eventOutputDivId = "#eventOutputDiv"+eventId ;
+	var eventOutputDivId = "#eventAnalysisDiv"+eventId ;
 	$(eventOutputDivId).css("display", "inline-block");
 
 }
@@ -64,7 +64,7 @@ function hideAll(eventId){
 	var meetingDivId = "#meetingDiv"+eventId ;
 	var assignTaskDivId = "#assignTaskDiv"+eventId ;
 	var eventStatusDivId = "#eventStatusDiv"+eventId ;
-	var eventOutputDivId = "#eventOutputDiv"+eventId ;
+	var eventOutputDivId = "#eventAnalysisDiv"+eventId ;
 	
 	$(contactManagerDiv).css("display", "none");
 	$(meetingDivId).css("display", "none");

@@ -1,5 +1,4 @@
 
-
 var  getContactManagerDiv = function(id){
 	
 	
@@ -48,7 +47,7 @@ function getContactManagerBody(id){
     +'<h4 style = "margin-top:1px"> Meeting status</h4>'
     +'<div class="form-group">'
     	+'<label style = "margin"> '
-        +'<input type="radio" name='+name+ 'class="flat-red" value = "0"/>'
+        +'<input type="radio" name='+name+ '  class="flat-red" value = "0"/>'
         +'No call yet &emsp;'
       +'</label>'
       +'<label>'
@@ -68,22 +67,24 @@ function getContactManagerBody(id){
 
 function getContactManagerFooter(id){
 
-	id = "'"+ id +"'";
 
+	var mpid = '"mpid' + id + '"'; 
+	var rescheduleid = '"reschedule' + id + '"' ;
+	id = "'"+ id +"'";
 	var html = '<div class = "box-footer">'
-    +'<table style = "width:100%">'
+    +'<table style = "width:100%" id ='+rescheduleid+'  >'
      +'<tr>' 
-      +'<td style = "width:60%"><p>Meeting at 5pm tomorrow</p></td>'
+      +'<td style = "width:60%"><p id ='+ mpid +'>Meeting time not decided</p></td>'
     +'<td style = "width:60%"><button class="btn btn-block btn-primary pull-right" onClick = "meetingReschedule('+id+')" style = "width:52%">Reschedule &nbsp;&nbsp;<i class="fa  fa-calendar-times-o"></i></button></td>'
   +'</tr>'
   +'</table>'
 +'</div>' ;
 	
+	console.info(html);
 	return html;
 }
 
 function contactManagerRadioListener(id){
-
 
 	var name = "contactRadio" +  id;
 	var input = "input[type=radio][name="+name+"]";	
@@ -96,17 +97,83 @@ function contactManagerRadioListener(id){
         	$("#contactManager" + id).addClass("btn-info");
         if(this.value==1){
         	$("#contactManager" + id).addClass("btn-success");
+        	$("#meeting" + id).addClass("btn-info");
         	$("#set-timeModal").modal("show");
         	
         }
         if(this.value==-1)
         	$("#contactManager" + id).addClass("btn-danger");
+        
+        updateCmStatus(this.value, id);
 		
 	});
 }
 
-function meetingReschedule(id){
+function checkTheContactRadioButton(id, value){
+	
+	var name = "contactRadio" +  id;
+	var input = "input[type=radio][name="+name+"]";
+	if(value == 0){
+		$(input)[0].checked = true;
+		//$("#reschedule" + id).css("display", "none");
+	}
+	else if(value == 1){
+		$(input)[1].checked = true;
+		//$("#reschedule"+id).css("display", "show");
+		
+	}
+	else if(value == -1){
+		$(input)[2].checked = true;
+		//$("#reschedule" +id).css("display", "none");
+	}
+}
 
+var currentEventId;
+function updateCmStatus(value, eventId){
+	currentEventId = eventId;
+	console.info(value);
+	
+//	if(value==1)
+//		$("#reschedule"+id).css("display", "show");
+//	else
+//		$("#reschedule" + id).css("display", "none");
+		
+	$.ajax({
+		url : 'updateCmStatus',
+		type : 'GET',
+		data : {value : value, eventId : eventId},
+		contentType : "application/json",
+		success : function() {
+			
+		},
+	}).done(function() {
+				
+	});
+}
+
+function saveMeetingTime(){
+
+	console.info("saveMeetingTime" + " "+ $("#meetingDateTime").val());
+		
+
+	$.ajax({
+		url : 'upDateMeetingTime',
+		type : 'GET',
+		data : {dateTime : $("#meetingDateTime").val(), eventId : currentEventId},
+		contentType : "application/json",
+		success : function() {
+			 mpid = "mpid"+currentEventId;
+			// rescheduleid = "reschedule"+currentEventId; 
+			 document.getElementById(mpid).innerHTML = "Meeting at " +  $("#meetingDateTime").val();
+			 
+		},
+	}).done(function() {
+	});
+}
+
+
+function meetingReschedule(id){
+	currentEventId = id;
 	console.info(id);
 	$("#set-timeModal").modal("show");
 }
