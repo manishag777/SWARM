@@ -1,7 +1,8 @@
 
 var  getContactManagerDiv = function(id){
-	
-	
+
+
+
 	var divId = '"contactManagerDiv' + id+'" '
 	
 	var html = '<div class = "col-md-12 contactManager" id = '+divId+' style = "display:inline-block;">'
@@ -19,6 +20,7 @@ var  getContactManagerDiv = function(id){
 }
 
 function getContactManagerHeader(id){
+	
 	
 	id = "'"+ id +"'";
   var html = '<div class="box-header with-border">'
@@ -68,6 +70,7 @@ function getContactManagerBody(id){
 function getContactManagerFooter(id){
 
 
+
 	var mpid = '"mpid' + id + '"'; 
 	var rescheduleid = '"reschedule' + id + '"' ;
 	id = "'"+ id +"'";
@@ -87,10 +90,12 @@ function getContactManagerFooter(id){
 function contactManagerRadioListener(id){
 
 	var name = "contactRadio" +  id;
-	var input = "input[type=radio][name="+name+"]";	
+	var input = "input[type=radio][name="+name+"]";
+	console.info("hello chnaging");
+	
 	$(document).on('change', input ,function(){
 		
-		console.info(name);
+		$("#reschedule"+id).attr('style','display:none;');
 		removeAllClass("#contactManager" + id);
 		
         if(this.value==0)
@@ -99,6 +104,7 @@ function contactManagerRadioListener(id){
         	$("#contactManager" + id).addClass("btn-success");
         	$("#meeting" + id).addClass("btn-info");
         	$("#set-timeModal").modal("show");
+        	$("#reschedule"+id).attr('style',' width: 100%; display:show;');
         	
         }
         if(this.value==-1)
@@ -110,21 +116,20 @@ function contactManagerRadioListener(id){
 }
 
 function checkTheContactRadioButton(id, value){
-	
+
 	var name = "contactRadio" +  id;
 	var input = "input[type=radio][name="+name+"]";
+	$("#reschedule"+id).attr('style','display:none;');
 	if(value == 0){
 		$(input)[0].checked = true;
-		//$("#reschedule" + id).css("display", "none");
 	}
 	else if(value == 1){
 		$(input)[1].checked = true;
-		//$("#reschedule"+id).css("display", "show");
+		$("#reschedule"+id).attr('style',' width: 100%; display:show;');
 		
 	}
 	else if(value == -1){
 		$(input)[2].checked = true;
-		//$("#reschedule" +id).css("display", "none");
 	}
 }
 
@@ -152,7 +157,6 @@ function updateCmStatus(value, eventId){
 }
 
 function saveMeetingTime(){
-
 	console.info("saveMeetingTime" + " "+ $("#meetingDateTime").val());
 		
 
@@ -163,8 +167,10 @@ function saveMeetingTime(){
 		contentType : "application/json",
 		success : function() {
 			 mpid = "mpid"+currentEventId;
+			 meetingHeaderID = "meetingHeader" + currentEventId ; 
 			// rescheduleid = "reschedule"+currentEventId; 
 			 document.getElementById(mpid).innerHTML = "Meeting at " +  $("#meetingDateTime").val();
+			 document.getElementById(meetingHeaderID).innerHTML = "Meeting at " +  $("#meetingDateTime").val();
 			 
 		},
 	}).done(function() {
@@ -185,12 +191,15 @@ function callOnThisNumber(id){
 
 function sendMail(id){
 	$("#send-mail-Modal").modal("show");
+	
+	$("#emailId").val(eventDataIdMap[id].coEmail);
+	$("#subjectId").val("Permission for setting up stall at the event location");
 	var editor = '<label for="body">Body</label>'
 		+ '<textarea class="textarea form-control" id="mailSubject" name="mailSubject"  placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>'
 	document.getElementById('SubjectArea-div').innerHTML = editor;
 	$("#mailSubject").val("<p>"
 
-		+	"<p>Dear Customer,</p><p>The Product is available in your nearest SportsWARM store. Hurry Up! The Stock is limited. Avail the discount on refering new Customers.</p><p>Thanks</p><p>Manish Agrawal</p><p>Sales Manager </p><p>SportsWarm </p><p></p>"
+		+	"<p>Dear Organiser,</p><p>We want to open stall at the event area. For that we want to meet you.</p><p>Thanks</p><p>Ajit Agrawal</p><p>Sales Manager </p><p>SportsWarm </p><p></p>"
 
 		+	"<br></p>");
 	$("#mailSubject").wysihtml5();

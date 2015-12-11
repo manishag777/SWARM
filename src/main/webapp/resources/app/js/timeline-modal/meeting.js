@@ -19,6 +19,7 @@ var  getMeetingDiv = function(id){
 }
 
 function getMeetingHeader(id){
+
 	var meetingHeaderId = '"meetingHeader' + id + '"' ; 
 	id = "'"+ id +"'";
   var html = '<div class="box-header with-border">'
@@ -62,15 +63,16 @@ function getMeetingFooter(id){
 	
 	var stallParaId = '"stallPara'+id+'"' ;
 	var feesParaId = '"feesPara'+id+'"' ;
+	var meetingFooterId = '"meetingFooter'+id+'"';
 	id = "'"+ id +"'";
 
 	var html = '<div class = "box-footer">'
-    +'<table style = "width:100%">'
+    +'<table style = "width:100%" id ='+ meetingFooterId +'>'
      +'<tr>' 
-      +'<td style = "width:60%"><p id = '+ stallParaId +'>Number of stall is 2</p></td>'
+      +'<td style = "width:60%"><p id = '+ stallParaId +'></p></td>'
      +'</tr>'
      +'<tr>' 
-  		+'<td style = "width:60%"><p id = '+ feesParaId +'>Total fees Rs. 5000<p></td>'
+  		+'<td style = "width:60%"><p id = '+ feesParaId +'><p></td>'
   	 +'</tr>'
 
   +'</table>'
@@ -85,20 +87,22 @@ var eventId;
 function meetingRadioListener(id){
 
    
-	eventId = id;
+	
+	console.info("eventId" + eventId);
 
 	var name = "meetingRadio" +  id;
 	var input = "input[type=radio][name="+name+"]";	
 	$(document).on('change', input ,function(){
-		
+		eventId = id;
 		console.info(this.value);
 		removeAllClass("#meeting" + id);
-		
+		$("#meetingFooter"+id).attr('style',' display:none;');
         if(this.value==0)
         	$("#meeting" + id).addClass("btn-info");
         if(this.value==1){
         	$("#meeting" + id).addClass("btn-success");
         	$("#set-fees").modal("show");
+        	$("#meetingFooter"+id).attr('style',' width: 100%; display:show;');
         	
         }
         if(this.value==-1)
@@ -112,18 +116,18 @@ function checkTheMeetingRadioButton(id, value){
 	
 	var name = "meetingRadio" +  id;
 	var input = "input[type=radio][name="+name+"]";
+	$("#meetingFooter"+id).attr('style',' display:none;');
 	if(value == 0){
 		$(input)[0].checked = true;
-		//$("#reschedule" + id).css("display", "none");
+		
 	}
 	else if(value == 1){
 		$(input)[1].checked = true;
-		//$("#reschedule"+id).css("display", "show");
+		$("#meetingFooter"+id).attr('style',' width: 100%; display:show;');
 		
 	}
 	else if(value == -1){
 		$(input)[2].checked = true;
-		//$("#reschedule" +id).css("display", "none");
 	}
 }
 
@@ -142,13 +146,15 @@ function updateMStatus(value, id){
 }
 
 function saveFeesAndStallCount(){
-	
-	console.info("At saveFeesAndStallCount" + " "+ $("#stallCount").val());
-	
+
+	removeAllClass("#assignTask"+eventId);
+	$("#assignTask"+eventId).addClass("btn-info");
+	console.info("At saveFeesAndStallCount" + " "+ $("#stallNo").val());
 	stallParaId = "stallPara" + eventId;
 	feesParaId = "feesPara" + eventId;
 	
-	document.getElementById(stallParaId).innerHTML = "Number of Stall is "+ $("#stallCount").val();
+	$("#meetingFooter"+eventId).attr('style',' width: 100%; display:show;');
+	document.getElementById(stallParaId).innerHTML = "Number of Stall is "+ $("#stallNo").val();
 	document.getElementById(feesParaId).innerHTML = "Total fees Rs. "+ $("#fees").val();
 	$.ajax({
 		url : 'saveFeesAndStallCount',
@@ -156,6 +162,7 @@ function saveFeesAndStallCount(){
 		data : {fees : $("#fees").val(), eventId : eventId, stallCount : $("#stallNo").val()},
 		contentType : "application/json",
 		success : function() {
+			
 			
 		},
 	}).done(function() {

@@ -64,4 +64,19 @@ public class NotificationDao{
 			ps.setInt(1,nid);
 		});
 	}
+
+	public List<NotificationDto> getNotificationByUsername(String user) {
+		
+		String GET_NOTIFICATION_BY_USER = "SELECT * FROM notification WHERE username = ? ORDER BY seen, post_time";
+			return template.query(GET_NOTIFICATION_BY_USER, (rs,column)->{
+				NotificationDto notificationDto = new NotificationDto();
+				notificationDto.setId(rs.getInt("id"));
+				notificationDto.setMessage(rs.getString("message"));
+				notificationDto.setUsername(rs.getString("username"));
+				notificationDto.setSeen(rs.getInt("seen"));
+				notificationDto.setTimesStamp(rs.getString("post_time"));
+				return notificationDto;
+			}, user );
+		
+	}
 }

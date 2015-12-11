@@ -1,8 +1,10 @@
 package com.worksap.stm.SWARMS.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.worksap.stm.SWARMS.dao.EmployeeDao;
+import com.worksap.stm.SWARMS.dao.NotificationDao;
 import com.worksap.stm.SWARMS.dao.TextSearchProductDao;
 import com.worksap.stm.SWARMS.dto.EmployeeDto;
+import com.worksap.stm.SWARMS.dto.NotificationDto;
 import com.worksap.stm.SWARMS.dto.WishListDto;
 import com.worksap.stm.SWARMS.entity.ProductProfitEntity;
 import com.worksap.stm.SWARMS.entity.ProductSearchFetchListEntity;
@@ -46,16 +50,30 @@ public class SalesStaffController {
 	
 	@Autowired
 	private EmployeeDao employeeDao;
+	
+	@Autowired
+	private NotificationDao notificationDao;
 
-
-	
-	
-	
 	@RequestMapping("/searchProduct")
     public ModelAndView manageProduct(Principal principal) {
         //return new ModelAndView("search-product");
 		return createModelAndView(principal, "search-product2");
     }
+	
+	@RequestMapping("/ssDashBoard")
+    public ModelAndView ssDashboard(Principal principal) {
+		return createModelAndView(principal, "ss-dashboard");
+    }
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getSSNotifications", method = RequestMethod.GET)
+	@ResponseBody
+	public List<NotificationDto> getNotification(@RequestParam("user") String user) {
+		return notificationDao.getNotificationByUsername(user);
+	}
+
+
+	
 	
 	private ModelAndView createModelAndView(Principal principal, String htmlPage){		
 		UserDetails userDetails =
@@ -105,18 +123,6 @@ public class SalesStaffController {
 		//return new ProductSearchFetchListEntity(2,2,2,null);
 		return new ProductSearchFetchListEntity(2,2,2,textSearchProductDao.searchProductByFilter(productSearchFilterEntity));	
 	}
-	
-//	@PreAuthorize("hasAuthority('MD')")
-//	@RequestMapping(value = "/searchProductByFilter", method = RequestMethod.GET )
-//	@ResponseBody
-//	public void searchProductByFilter(@RequestParam("pid") String pid, @RequestParam("name") String name, @RequestParam("brand") String brand ) {	
-//
-//		System.out.println(pid + " "+ name+" "+brand);
-//		textSearchProductDao.searchProductByFilter(pid,name,brand);
-//		//return customerService.getCustomerById(id);
-//		//return productDetailDao.fetchPrice(pid, color, size, storeId);
-//	}
-	
 		
 	
 }

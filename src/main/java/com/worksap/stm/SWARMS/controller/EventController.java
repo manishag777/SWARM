@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.worksap.stm.SWARMS.dao.EventDao;
+import com.worksap.stm.SWARMS.dao.NotificationDao;
 import com.worksap.stm.SWARMS.dao.StallEventDao;
 import com.worksap.stm.SWARMS.dto.StallEventDto;
 import com.worksap.stm.SWARMS.dto.UserEventDto;
@@ -30,6 +31,9 @@ public class EventController {
 	
 	@Autowired
 	EventDao eventDao;
+	
+	@Autowired
+	NotificationDao notificationDao; 
 	
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/fetchEventList", method = RequestMethod.GET )
@@ -99,6 +103,10 @@ public class EventController {
 	public void saveAssignedUser(@RequestBody UserEventDto userEventDto){
 		 System.out.println(userEventDto);
 		 stallEventDao.saveAssignedUser(userEventDto);
+		 for(int i=0; i<userEventDto.getUser().size(); i++){
+			 notificationDao.insertNotification(userEventDto.getUser().get(i), "Event Task Assigned");
+			 notificationDao.insertNotification(userEventDto.getUser().get(i), "Meeting for event training at "+ userEventDto.getTrainingTime());
+		 }
 		//return new TopReturnEntity(2,2,2,eventDao.getTopProductsData(topProductFilterEntity.getEventId()));
 	}
 	

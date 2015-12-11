@@ -167,7 +167,7 @@ public class StallEventDao {
 
 	public void saveAssignedUser(UserEventDto userEventDto) {
 		// TODO Auto-generated method stub
-		String query = "update stallEvent set trainingTime = ? where id = ?";
+		String query = "update stallEvent set trainingTime = ?, taskStatus = 1 where id = ?";
 		template.update(query, ps->{
 			ps.setString(1,userEventDto.getTrainingTime());
 			ps.setInt(2,userEventDto.getEventId());

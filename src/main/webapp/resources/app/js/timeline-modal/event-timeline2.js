@@ -4,6 +4,7 @@ var eventType2 = 'on-going-event"';
 var eventType1 = 'past-event"';
 var currentEventId = '';
 var eventData;
+var idEventDataMap;
 
 
 var modelProductMap = new Object();
@@ -97,7 +98,6 @@ var addEvent = function(){
 		success : function(data) {
 			console.log("Done saving event");
 	        fetchEventList();
-
 		},
 		
 		error : function(e) {
@@ -112,15 +112,11 @@ var addEvent = function(){
 }
 
 var createDiv = function(eventType, date, eventNumber, data, index){
-
-
-
+	
 	console.info("eventNumber = ");
 	console.info(eventNumber);
 	var article = '<article class="timeline-entry">'
-		
 		   + '<div class="timeline-entry-inner">'
-
 		    + '<div class="timeline-icon '+eventType+' onClick = "openAnalysisModal('+eventNumber+','+eventData[index].id +')">'   
 		    +  '<i class="entypo-camera"></i>'      
 			+	'<div class = "date-div">'		 
@@ -138,6 +134,7 @@ var createDiv = function(eventType, date, eventNumber, data, index){
 
 var createEventAdder = function(){
 
+
 	var curr = "'this'";
 	var article = '<article class="timeline-entry begin">'	
 	   + '<div class="timeline-entry-inner">'
@@ -152,6 +149,8 @@ var createEventAdder = function(){
 }
 
 function createAddEvent(e){
+
+
 
 	console.info("clicked");
 	$("#event-modal").modal('show');
@@ -241,6 +240,7 @@ var fetchEventList = function(){
 			//fetchEventList();
 			eventData = data;
 			console.info(data);
+			eventDataIdMap = new Object();
 			for(var i in data){
 				var fromDate = data[i].fromDate;
 				var toDate = data[i].toDate;
@@ -252,12 +252,23 @@ var fetchEventList = function(){
 				meetingRadioListener(data[i].id)
 				setDateTimePicker(data[i].id);
 				assignTaskButtonListener(data[i].id)
+				eventDataIdMap[data[i].id] = data[i];
+				if(getEventNumber(data[i])==0){  //make all input read only
+					makePastEventReadOnly("#div"+data[i].id);
+				}
 			}
 		},
 	}).done(function() {
 		$(".timeline-centered").append(createEventAdder());
 				
 	});
+
+}
+
+function makePastEventReadOnly(divid){
+
+	//$(divid).find('input,checkbox, button, textarea, select').attr('disbaled', 'disabled');
+	$(divid).find('input,checkbox, button, textarea, select').attr('readonly', 'true');
 
 }
 
@@ -316,13 +327,16 @@ var getTimelineBox = function(data,eventNumber, index){
 }
 
 var getTimelineBody = function(data,eventNumber){
+	
+	
+
 	var body = '<h3 class="box-title">'+data.eventName+'</h3>'   
     +'</div><!-- /.box-header -->' 
     +'<div class="box-body">'
-    + data.eventDetail
-    +' <p><b> Location of event: </b>'+data.address+'</p>'  
-    +'<p><b>Number of particpant: </b>'+ data.participantCount +'</p>'   
-    +'<p><b>Sport Type : </b>'+ data.sportType +'</p>' 
+    +'<p style="margin-top:2px;"><b>Sport: </b><span>'+data.sportType +'<span></p>'
+    +'<p style="margin-top:2px;"><b>Place of event: </b><span>'+data.placeEvent+'<span></p>'
+    +'<p style="margin-top:2px; margin-bottom:10px;"><b>Event Co-ordintor: </b><span>'+data.coName+' &nbsp;&nbsp;&nbsp;&nbsp;<span><b>Phone no.</b><span id = "phoneId">'+data.coPhone+'&nbsp;&nbsp;'
+    +'&nbsp;&nbsp;</span><b>Email-Id: </b><span >'+data.coEmail +'</span></p>'
     + getBreadCrumbPanel(data.id, data)
     +'</div><!-- /.box-body -->';
 	
@@ -331,8 +345,8 @@ var getTimelineBody = function(data,eventNumber){
 }
 
 var getTimelineUnitFooter = function(data, eventNumber, index){
-	
-	var res = '<div class="box-footer no-padding">'
+	var id = data.id + '"';
+	var res = '<div class="box-footer no-padding" id = "div'+id+'>'
 			  +getContactManagerDiv(data.id)
 			  +getMeetingDiv(data.id)
 			  +getAssignTaskDiv(data.id)
@@ -380,7 +394,6 @@ var currentIndex;
  
 var getBreadCrumbPanel = function(eventId, data){
 
-
 	var id1 = '"contactManager'+eventId+'"';
 	var id2 = '"meeting'+eventId+'"';
 	var id3 = '"assignTask'+eventId+'"';
@@ -400,6 +413,8 @@ var getBreadCrumbPanel = function(eventId, data){
 }
 
 function setBreadCrumbStatusColor(data){
+
+
 
 	var eventId = data.id;
 	var contactManagerId = "#contactManager"+eventId;
@@ -431,7 +446,7 @@ function setBreadCrumbStatusColor(data){
 			feesParaId = "feesPara" + eventId;
 			document.getElementById(stallParaId).innerHTML = "Number of Stall is "+ data.stallNo;
 			document.getElementById(feesParaId).innerHTML = "Total fees Rs. "+ data.fees;
-			
+			$("#taskDateTimePicker"+eventId+" input").val(data.trainingTime);
 			if(data.taskStatus==0){
 				$(assignTaskId).addClass("btn-info");
 			}
@@ -469,6 +484,7 @@ function setBreadCrumbStatusColor(data){
 function fillTheDiv(eventId, data){
 
 
+
 	var leadGeneratedId = "leadGeneratedId"+eventId;  
 	var leadConvertedId = "leadConvertedId"+eventId;
 	var inputCostId = "inputCostId"+eventId; 
@@ -479,7 +495,7 @@ function fillTheDiv(eventId, data){
 	
 	document.getElementById(leadGeneratedId).innerHTML = data.rcustomer ;
 	document.getElementById(leadConvertedId).innerHTML = data.acustomer ;
-	document.getElementById(inputCostId).innerHTML = "2010" ;
+	document.getElementById(inputCostId).innerHTML = (data.profit * 0.40).toFixed(0);
 	document.getElementById(revenueId).innerHTML = data.revenue;
 	document.getElementById(profitId).innerHTML = data.profit;
 	document.getElementById(regCustCountId).innerHTML = data.rcustomer;
@@ -494,6 +510,7 @@ function fillTheDiv(eventId, data){
 }
 
 function setDateTimePicker(eventId){
+
 	console.info("at dateTimePicker" + eventId );
 	var id = "#taskDateTimePicker"+eventId;
 	$(id).datetimepicker();

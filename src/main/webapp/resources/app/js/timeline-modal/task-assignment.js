@@ -28,16 +28,14 @@ function getAssignTaskHeader(id){
 }
 
 function getAssignTaskBody(id){
-
-
 	
 	var taskDateTimePickerId = '"taskDateTimePicker'+ id + '"';
 	var assignTaskButton = '"assignTaskButton'+ id + '"';
-	
+	id = id + '"';
 	var html = '<div class="box-body">'
 			    +'<div class="form-group">'
-			    	 + '<form id="task-assign-form">'
-			    	 + '<h4>Set Meeting Time For Training</h4>'
+			    	 + '<form id="task-assign-form'+id+'>'
+			    	 + '<h4>Set Time For Training</h4>'
 			         +'<div class="input-group date" id='+taskDateTimePickerId+'>'
 			            + '<span class="input-group-addon">'
 			                 +'<span class="glyphicon glyphicon-calendar"></span>'
@@ -48,24 +46,24 @@ function getAssignTaskBody(id){
 			          +'<h4 style= "margin-bottom:0px;">Assign Task to</h4>'
 			         +'<div class="funkyradio">'
 			             +'<div class="funkyradio-primary">'
-			               + '<input type="checkbox" name="user" id="checkbox2" value = "manish" checked = "1"/>' 
-			                + '<label for="checkbox2">Manish Agrawal</label>'
+			               + '<input type="checkbox" name="user" id="checkbox2'+id+' value = "mukesh" checked = "1"/>' 
+			                + '<label for="checkbox2'+id+'>Mukesh Agrawal</label>'
 			             +'</div>'
 			             +'<div class="funkyradio-primary">'
-			                + '<input type="checkbox" name="user" id="checkbox3" value = "rishab" checked = "0" />'
-			                + '<label for="checkbox3">Rishab jain</label>'
+			                + '<input type="checkbox" name="user" id="checkbox3'+id+' value = "rishab" checked = "0" />'
+			                + '<label for="checkbox3'+id+'>Rishab jain</label>'
 			            +'</div>' 
 			             +'<div class="funkyradio-primary">'
-			              +  '<input type="checkbox" name="user" id="checkbox4" value = "mandeep"/>' 
-			               + '<label for="checkbox4">Mandeep Singh</label>' 
+			              +  '<input type="checkbox" name="user" id="checkbox4'+id+' value = "mandeep"/>' 
+			               + '<label for="checkbox4'+id+'>Mandeep Singh</label>' 
 			            +'</div>' 
 			             +'<div class="funkyradio-primary">'
-			               + '<input type="checkbox" name="user" id="checkbox5" value = "piyush"/>' 
-			                + '<label for="checkbox5">Piyush Dane</label>'
+			               + '<input type="checkbox" name="user" id="checkbox5'+id+' value = "piyush"/>' 
+			                + '<label for="checkbox5'+id+'>Piyush Dane</label>'
 			             +'</div>'
 			             +'<div class="funkyradio-primary">'
-			                + '<input type="checkbox" name="user" id="checkbox6" value = "prashant"/>'
-			                + '<label for="checkbox6">Prashant Singh</label>'
+			                + '<input type="checkbox" name="user" id="checkbox6'+id+' value = "prashant"/>'
+			                + '<label for="checkbox6'+id+'>Prashant Singh</label>'
 			             +'</div>'
 			         +'</div>'
 			         + '</form>'
@@ -83,7 +81,7 @@ function assignTaskButtonListener(id){
 	
 	var input = "#assignTaskButton" + id ;
 	$(document).on('click', input ,function(){
-		var formData = $('#task-assign-form').serializeObject();
+		var formData = $('#task-assign-form'+id).serializeObject();
 		console.info(formData);
 		formData.eventId = id;
 		
@@ -97,6 +95,13 @@ function assignTaskButtonListener(id){
 			},
 		}).done(function() {
 			console.log("Done adding");
+			removeAllClass("#assignTask"+id);
+			$("#assignTask"+id).addClass("btn-success");
+			
+			removeAllClass("#eventStatus"+id);
+			$("#eventStatus"+id).addClass("btn-info");
+			
+			
 			swal("Task Assigned and notification sent!", "", "success")
 			
 		});
