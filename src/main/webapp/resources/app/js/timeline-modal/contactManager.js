@@ -42,7 +42,6 @@ function getContactManagerHeader(id){
 
 function getContactManagerBody(id){
 
-	
 	var name = '"contactRadio' + id+'" ';
 	
 	var html = '<div class="box-body">' 
@@ -61,7 +60,7 @@ function getContactManagerBody(id){
         +'No approval &emsp;'
       +'</label>'
   +'</div>'
-   +'</div><!-- /.box-body -->'   ;
+   +'</div><!-- /.box-body -->';  
 
 	return html;
 	

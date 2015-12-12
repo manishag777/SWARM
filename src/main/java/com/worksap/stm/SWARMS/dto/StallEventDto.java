@@ -38,4 +38,6 @@ public class StallEventDto {
 	int aCustomer;
 	int taskStatus;
 	List<String> userList;
+	int isAdded;
+	int isSeen;
 }

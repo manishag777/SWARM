@@ -17,7 +17,7 @@ $(document).ready(function(){
 	
 	
 	
-    $('#reservation').daterangepicker({
+    $('#eventDate').daterangepicker({
     	//minDate: new Date()
     });
 	
@@ -446,6 +446,7 @@ function setBreadCrumbStatusColor(data){
 			feesParaId = "feesPara" + eventId;
 			document.getElementById(stallParaId).innerHTML = "Number of Stall is "+ data.stallNo;
 			document.getElementById(feesParaId).innerHTML = "Total fees Rs. "+ data.fees;
+			setAssiginingTaskBody(data.stallNo, eventId);
 			$("#taskDateTimePicker"+eventId+" input").val(data.trainingTime);
 			if(data.taskStatus==0){
 				$(assignTaskId).addClass("btn-info");
