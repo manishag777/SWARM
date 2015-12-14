@@ -222,6 +222,7 @@ var fetchEventList = function(){
 
 
 
+
 	var sport = $("#sport-type-filter").val();
 	var today =  new Date();
 	
@@ -239,7 +240,7 @@ var fetchEventList = function(){
 		success : function(data) {
 			//fetchEventList();
 			eventData = data;
-			console.info(data);
+			//console.info(data);
 			eventDataIdMap = new Object();
 			for(var i in data){
 				var fromDate = data[i].fromDate;
@@ -256,6 +257,7 @@ var fetchEventList = function(){
 				if(getEventNumber(data[i])==0){  //make all input read only
 					makePastEventReadOnly("#div"+data[i].id);
 				}
+				acitvateSalesTab(data[i].id);
 			}
 		},
 	}).done(function() {
@@ -393,7 +395,6 @@ var getPendingTaskBox = function(task, index){
 var currentIndex; 
  
 var getBreadCrumbPanel = function(eventId, data){
-
 	var id1 = '"contactManager'+eventId+'"';
 	var id2 = '"meeting'+eventId+'"';
 	var id3 = '"assignTask'+eventId+'"';
@@ -413,9 +414,6 @@ var getBreadCrumbPanel = function(eventId, data){
 }
 
 function setBreadCrumbStatusColor(data){
-
-
-
 	var eventId = data.id;
 	var contactManagerId = "#contactManager"+eventId;
 	var meetingId = "#meeting"+eventId;
@@ -438,18 +436,27 @@ function setBreadCrumbStatusColor(data){
 		 document.getElementById(meetingHeaderId).innerHTML = "Meeting on " +  data.cmTime ;
 		 
 		$(contactManagerId).addClass("btn-success");
-		console.info(data);
+		//console.info(data);
 		if(data.mstatus==1){
 			$(meetingId).addClass("btn-success");
 			
 			stallParaId = "stallPara" + eventId;
 			feesParaId = "feesPara" + eventId;
-			document.getElementById(stallParaId).innerHTML = "Number of Stall is "+ data.stallNo;
-			document.getElementById(feesParaId).innerHTML = "Total fees Rs. "+ data.fees;
+			//document.getElementById(stallParaId).innerHTML = "Number of Stall is "+ data.stallNo;
+			//document.getElementById(feesParaId).innerHTML = "Total fees Rs. "+ data.fees;
+			$("#participationCount"+eventId).val(data.participantCount);
+			$("#stallCount"+eventId).val(data.stallNo);
+			$("#fees"+eventId).val(data.fees);
 			setAssiginingTaskBody(data.stallNo, eventId);
 			$("#taskDateTimePicker"+eventId+" input").val(data.trainingTime);
+			fillProductRecommendationDataTable(eventId);
+			getSchemeOfferList(eventId, "preEvent");
+			getSchemeOfferList(eventId, "postEvent");
+			updateEventAwarenessBox(eventId);
+
 			if(data.taskStatus==0){
 				$(assignTaskId).addClass("btn-info");
+				//fillProductRecommendationDataTable();
 			}
 			else{
 				$(assignTaskId).addClass("btn-success");

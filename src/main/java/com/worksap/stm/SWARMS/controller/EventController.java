@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.worksap.stm.SWARMS.dao.EventDao;
 import com.worksap.stm.SWARMS.dao.NotificationDao;
 import com.worksap.stm.SWARMS.dao.StallEventDao;
+import com.worksap.stm.SWARMS.dto.ProductDto;
+import com.worksap.stm.SWARMS.dto.RecProductDto;
+import com.worksap.stm.SWARMS.dto.RecommendedProductDto;
+import com.worksap.stm.SWARMS.dto.SchemeDto;
 import com.worksap.stm.SWARMS.dto.StallEventDto;
 import com.worksap.stm.SWARMS.dto.UserEventDto;
 import com.worksap.stm.SWARMS.entity.event.FutureEventEntity;
@@ -33,7 +37,48 @@ public class EventController {
 
 	@Autowired
 	NotificationDao notificationDao;
-
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getRecommendedProductDtoList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<RecommendedProductDto> getRecommendedProductDtoList(@RequestParam("eventId") int eventId, @RequestParam("participationCount") int particpationCount, @RequestParam("sportType") String sportType){
+		System.out.println("At getRecommendedProductDtoList");
+		if(sportType.equals("marathon")){
+			List<RecommendedProductDto> recommendedProductDtoList = new ArrayList<>();
+			recommendedProductDtoList.add(new RecommendedProductDto("Running shoes", (int)(particpationCount*0.125)));
+			recommendedProductDtoList.add(new RecommendedProductDto("Shocks", (int)(particpationCount*0.275)));
+			recommendedProductDtoList.add(new RecommendedProductDto("Shorts", (int)(particpationCount*0.230)));
+			recommendedProductDtoList.add(new RecommendedProductDto("t-shirt", (int)(particpationCount*0.085)));
+			recommendedProductDtoList.add(new RecommendedProductDto("jacket", (int)(particpationCount*0.090)));
+			recommendedProductDtoList.add(new RecommendedProductDto("sport drinks", (int)(particpationCount*0.430)));
+			return recommendedProductDtoList;
+		}
+		else{
+			return null;
+		}
+	
+	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getOfferSchemesList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<List<SchemeDto>> getOfferSchemesList(@RequestParam("eventId") int eventId, String sportType, String offerType){
+		
+		List<SchemeDto> recommendedSchemeList = new ArrayList<>();
+		recommendedSchemeList.add(new SchemeDto(1, "15% off. on all marathon accessories" ));
+		recommendedSchemeList.add(new SchemeDto(2, "20% off. on all marathon kit bag" ));
+		List<SchemeDto> otherSchemeList = new ArrayList<>();
+		otherSchemeList.add(new SchemeDto(3, "10% off. on all running shoes" ));
+		otherSchemeList.add(new SchemeDto(4, "15% off. on all marathon t-shirt" ));
+		otherSchemeList.add(new SchemeDto(5, "15% off. on puma, rebook sweat-shirt" ));
+		List<List<SchemeDto>> res = new ArrayList<>();
+		res.add(recommendedSchemeList);
+		res.add(otherSchemeList);
+		return res;
+	}
+	
+	
+	
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/fetchEventList", method = RequestMethod.GET)
 	@ResponseBody
@@ -176,6 +221,16 @@ public class EventController {
 
 		// return new
 		// TopReturnEntity(2,2,2,eventDao.getTopProductsData(topProductFilterEntity.getEventId()));
+	}
+	
+	@RequestMapping(value = "/saveMeetingParam", method = RequestMethod.GET)
+	@ResponseBody
+	public void saveMeetingParam(@RequestParam("eventId") int eventId,
+			@RequestParam("stallCount") int stallCount, @RequestParam("participantCount") int participantcount,
+			@RequestParam("fees") int fees) {
+
+		System.out.println(eventId + " " + stallCount + " " + fees + " "+participantcount);
+		stallEventDao.saveMeetingParam(eventId, stallCount, participantcount, fees);
 	}
 
 	@RequestMapping(value = "/saveFeesAndStallCount", method = RequestMethod.GET)

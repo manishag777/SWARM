@@ -34,7 +34,10 @@ function getMeetingHeader(id){
 
 function getMeetingBody(id){
 
-	
+
+
+	var mid = id+'"';
+	var mid2 = "'"+id+"'" ;
 	var name = '"meetingRadio' + id+'" ';
 	
 	var html = '<div class="box-body">' 
@@ -52,8 +55,30 @@ function getMeetingBody(id){
        +' <input type="radio" name='+name+ 'class="flat-red" value = "-1" />'
         +'Proposal denied &emsp;'
       +'</label>'
-  +'</div>'
-   +'</div><!-- /.box-body -->'   ;
+    +'</div>'
+    +'<div id = "meetingParamDiv'+mid+'>'
+	    +'<hr/>'
+		+'<div class="input-group" style = "margin:4px;">'
+		    +'<div class="input-group-btn">'
+		      +'<h5><b>Number of participant</b></h5>'
+		      +'</div><!-- /btn-group -->'
+		      +'<input type="number" id = "participationCount'+mid+' class="form-control pull-right" style = "width:85px; margin-right:300px;">'
+		+'</div><!-- /input-group -->'
+		+'<div class="input-group" style = "margin:4px;">'
+		    +'<div class="input-group-btn">'
+		    +'<h5><b>Number of stall</b></h5>'
+		    +'</div><!-- /btn-group -->'
+		    +'<input type="text" class="form-control pull-right" id = "stallCount'+mid+' style = "width:85px; margin-right:300px;">'
+		+'</div><!-- /input-group -->'
+		+'<div class="input-group" style = "margin:4px;">'
+		    +'<div class="input-group-btn">'
+		    +'<h5><b>Fees paid</b></h5>'
+		    +'</div><!-- /btn-group -->'
+		    +'<input type="text" class="form-control pull-right" id = "fees'+mid+' style = "width:85px; margin-right:300px;">'
+		+'</div><!-- /input-group -->'
+		+'<button type="button" onClick = "saveMeetingParam('+mid2+')" class="btn btn-info">Save</button>'
+	   +'</div><!-- /.box-body -->' 
+	+'</div>';
 
 	return html;
 	
@@ -78,17 +103,15 @@ function getMeetingFooter(id){
   +'</table>'
 +'</div>' ;
 	
-	console.info(html);
+	//console.info(html);
 	return html;
 }
 
 var eventId;
 
 function meetingRadioListener(id){
-
-   
 	
-	console.info("eventId" + eventId);
+	//console.info("eventId" + eventId);
 
 	var name = "meetingRadio" +  id;
 	var input = "input[type=radio][name="+name+"]";	
@@ -97,12 +120,14 @@ function meetingRadioListener(id){
 		console.info(this.value);
 		removeAllClass("#meeting" + id);
 		$("#meetingFooter"+id).attr('style',' display:none;');
+		$("#meetingParamDiv"+id).attr('style',' display:none;');
         if(this.value==0)
         	$("#meeting" + id).addClass("btn-info");
         if(this.value==1){
         	$("#meeting" + id).addClass("btn-success");
-        	$("#set-fees").modal("show");
+        	//$("#set-fees").modal("show");
         	$("#meetingFooter"+id).attr('style',' width: 100%; display:show;');
+        	$("#meetingParamDiv"+id).attr('style','width: 100%; display:show;');
         	
         }
         if(this.value==-1)
@@ -113,10 +138,12 @@ function meetingRadioListener(id){
 }
 
 function checkTheMeetingRadioButton(id, value){
-	
+
 	var name = "meetingRadio" +  id;
 	var input = "input[type=radio][name="+name+"]";
 	$("#meetingFooter"+id).attr('style',' display:none;');
+	$("#meetingParamDiv"+id).attr('style',' display:none;');
+	
 	if(value == 0){
 		$(input)[0].checked = true;
 		
@@ -124,6 +151,7 @@ function checkTheMeetingRadioButton(id, value){
 	else if(value == 1){
 		$(input)[1].checked = true;
 		$("#meetingFooter"+id).attr('style',' width: 100%; display:show;');
+		$("#meetingParamDiv"+id).attr('style','width: 100%; display:show;');
 		
 	}
 	else if(value == -1){
@@ -147,6 +175,7 @@ function updateMStatus(value, id){
 
 function saveFeesAndStallCount(){
 
+
 	removeAllClass("#assignTask"+eventId);
 	$("#assignTask"+eventId).addClass("btn-info");
 	console.info("At saveFeesAndStallCount" + " "+ $("#stallNo").val());
@@ -169,3 +198,29 @@ function saveFeesAndStallCount(){
 		$("#set-fees").modal("hide");
 	});
 }
+
+function saveMeetingParam(id){
+	
+	var paticipationCountId = "#participationCount"+id;
+	var stallCountId = "#stallCount"+id;
+	var feesId = "#fees"+id;
+	
+	$.ajax({
+		url : 'saveMeetingParam',
+		type : 'GET',
+		data : {fees : $(feesId).val(), eventId : id, stallCount : $(stallCountId).val(), participantCount : $(paticipationCountId).val()},
+		contentType : "application/json",
+		success : function() {
+			swal("Saved", "", "success");
+			console.info("success");
+			fillProductRecommendationDataTable(id);
+			getSchemeOfferList(id, "preEvent");
+			updateEventAwarenessBox(id);
+		},
+	}).done(function() {
+		//$("#set-fees").modal("hide");
+	});
+	
+	
+}
+

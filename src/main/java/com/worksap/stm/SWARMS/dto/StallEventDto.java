@@ -40,4 +40,5 @@ public class StallEventDto {
 	List<String> userList;
 	int isAdded;
 	int isSeen;
+	int participantCount;
 }

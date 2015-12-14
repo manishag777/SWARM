@@ -62,6 +62,7 @@ public class StallEventDao {
 			stallEventDto.setACustomer(rs.getInt("aCustomer"));
 			stallEventDto.setTaskStatus(rs.getInt("taskStatus"));
 			stallEventDto.setFees(rs.getInt("fees"));
+			stallEventDto.setParticipantCount(rs.getInt("particpantCount"));
 			return stallEventDto;
 		});
 		
@@ -198,6 +199,17 @@ public class StallEventDao {
 			});
 		
 
+	}
+
+	public void saveMeetingParam(int eventId, int stallCount, int fees, int pc) {
+		// TODO Auto-generated method stub
+		String query = "update stallEvent set stallNo = ?, fees = ?, particpantCount = ? where id = ? ";	
+		template.update(query, ps->{
+			ps.setInt(1,stallCount);
+			ps.setInt(2,fees);
+			ps.setInt(3,pc);
+			ps.setInt(4,eventId);
+		});
 	}
 	
 	

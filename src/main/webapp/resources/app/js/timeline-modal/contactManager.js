@@ -82,7 +82,7 @@ function getContactManagerFooter(id){
   +'</table>'
 +'</div>' ;
 	
-	console.info(html);
+	//console.info(html);
 	return html;
 }
 
