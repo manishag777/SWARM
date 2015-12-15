@@ -43,42 +43,233 @@ public class EventController {
 	@ResponseBody
 	public List<RecommendedProductDto> getRecommendedProductDtoList(@RequestParam("eventId") int eventId, @RequestParam("participationCount") int particpationCount, @RequestParam("sportType") String sportType){
 		System.out.println("At getRecommendedProductDtoList");
+		List<RecommendedProductDto> recommendedProductDtoList = new ArrayList<>();
 		if(sportType.equals("marathon")){
-			List<RecommendedProductDto> recommendedProductDtoList = new ArrayList<>();
-			recommendedProductDtoList.add(new RecommendedProductDto("Running shoes", (int)(particpationCount*0.125)));
-			recommendedProductDtoList.add(new RecommendedProductDto("Shocks", (int)(particpationCount*0.275)));
-			recommendedProductDtoList.add(new RecommendedProductDto("Shorts", (int)(particpationCount*0.230)));
-			recommendedProductDtoList.add(new RecommendedProductDto("t-shirt", (int)(particpationCount*0.085)));
-			recommendedProductDtoList.add(new RecommendedProductDto("jacket", (int)(particpationCount*0.090)));
-			recommendedProductDtoList.add(new RecommendedProductDto("sport drinks", (int)(particpationCount*0.430)));
-			return recommendedProductDtoList;
+			
+			recommendedProductDtoList.add(new RecommendedProductDto("Running shoes", (int)(particpationCount*0.125), null));
+			recommendedProductDtoList.add(new RecommendedProductDto("Shocks", (int)(particpationCount*0.275), null));
+			recommendedProductDtoList.add(new RecommendedProductDto("Shorts", (int)(particpationCount*0.230), null));
+			recommendedProductDtoList.add(new RecommendedProductDto("T-shirt", (int)(particpationCount*0.085), null));
+			recommendedProductDtoList.add(new RecommendedProductDto("Jacket", (int)(particpationCount*0.090), null));
+			recommendedProductDtoList.add(new RecommendedProductDto("Sport drinks", (int)(particpationCount*0.430), null));
 		}
 		else{
-			return null;
+			recommendedProductDtoList.add(new RecommendedProductDto("Cycle", (int)(particpationCount*0.0435),null));
+			recommendedProductDtoList.add(new RecommendedProductDto("Gloves", (int)(particpationCount*0.123),null));
+			recommendedProductDtoList.add(new RecommendedProductDto("Helmet", (int)(particpationCount*0.067), null));
+			recommendedProductDtoList.add(new RecommendedProductDto("Jacket", (int)(particpationCount*0.07), null) );
+			recommendedProductDtoList.add(new RecommendedProductDto("Air pump", (int)(particpationCount*0.04), null));
+			recommendedProductDtoList.add(new RecommendedProductDto("sport drinks", (int)(particpationCount*0.330), null));
+		}
+		return recommendedProductDtoList;
+	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getRecommendedProductDetailDtoList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<RecommendedProductDto> getRecommendedProductDetailDtoList(@RequestParam("eventId") int eventId, @RequestParam("participationCount") int particpationCount, @RequestParam("sportType") String sportType){
+		System.out.println("At getRecommendedProductDtoList");
+		if(sportType.equals("marathon")){
+			List<RecommendedProductDto> recommendedProductDtoList = new ArrayList<>();
+			List<ProductEntity> productDtoList = new ArrayList<>();
+			ProductEntity productEntity1 = new ProductEntity();
+			ProductEntity productEntity2 = new ProductEntity();
+			ProductEntity productEntity3 = new ProductEntity();
+			ProductEntity productEntity4 = new ProductEntity();
+			productEntity1.setModelNo("Z1JG79GR22");
+			productEntity1.setName("Vector X Athletix 001 Running Shoes");
+			
+			productEntity2.setModelNo("X1YG79LP22");
+			productEntity2.setName("Puma shiny Running Shoes");
+			
+			productEntity3.setModelNo("AKJL79GR22");
+			productEntity3.setName("Rebook Running Shoes");
+			
+			productEntity4.setModelNo("LTJL79GR90");
+			productEntity4.setName("Addidas fast Running Shoes");
+			
+			
+			int totalShoes = (int) (particpationCount*0.125) ;
+			productEntity1.setExpectedSales((totalShoes*39)/100);
+			productEntity2.setExpectedSales((totalShoes*28)/100);
+			productEntity3.setExpectedSales((totalShoes*22)/100);
+			productEntity4.setExpectedSales((totalShoes*11)/100);
+			
+			productEntity1.setAvailableQty((totalShoes*29)/100);
+			productEntity2.setAvailableQty((totalShoes*18)/100);
+			productEntity3.setAvailableQty((totalShoes*12)/100);
+			productEntity4.setAvailableQty((totalShoes*5)/100);
+			
+			productEntity1.setRemainingSales((totalShoes*39)/100 - (totalShoes*29)/100 );
+			productEntity2.setRemainingSales((totalShoes*28)/100 - (totalShoes*18)/100 );
+			productEntity3.setRemainingSales((totalShoes*22)/100 - (totalShoes*12)/100 );
+			productEntity4.setRemainingSales((totalShoes*11)/100 - (totalShoes*5)/100 );
+			
+			
+			productDtoList.add(productEntity1);
+			productDtoList.add(productEntity2);
+			productDtoList.add(productEntity3);
+			productDtoList.add(productEntity4);
+			
+			recommendedProductDtoList.add(new RecommendedProductDto("Running shoes", (int)(particpationCount*0.125),productDtoList));
+			recommendedProductDtoList.add(new RecommendedProductDto("Shocks", (int)(particpationCount*0.275),productDtoList ));
+			recommendedProductDtoList.add(new RecommendedProductDto("Shorts", (int)(particpationCount*0.230), productDtoList));
+			recommendedProductDtoList.add(new RecommendedProductDto("T-shirt", (int)(particpationCount*0.085), productDtoList) );
+			recommendedProductDtoList.add(new RecommendedProductDto("Jacket", (int)(particpationCount*0.090), productDtoList));
+			recommendedProductDtoList.add(new RecommendedProductDto("sport drinks", (int)(particpationCount*0.430), productDtoList));
+			return recommendedProductDtoList;
+		}
+		
+		else{
+			List<RecommendedProductDto> recommendedProductDtoList = new ArrayList<>();
+			List<ProductEntity> productDtoList = new ArrayList<>();
+			ProductEntity productEntity1 = new ProductEntity();
+			ProductEntity productEntity2 = new ProductEntity();
+			ProductEntity productEntity3 = new ProductEntity();
+			ProductEntity productEntity4 = new ProductEntity();
+			
+			productEntity1.setModelNo("AXDFGRVG");
+			productEntity1.setName("Hero Megastar 26T 18Speed Road Cycle");
+			
+			productEntity2.setModelNo("79LP22XABV");
+			productEntity2.setName("Hero Studd 26T 18 Speed Sprint Cycle");
+			
+			productEntity3.setModelNo("AKJL79GR22");
+			productEntity3.setName("Hero Cycles Ranger Dtb Vx 6 Speed Cycle");
+			
+			productEntity4.setModelNo("LTJL79GR90");
+			productEntity4.setName("Hercules Roadeo A100 Vx 21 Speed Bicycle");
+			
+			
+			int totalShoes = (int) (particpationCount*0.0435) ;
+			productEntity1.setExpectedSales((totalShoes*39)/100);
+			productEntity2.setExpectedSales((totalShoes*28)/100);
+			productEntity3.setExpectedSales((totalShoes*22)/100);
+			productEntity4.setExpectedSales((totalShoes*11)/100);
+			
+			productEntity1.setAvailableQty((totalShoes*29)/100);
+			productEntity2.setAvailableQty((totalShoes*18)/100);
+			productEntity3.setAvailableQty((totalShoes*12)/100);
+			productEntity4.setAvailableQty((totalShoes*5)/100);
+			
+			productEntity1.setRemainingSales((totalShoes*39)/100 - (totalShoes*29)/100 );
+			productEntity2.setRemainingSales((totalShoes*28)/100 - (totalShoes*18)/100 );
+			productEntity3.setRemainingSales((totalShoes*22)/100 - (totalShoes*12)/100 );
+			productEntity4.setRemainingSales((totalShoes*11)/100 - (totalShoes*5)/100 );
+			
+			
+			productDtoList.add(productEntity1);
+			productDtoList.add(productEntity2);
+			productDtoList.add(productEntity3);
+			productDtoList.add(productEntity4);
+			
+			recommendedProductDtoList.add(new RecommendedProductDto("Cycle", (int)(particpationCount*0.0435),productDtoList));
+			recommendedProductDtoList.add(new RecommendedProductDto("Gloves", (int)(particpationCount*0.123),productDtoList ));
+			recommendedProductDtoList.add(new RecommendedProductDto("Helmet", (int)(particpationCount*0.067), productDtoList));
+			recommendedProductDtoList.add(new RecommendedProductDto("Jacket", (int)(particpationCount*0.07), productDtoList) );
+			recommendedProductDtoList.add(new RecommendedProductDto("Air pump", (int)(particpationCount*0.04), productDtoList));
+			recommendedProductDtoList.add(new RecommendedProductDto("sport drinks", (int)(particpationCount*0.330), productDtoList));
+			return recommendedProductDtoList;
 		}
 	
 	}
-	
+		
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/getOfferSchemesList", method = RequestMethod.GET)
 	@ResponseBody
 	public List<List<SchemeDto>> getOfferSchemesList(@RequestParam("eventId") int eventId, String sportType, String offerType){
 		
-		List<SchemeDto> recommendedSchemeList = new ArrayList<>();
-		recommendedSchemeList.add(new SchemeDto(1, "15% off. on all marathon accessories" ));
-		recommendedSchemeList.add(new SchemeDto(2, "20% off. on all marathon kit bag" ));
-		List<SchemeDto> otherSchemeList = new ArrayList<>();
-		otherSchemeList.add(new SchemeDto(3, "10% off. on all running shoes" ));
-		otherSchemeList.add(new SchemeDto(4, "15% off. on all marathon t-shirt" ));
-		otherSchemeList.add(new SchemeDto(5, "15% off. on puma, rebook sweat-shirt" ));
-		List<List<SchemeDto>> res = new ArrayList<>();
-		res.add(recommendedSchemeList);
-		res.add(otherSchemeList);
-		return res;
+		System.out.println(offerType);
+		if(sportType.equals("marathon")){
+			if(offerType.equals("preEvent")){
+				List<SchemeDto> recommendedSchemeList = new ArrayList<>();
+				recommendedSchemeList.add(new SchemeDto(1, "15% off. on all marathon accessories" ));
+				recommendedSchemeList.add(new SchemeDto(2, "20% off. on all marathon kit bag" ));
+				List<SchemeDto> otherSchemeList = new ArrayList<>();
+				otherSchemeList.add(new SchemeDto(3, "10% off. on all running shoes" ));
+				otherSchemeList.add(new SchemeDto(4, "15% off. on all marathon t-shirt" ));
+				otherSchemeList.add(new SchemeDto(5, "15% off. on puma, rebook sweat-shirt" ));
+				List<List<SchemeDto>> res = new ArrayList<>();
+				res.add(recommendedSchemeList);
+				res.add(otherSchemeList);
+				return res;
+			}
+			else{
+				List<SchemeDto> recommendedSchemeList = new ArrayList<>();
+				recommendedSchemeList.add(new SchemeDto(1, "15% off. on all sportswear"));
+				List<SchemeDto> otherSchemeList = new ArrayList<>();
+				otherSchemeList.add(new SchemeDto(3, "10% off. on all running shoes" ));
+				otherSchemeList.add(new SchemeDto(4, "15% off. on all marathon t-shirt" ));
+				otherSchemeList.add(new SchemeDto(5, "15% off. on puma, rebook sweat-shirt" ));
+				otherSchemeList.add(new SchemeDto(1, "15% off. on all marathon accessories" ));
+				List<List<SchemeDto>> res = new ArrayList<>();
+				res.add(recommendedSchemeList);
+				res.add(otherSchemeList);
+				return res;
+			}
+		}
+		else{
+			if(offerType.equals("preEvent")){
+				List<SchemeDto> recommendedSchemeList = new ArrayList<>();
+				recommendedSchemeList.add(new SchemeDto(1, "15% off. on all cycling accessories" ));
+				recommendedSchemeList.add(new SchemeDto(2, "20% off. on all cycling kit bag" ));
+				List<SchemeDto> otherSchemeList = new ArrayList<>();
+				otherSchemeList.add(new SchemeDto(3, "15% off. on all cycle" ));
+				otherSchemeList.add(new SchemeDto(4, "10% off. on all cycling jacket" ));
+				otherSchemeList.add(new SchemeDto(5, "10% off. on all branded gloves "));
+				List<List<SchemeDto>> res = new ArrayList<>();
+				res.add(recommendedSchemeList);
+				res.add(otherSchemeList);
+				return res;
+			}
+			else{
+				List<SchemeDto> recommendedSchemeList = new ArrayList<>();
+				recommendedSchemeList.add(new SchemeDto(1, "15% off. on all sports wear" ));
+				List<SchemeDto> otherSchemeList = new ArrayList<>();
+				otherSchemeList.add(new SchemeDto(3, "10% off. on all cycle" ));
+				otherSchemeList.add(new SchemeDto(4, "10% off. on all cycling jacket" ));
+				otherSchemeList.add(new SchemeDto(5, "10% off. on all branded gloves "));
+				otherSchemeList.add(new SchemeDto(2, "10% off. on all cycling kit bag" ));
+				List<List<SchemeDto>> res = new ArrayList<>();
+				res.add(recommendedSchemeList);
+				res.add(otherSchemeList);
+				return res;
+			}
+			
+		}
+	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/updateManagerNotification", method = RequestMethod.GET)
+	@ResponseBody
+	public void updateManagerNotification(@RequestParam("eventId") int eventId){
+		stallEventDao.updateManagerNotification(eventId);
 	}
 	
 	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/updateManagerTimelineProgress", method = RequestMethod.GET)
+	@ResponseBody
+	public void updateManagerTimelineProgress(@RequestParam("eventId") int eventId){
+		stallEventDao.updateManagerTimelineProgress(eventId);
+	}
 	
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/fetchEventNotification", method = RequestMethod.GET)
+	@ResponseBody
+	public List<StallEventDto> fetchEventNotification(){
+		return stallEventDao.fetchEventNotification();
+	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/updateTheScheme", method = RequestMethod.GET)
+	@ResponseBody
+	public void updateTheScheme(@RequestParam("eventId") int eventId, @RequestParam("type") String type ){
+		stallEventDao.updateTheScheme(eventId, type);
+	}
+
+		
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/fetchEventList", method = RequestMethod.GET)
 	@ResponseBody
@@ -87,8 +278,7 @@ public class EventController {
 			@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate) {
 
-		// System.out.println(sport+ " "+store +" "+ fromDate + " "+ toDate);
-		// return null;
+
 		List<StallEventDto> res = stallEventDao.fetchStallEventDto(sport,
 				fromDate, toDate);
 		for (int i = 0; i < res.size(); i++) {
@@ -141,18 +331,22 @@ public class EventController {
 		stallEventDto3.setEventName("Golden Jubilee Half New Delhi DL");
 		stallEventDto4.setEventName("Freedom Run and Ride Noida UP");
 		stallEventDto5.setEventName("Run to Feed - New Delhi New Delhi DL");
+		
+		stallEventDto1.setDetail("A Pleasant morning with a bit of fog. We are hosting CARDIO FITNESS RUN at the core of Delhi. All participants of 12 Km will get T-shirt, finisher medals, certificate, and refreshment. The participants of 6 Km will get finisher medal, participation certificate and refreshment. Timing Certificates will be emailed or given on the Spot.");
+		stallEventDto2.setDetail("The Sportive Ride and The Straits Times Ride both , starting at the Delhi Sports Hub and ending inside the National Stadium. Cyclists of The Sportive Ride also took a short ‘journey to the West’ via the Keppel viaduct.");
 
+		
 		stallEventDto1.setEventDate("12/29/2015 - 12/29/2015");
 		stallEventDto2.setEventDate("12/25/2015 - 12/25/2015");
 		stallEventDto3.setEventDate("12/23/2015 - 12/23/2015");
 		stallEventDto4.setEventDate("12/22/2015 - 12/22/2015");
 		stallEventDto5.setEventDate("12/20/2015 - 12/20/2015");
 
-		stallEventDto1.setSportType("Athletics");
+		stallEventDto1.setSportType("marathon");
 		stallEventDto2.setSportType("Cycling");
-		stallEventDto3.setSportType("Atletics");
-		stallEventDto4.setSportType("Athletics");
-		stallEventDto5.setSportType("Athletics");
+		stallEventDto3.setSportType("marathon");
+		stallEventDto4.setSportType("marathon");
+		stallEventDto5.setSportType("marathon");
 
 		stallEventDto1.setCoName("Rakesh Malhotra");
 		stallEventDto2.setCoName("Shivam jain");
@@ -249,6 +443,7 @@ public class EventController {
 	@RequestMapping(value = "/saveAssignedUser", method = RequestMethod.POST)
 	@ResponseBody
 	public void saveAssignedUser(@RequestBody UserEventDto userEventDto) {
+
 		System.out.println(userEventDto);
 		stallEventDao.saveAssignedUser(userEventDto);
 		for (int i = 0; i < userEventDto.getUser().size(); i++) {

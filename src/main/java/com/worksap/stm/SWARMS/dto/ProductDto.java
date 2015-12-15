@@ -17,5 +17,6 @@ public class ProductDto {
 	private String sizes;
 	private String colors;
 	private String imageUrl;
+
 }
 

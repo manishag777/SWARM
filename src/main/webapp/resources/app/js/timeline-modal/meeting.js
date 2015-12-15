@@ -110,8 +110,6 @@ function getMeetingFooter(id){
 var eventId;
 
 function meetingRadioListener(id){
-	
-	//console.info("eventId" + eventId);
 
 	var name = "meetingRadio" +  id;
 	var input = "input[type=radio][name="+name+"]";	
@@ -125,10 +123,9 @@ function meetingRadioListener(id){
         	$("#meeting" + id).addClass("btn-info");
         if(this.value==1){
         	$("#meeting" + id).addClass("btn-success");
-        	//$("#set-fees").modal("show");
-        	$("#meetingFooter"+id).attr('style',' width: 100%; display:show;');
         	$("#meetingParamDiv"+id).attr('style','width: 100%; display:show;');
-        	
+        	//var assignTaskId = "#assignTask"+eventId;
+        	$("#assignTask"+id).addClass("btn-info");
         }
         if(this.value==-1)
         	$("#meeting" + id).addClass("btn-danger");
@@ -215,7 +212,9 @@ function saveMeetingParam(id){
 			console.info("success");
 			fillProductRecommendationDataTable(id);
 			getSchemeOfferList(id, "preEvent");
+			getSchemeOfferList(eventId, "postEvent");
 			updateEventAwarenessBox(id);
+			setAssiginingTaskBody($(stallCountId).val(), id);
 		},
 	}).done(function() {
 		//$("#set-fees").modal("hide");

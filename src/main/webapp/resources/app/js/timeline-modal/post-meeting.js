@@ -21,7 +21,7 @@ function getRecommendedProductDiv(id){
          + '<hr/>'
         + '<h4>Expected Revenue <span class= "pull-right" id = "expectedRevenue'+mid+'>Rs. 45000</span></h4>' 
         + '<hr/>'
-        + '<Button class = "pull-right btn btn-info"> Notify Sales Manager</Button>' 
+        + '<Button class = "pull-right btn btn-info" id= "notifySalesManager'+mid+'> Notify Sales Manager</Button>' 
 
 
 
@@ -29,37 +29,9 @@ function getRecommendedProductDiv(id){
      +'</div>'
    +'</div>' ;
    
-    console.info(html);
+    //console.info(html);
    return html;
 
-}
-
-function getRecommendedScheme(id){
-
-   var mid = id+'"';	
-   var html =  '<div class="col-md-4">'
-    + '<div class="box box-default">'
-    	+  '<div class="box-header with-border">'
-        		+'<h3 class="box-title"><b>Scheme selection</b></h3>'
-        +'</div><!-- /.box-header -->'
-       +'<div class="box-body">'
-         +'<div class="form-group">'
-           +'<h4>Recommended Schemes</h4>'
-            +'<div class="funkyradio" style = "margin-left:30px;" id = "recommendedOffers'+mid+'>'
-            +'</div>'
-           +'<h4>Other relevant schemes</h4>'
-           
-               +'<div class="funkyradio" style = "margin-left:30px;" id = "otherOffers'+mid+'>'
-                  
-               +'</div>'
-           +'</div>'
-           +'<Button class = "pull-right btn btn-info">Add the selected scheme</Button>'
-       +'</div>'
-     +'</div>'
- +'</div>' ;
-
- 	return html;
-	
 }
 
 function getEventAwarenessDiv(id){
@@ -77,11 +49,11 @@ function getEventAwarenessDiv(id){
 				      +'<hr/>'
 				      +'<h4>Expected new Customer visit <span class= "pull-right" style="color:blue" id = "newCust'+mid+'>85</span><h4>'
 				      +'<hr/>'
-				      +'<Button class = "pull-right btn btn-info">Notify Customers about event</Button>'
+				      +'<Button class = "pull-right btn btn-info" id = "notifyCustomer'+mid+'>Notify Customers about event</Button>'
 				    +'</div>'
 				  +'</div>'
 				+'</div>';
-	console.info(html);
+	//console.info(html);
 	return html;
 	
 	
@@ -90,10 +62,9 @@ function getEventAwarenessDiv(id){
 
 var getPostMeetingDiv = function(id){
 
-	
 	var divId = '"assignTaskDiv' + id+'" ' ;
 	var mid = id + '"';
-    var html = '<div class = "col-md-12" id = '+divId+'>'
+    var html = '<div class = "col-md-12" id = '+divId+' style = "display:none;">'
 	    +'<div class="nav-tabs-custom">'
 	    +'<!-- Tabs within a box -->'
 	    +'<ul class="nav nav-tabs pull-right">'
@@ -119,7 +90,7 @@ var getPostMeetingDiv = function(id){
 	    +'</div><!-- /.nav-tabs-custom -->'
 	+'</div>';
     
-    console.info(html);
+    //console.info(html);
     return html;
 	
 }
@@ -144,8 +115,8 @@ var acitvateSalesTab = function(id){
 
 function getStallTaskAssignmentDiv(id){
 
-
 	var taskDateTimePickerId = '"taskDateTimePicker'+ id + '"';
+	var taskDateTimeInputId = '"taskDateTimeInput'+ id + '"';
 	var assignTaskButton = '"assignTaskButton'+ id + '"';
 	id = id + '"';
 	var stallCount = $("#stallNo").val();
@@ -157,12 +128,12 @@ function getStallTaskAssignmentDiv(id){
 					          +'<h4 style= "margin-bottom:0px;">Recommened and available sales staff</h4>'
 					          +'<div class="funkyradio" id = "funkyradio'+ id +'>'
 					         +'</div>'
-					    	 + '<h4>Set Time For Training</h4>'
+					    	 + '<h4>Suggested Time For Training</h4>'
 					         +'<div class="input-group date" id='+taskDateTimePickerId+'>'
 					            + '<span class="input-group-addon">'
 					                 +'<span class="glyphicon glyphicon-calendar"></span>'
 					            +'</span>' 
-					             +'<input type="text" name = "trainingTime" class="form-control" />'
+					             +'<input type="text" name = "trainingTime" class="form-control" id ='+taskDateTimeInputId+'/>'
 					         +'</div>'
 				
 					         + '</form>'
@@ -258,9 +229,6 @@ function setAssiginingTaskBody(stallCount, id){
 }
 
 function getPostRecommendedScheme(id){
-
-
-
 	   var mid = id+'"';	
 	   var html =  '<div class="col-md-6">'
 	    + '<div class="box box-default">'
@@ -277,7 +245,7 @@ function getPostRecommendedScheme(id){
 	               +'<div class="funkyradio" style = "margin-left:30px;" id = "postOtherOffers'+mid+'>'
 	               +'</div>'
 	           +'</div>'
-	           +'<Button class = "pull-right btn btn-info">Add the selected scheme</Button>'
+	           +'<Button class = "pull-right btn btn-info" id = "addTheSelectedPostScheme'+mid+'>Add the selected scheme</Button>'
 	       +'</div>'
 	     +'</div>'
 	 +'</div>' ;
@@ -287,6 +255,32 @@ function getPostRecommendedScheme(id){
 	 	return html;		
 }
 
+function getRecommendedScheme(id){
+	var mid = id+'"';	
+	   var html =  '<div class="col-md-4">'
+	    + '<div class="box box-default">'
+	    	+  '<div class="box-header with-border">'
+	        		+'<h3 class="box-title"><b>Scheme selection</b></h3>'
+	        +'</div><!-- /.box-header -->'
+	       +'<div class="box-body">'
+	         +'<div class="form-group">'
+	           +'<h4>Recommended Schemes</h4>'
+	            +'<div class="funkyradio" style = "margin-left:30px;" id = "recommendedOffers'+mid+'>'
+	            +'</div>'
+	           +'<h4>Other relevant schemes</h4>'
+	           
+	               +'<div class="funkyradio" style = "margin-left:30px;" id = "otherOffers'+mid+'>'
+	                  
+	               +'</div>'
+	           +'</div>'
+	           +'<Button class = "pull-right btn btn-info" id = "addTheSelectedScheme'+mid+'>Add the selected scheme</Button>'
+	       +'</div>'
+	     +'</div>'
+	 +'</div>' ;
+
+	 	return html;
+		
+	}
 
 
 

@@ -4,7 +4,7 @@ var eventType2 = 'on-going-event"';
 var eventType1 = 'past-event"';
 var currentEventId = '';
 var eventData;
-var idEventDataMap;
+var eventDataIdMap = new Object();
 
 
 var modelProductMap = new Object();
@@ -91,7 +91,7 @@ var addEvent = function(){
 	delete formData._wysihtml5_mode;	
 	console.info(formData);
 	$.ajax({
-		url : 'addEvent',
+		url : 'addEvents',
 		data : JSON.stringify(formData),
 		type : 'POST',
 		contentType : "application/json",
@@ -105,14 +105,13 @@ var addEvent = function(){
 		},
 	}).done(function() {
 		console.log("Done adding event");
-		
 		$('#event-modal').modal('hide');
 	});
 
 }
 
 var createDiv = function(eventType, date, eventNumber, data, index){
-	
+
 	console.info("eventNumber = ");
 	console.info(eventNumber);
 	var article = '<article class="timeline-entry">'
@@ -219,10 +218,6 @@ var fetchStoreList = function(){
 
 var fetchEventList = function(){
 
-
-
-
-
 	var sport = $("#sport-type-filter").val();
 	var today =  new Date();
 	
@@ -243,6 +238,7 @@ var fetchEventList = function(){
 			//console.info(data);
 			eventDataIdMap = new Object();
 			for(var i in data){
+				eventDataIdMap[data[i].id] = data[i];
 				var fromDate = data[i].fromDate;
 				var toDate = data[i].toDate;
 				var date = getStandardDate(toDate);
@@ -253,11 +249,13 @@ var fetchEventList = function(){
 				meetingRadioListener(data[i].id)
 				setDateTimePicker(data[i].id);
 				assignTaskButtonListener(data[i].id)
-				eventDataIdMap[data[i].id] = data[i];
 				if(getEventNumber(data[i])==0){  //make all input read only
 					makePastEventReadOnly("#div"+data[i].id);
-				}
-				acitvateSalesTab(data[i].id);
+				
+				
+			}
+				
+				addPostMeetingListener(data[i].id);
 			}
 		},
 	}).done(function() {
@@ -422,6 +420,8 @@ function setBreadCrumbStatusColor(data){
 	var eventOuput = "#eventOuput"+eventId;
 	checkTheContactRadioButton(eventId, data.cmStatus);
 	fillTheDiv(eventId,data);
+	
+	contactManager(eventId);
 	if(data.cmStatus==0)
 	{
 		$(contactManagerId).addClass("btn-info");
@@ -437,6 +437,7 @@ function setBreadCrumbStatusColor(data){
 		 
 		$(contactManagerId).addClass("btn-success");
 		//console.info(data);
+		meeting(eventId);
 		if(data.mstatus==1){
 			$(meetingId).addClass("btn-success");
 			
@@ -453,12 +454,15 @@ function setBreadCrumbStatusColor(data){
 			getSchemeOfferList(eventId, "preEvent");
 			getSchemeOfferList(eventId, "postEvent");
 			updateEventAwarenessBox(eventId);
+			eventStatus(eventId);
 
 			if(data.taskStatus==0){
 				$(assignTaskId).addClass("btn-info");
 				//fillProductRecommendationDataTable();
+				
 			}
 			else{
+				
 				$(assignTaskId).addClass("btn-success");
 				if(data.eventStatus==0){ //Not started
 					//$(eventStatusId).addClass("btn-info");
@@ -466,7 +470,7 @@ function setBreadCrumbStatusColor(data){
 				else if(data.eventStatus==-1){ //finished
 					$(eventStatusId).addClass("btn-success");
 					$(eventOuput).addClass("btn-info");
-					
+					eventOutput(eventId);
 					
 				}
 				else{
@@ -521,6 +525,19 @@ function setDateTimePicker(eventId){
 
 	console.info("at dateTimePicker" + eventId );
 	var id = "#taskDateTimePicker"+eventId;
+	var taskDateTimeInputId = "#taskDateTimeInput"+eventId;
 	$(id).datetimepicker();
+	//var dateTime = getDateTime();
+	if(!isRealValue(eventDataIdMap[eventId].trainingTime))
+		$(taskDateTimeInputId).val(getDateTime(eventId));
+	else
+		$(taskDateTimeInputId).val(eventDataIdMap[eventId].trainingTime);
 }
+
+function getDateTime(eventId){
+	var date =  getStandardDate(eventDataIdMap[eventId].fromDate);
+	date.setDate(date.getDate()-2);
+	return getFormattedDate2(date) +" 8:30 PM";
+}
+
 

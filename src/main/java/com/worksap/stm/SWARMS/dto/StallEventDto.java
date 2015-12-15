@@ -41,4 +41,7 @@ public class StallEventDto {
 	int isAdded;
 	int isSeen;
 	int participantCount;
+	
+	int isNotificationSeen;
+	int notificationProgress;
 }

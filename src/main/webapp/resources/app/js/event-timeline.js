@@ -467,7 +467,7 @@ var currentIndex;
 	$("#subjectId").val("Products Available For Event- "+eventData[index].eventName);
 	document.getElementById("relevantCustomerCount").innerHTML = (eventData[index].expectedCustomerVisit * 3.6).toFixed(0);
 	console.info(eventData[index].id);
-	$("#email-Modal").modal('show');
+	$("#email-Modal2").modal('show');
 	var editor = '<label for="body">Body</label>'
 		+ '<textarea class="textarea form-control" id="mailSubject" name="mailSubject"  placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>'
 	document.getElementById('SubjectArea-div').innerHTML = editor;

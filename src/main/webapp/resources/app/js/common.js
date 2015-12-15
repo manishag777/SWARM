@@ -110,6 +110,19 @@ var getFormattedDate = function(date){
     
 }
 
+var getFormattedDate2 = function(date){   // month/day/year
+	
+	
+
+    
+    var day = date.getDate();
+    var monthIndex = date.getMonth()+1;
+    var year = date.getFullYear();
+    
+    return monthIndex+"/"+day+"/"+year;
+    
+}
+
 var lineChartOptions = {
         //Boolean - If we should show the scale at all
         showScale: true,

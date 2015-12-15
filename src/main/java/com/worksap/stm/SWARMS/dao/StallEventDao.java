@@ -29,13 +29,13 @@ public class StallEventDao {
 	
 	private static final String FETCH_ID =  "SELECT LAST_INSERT_ID() as id" ;
 	
-	private static final String FETCH_EVENT_LISTS = "select * from stallEvent where sport = ? and ((fromDate between ? and ?) or (toDate between ? and ?)) order by fromDate DESC ";
+	private static final String FETCH_EVENT_LISTS = "select * from stallEvent where ((fromDate between ? and ?) or (toDate between ? and ?)) order by fromDate DESC ";
 
 	
 	
 	public List<StallEventDto> fetchStallEventDto(String sport, String fromDate, String toDate){
 		
-		return template.query(FETCH_EVENT_LISTS, new Object[]{sport,fromDate,toDate,fromDate,toDate}, (rs,column)->{
+		return template.query(FETCH_EVENT_LISTS, new Object[]{fromDate,toDate,fromDate,toDate}, (rs,column)->{
 			
 			StallEventDto stallEventDto = new StallEventDto();
 			stallEventDto.setId(rs.getInt("id"));
@@ -211,7 +211,54 @@ public class StallEventDao {
 			ps.setInt(4,eventId);
 		});
 	}
-	
-	
 
+	
+	public void updateManagerNotification(int eventId) {
+		
+		String query = "update stallEvent set M_NSent = 1 where id = ? ";
+		template.update(query, (ps)->{
+			ps.setInt(1,eventId);
+		});
+	}
+
+	public List<StallEventDto> fetchEventNotification() {
+		String query = "select * from stallEvent where M_NSent = 1 order by M_Nseen, M_NsentTime";
+		
+		return template.query(query, (rs,column)->{
+			StallEventDto stallEventDto = new StallEventDto();
+			stallEventDto.setId(rs.getInt("id"));
+			stallEventDto.setEventName(rs.getString("eventName"));
+			stallEventDto.setParticipantCount(rs.getInt("particpantCount"));
+			stallEventDto.setSportType(rs.getString("sport"));
+			stallEventDto.setIsNotificationSeen(rs.getInt("M_Nseen"));
+			stallEventDto.setNotificationProgress(rs.getInt("M_Nprogress"));
+			return stallEventDto;
+		});
+	}
+
+	public void updateManagerTimelineProgress(int eventId) {
+		// TODO Auto-generated method stub
+		String query = "update stallEvent set M_Nseen = 1, M_Nprogress = 1 where id = ? ";
+		template.update(query, (ps)->{
+			ps.setInt(1,eventId);
+		});
+	}
+
+	public void updateTheScheme(int eventId, String type) {
+		// TODO Auto-generated method stub
+		String sqlQuery;
+		if(type.equals("Pre")){
+			sqlQuery = "update stallEvent set preEventScheme = 1 where id = ? ";
+		}
+		else{
+			sqlQuery = "update stallEvent set postEventScheme = 1 where id = ? ";
+		}
+		
+		template.update(sqlQuery, (ps)->{
+			ps.setInt(1,eventId);
+		});
+		
+	}
+	
+	
 }

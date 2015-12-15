@@ -72,21 +72,6 @@ public class CSOController {
 	@RequestMapping("/manageGiftCard")
     public ModelAndView manageGiftCard(Principal principal) {
 		System.out.println("you called CSO");
-//        return new ModelAndView("gift-card-specification", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
-//        UserDetails userDetails =
-//				 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		Collection<SimpleGrantedAuthority> authorities  = (Collection<SimpleGrantedAuthority>) userDetails.getAuthorities();
-//		
-//
-//		Map<String,String> model = new HashMap<String,String>();
-//		String role = authorities.iterator().next().getAuthority()+"";
-//		model.put("role", role);
-//		String username  = principal.getName();
-//		EmployeeDto  employeeDto = employeeDao.getByUsername(username);
-//		model.put("name", employeeDto.getFirstName() + " "+employeeDto.getLastName());
-//
-//		ModelAndView model2 = new ModelAndView("gift-card-specification");
-//		model2.addObject("model", model);
 
 		return createModelAndView(principal,"gift-card-specification");
 	

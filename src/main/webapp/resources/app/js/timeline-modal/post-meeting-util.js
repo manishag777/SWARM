@@ -1,13 +1,14 @@
 
 var  fillProductRecommendationDataTable = function(id){
+
 	
 	var dataTableId = "#productRecommendation"+id;
 	console.info("#productRecommendation12");
-	data = {eventId:id, sportType:"marathon", participationCount: $('#participationCount'+id).val()};
+	data = {eventId:id, sportType: eventDataIdMap[id].sportType, participationCount: $('#participationCount'+id).val()};
 	console.info(data);
 	$.ajax({
 		url : 'getRecommendedProductDtoList',
-		data : {eventId:id, sportType:"marathon", participationCount: $('#participationCount'+id).val()},
+		data : {eventId:id, sportType: eventDataIdMap[id].sportType, participationCount: $('#participationCount'+id).val()},
 		type : 'GET',
 		contentType : "application/json",
 		success : function(data) {
@@ -24,7 +25,6 @@ var  fillProductRecommendationDataTable = function(id){
 }
 
 function  populateProductRecommendationTable(productEntities, id){
-
 	
 	var productRecommendationId = "#productRecommendation" + id ;
 	
@@ -44,12 +44,14 @@ function  populateProductRecommendationTable(productEntities, id){
   });
 }
 
-
 function getSchemeOfferList(id, offerType){
+	
+	console.info("offerType "+ offerType);
+	
 
 	$.ajax({
 		url : 'getOfferSchemesList',
-		data : {eventId:id, sportType: "marathon", offerType: offerType, particpationCount:$('#participationCount'+id).val()},
+		data : {eventId:id, sportType: eventDataIdMap[id].sportType, offerType: offerType, particpationCount:$('#participationCount'+id).val()},
 		type : 'GET',
 		contentType : "application/json",
 		success : function(data) {
@@ -67,16 +69,15 @@ function getSchemeOfferList(id, offerType){
 }
 
 function addSchemeCheckBoxes(data, id, offerType){
-	
 	var recommendedOfferId;
 	var otherOfferId;
 	if(offerType=="preEvent"){
 		recommendedOfferId = "#recommendedOffers"+id;
-		otherOfferId = "#recommendedOffers"+id;
+		otherOfferId = "#otherOffers"+id;
 	}
 	else{
 		recommendedOfferId = "#postRecommendedOffers"+id;
-		otherOfferId = "#postRecommendedOffers"+id;
+		otherOfferId = "#postOtherOffers"+id;
 	}
 	
 	var recommendedSchemesList = data[0];
@@ -121,8 +122,6 @@ function checkBoxUnit(data, isChecked, id, offerType){
 
 function updateEventAwarenessBox(id)
 {
-
-
 	var pc = $('#participationCount'+id).val();
 	console.info("pc="+pc);
 	var relCust = "relCust"+id;
@@ -135,8 +134,115 @@ function updateEventAwarenessBox(id)
 	
 	document.getElementById("expectedRevenue"+id).innerHTML = "Rs. " + ((pc*0.087 + pc*0.185)*980).toFixed(0);
 	
+}
+
+function addPostMeetingListener(id){
+
+	acitvateSalesTab(id);   //Listener 1
+	
+	var notifySalesManagerButtonId = "#notifySalesManager"+id;
+	var addTheSelectedSchemeId = "#addTheSelectedScheme"+id;
+	var addTheSelectedPostSchemeId = "#addTheSelectedPostScheme"+id;
+	var addTheSelectedPostSchemeId = "#addTheSelectedPostScheme"+id;
+	var notifyCustomerId = "#notifyCustomer"+id;
+	$(notifySalesManagerButtonId).click(function(e){
+		updateManagerNotification(id);
+	});
+	
+	$(addTheSelectedSchemeId).click(function(e){
+		updateTheScheme(id, "Pre");
+	});
+	
+	$(addTheSelectedPostSchemeId).click(function(e){
+		updateTheScheme(id, "Post");
+	});
+	
+	$(notifyCustomerId).click(function(e){
+		notifyCustomer(id);
+	});
 	
 	
 }
 
+function updateManagerNotification(id){
+
+	$.ajax({
+		url : 'updateManagerNotification',
+		data : {eventId:id},
+		type : 'GET',
+		contentType : "application/json",
+		success : function(data) {
+			//console.info("getOfferSchemesList");
+			//console.info(data);
+			//addSchemeCheckBoxes(data, id, offerType);
+			swal("Notification sent to sales manager","" ,"success");
+		},
+		
+		error : function(e) {
+			//alert ("sorry! Due to some problem couldn't update the gift-card details");
+		},
+	}).done(function() {
+		//console.log("Done adding gift-card details");
+	});
+
+}
+
+function updateTheScheme(id, type){
+	
+	$.ajax({
+		url : 'updateTheScheme',
+		data : {eventId:id, type: type},
+		type : 'GET',
+		contentType : "application/json",
+		success : function(data) {
+			swal(type+"event scheme updated ","" ,"success");
+		}, 
+		
+		error : function(e) {
+			//alert ("sorry! Due to some problem couldn't update the gift-card details");
+		},
+	}).done(function() {
+		//console.log("Done adding gift-card details");
+	});
+	
+}
+
+var eventId;
+
+function notifyCustomer(id){
+	
+	console.info("At notify customer"+id);
+	eventId = id;
+	$("#email-Modal2").modal("show");
+	console.info(eventDataIdMap);
+	$("#subjectId2").val("Discount offers for the particpant of "+ eventDataIdMap[id].eventName);
+//	document.getElementById("relevantCustomerCount").innerHTML = "";
+//	//console.info(eventData[index].id);
+//	$("#email-Modal").modal('show');
+	var editor = '<label for="body">Body</label>'
+		+ '<textarea class="textarea form-control" id="mailSubject" name="mailSubject"  placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>'
+	document.getElementById('SubjectArea-div2').innerHTML = editor;
+	$("#mailSubject").val("<p>"
+
+		+	"<p>Dear Customer,</p><p>The Product is available on discount offer in your nearest SportsWARM store. Hurry Up! The Stock is limited. Avail the discount on refering new Customers.</p><p>Thanks</p><p>Manish Agrawal</p><p>Sales Manager </p><p>SportsWarm </p><p></p>"
+
+		+	"<br></p>");
+	$("#mailSubject").wysihtml5();
+
+	
+}
+
+function saveMailStatus(){
+
+	console.info(eventId);
+	var val = $("#dropdown_customer").val()+"%";
+	if(val=="100%") val = "all"
+	swal({   title: "Sending mail to "+val+" relevant customers",   text: "",   type: "info",   showCancelButton: true,   closeOnConfirm: false,   showLoaderOnConfirm: true, }, 
+			 function(){
+					setTimeout(function(){
+						swal("Successfully sent mail to the customers"); 
+						$("#email-Modal2").modal('hide');
+						saveMailStatusInDatabase();
+					}, $("#dropdown_customer").val()*100);  });
+}
 

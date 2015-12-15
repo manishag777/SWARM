@@ -35,11 +35,9 @@ function fillEventTable(data){
 		row.innerHTML = getRow(data[i]);
 	}
 	
-	"event-modal"
 }
 
 function getRow(data){
-
 	var id = "'"+data.id+"'";
 	console.info(id);
 	var html = '<td>'+data.eventName+'</td>';
@@ -66,10 +64,12 @@ function openEventAdder(eventId){
 	$("#coPhone").val(data.coPhone);
 	$("#eventDate").val(data.eventDate);
 	$("#placeEvent").val(data.placeEvent);
+	$("#sportType").val(data.sportType);
 	
 	var editor = '<label for="body">Event-detail</label>'
 		+ '<textarea class="textarea form-control" id="textarea-id" name="eventDetail"  placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>'
 	document.getElementById('textarea-div').innerHTML = editor;
+	$("#textarea-id").val(data.detail);
 	$("#textarea-id").wysihtml5();
 	
 	//$("#eventData").val(data.eventName);	
@@ -78,27 +78,27 @@ function openEventAdder(eventId){
 var fetchSportList = function(){
 
 
-	var select2 = document.getElementById('dropdown_sport');
-	$.ajax({
-		url : 'fetchSportList',
-		type : 'GET',
-		contentType : "application/json",
-		success : function(data) {
-			sportData = data;
-			console.info(data);
-			for (var i in data) {
-				var option = createOption(data[i].sportId,data[i].name);
-				if(i==0)
-					option.selected = 'selected';
-				
-				select2.appendChild(createOption(data[i].sportId,data[i].name));
-			
-					
-			}
-		},
-	}).done(function() {
-				
-	});
+//	//var select2 = document.getElementById('dropdown_sport');
+//	$.ajax({
+//		url : 'fetchSportList',
+//		type : 'GET',
+//		contentType : "application/json",
+//		success : function(data) {
+//			sportData = data;
+//			console.info(data);
+//			for (var i in data) {
+//				var option = createOption(data[i].sportId,data[i].name);
+//				if(i==0)
+//					option.selected = 'selected';
+//				
+//				//select2.appendChild(createOption(data[i].sportId,data[i].name));
+//			
+//					
+//			}
+//		},
+//	}).done(function() {
+//				
+//	});
 }
 
 var addEvent = function(){

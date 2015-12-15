@@ -59,6 +59,14 @@ function eventOuput(eventId) {
 
 }
 
+function eventOutput(eventId) {
+	
+	hideAll(eventId);
+	var eventOutputDivId = "#eventAnalysisDiv"+eventId ;
+	$(eventOutputDivId).css("display", "inline-block");
+
+}
+
 function hideAll(eventId){
 	var contactManagerDiv  = "#contactManagerDiv" + eventId;
 	var meetingDivId = "#meetingDiv"+eventId ;
