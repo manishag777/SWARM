@@ -258,15 +258,14 @@ var getSuggestions = function(ourPrice, amazonPrice, ebayPrice, mrp,
 				+ ': Selling at prices lower than your minimum margin price.</li></font>'
 				+ '<font color="blue"><li type="dic">Set discount% = '
 				+ discountInt
-				+ ' for selling price to be at minimum margin price.</li>'
-				+ '<li type="disc"> Alert the procurement team to review the procurement cost.</li></font>'
+				+ ' for selling price to be at minimum margin price.</li>';
 
 	} else if (ourPrice < amazonPrice && ourPrice < ebayPrice) {
 		var discount = (mrp - lowerPrice) * 100 / mrp;
 		discountInt = discount | 0 + 1;
 		suggestionText += '<font color="green"><li type="disc">Your product is already at good price.</li></font>'
 				+ '<font color="blue"><li type="disc">Can decrease discount upto '
-				+ discountInt + "% to compete them.</li></font>"
+				+ discountInt + "% to compete them.</li></font>";
 	} else if (ourPrice < amazonPrice && ourPrice > ebayPrice) {
 		var discount = (mrp - lowerPrice) * 100 / mrp;
 		console.info("discount=" + discount);

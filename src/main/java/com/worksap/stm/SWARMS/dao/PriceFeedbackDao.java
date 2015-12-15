@@ -147,7 +147,7 @@ public class PriceFeedbackDao {
 					Date startDate = rs.getDate("start_date");
 					Date endDate = rs.getDate("end_date");
 					Date tempEndDate = endDate != null ? endDate : new Date();
-					long diff = Math.round((tempEndDate.getTime() - startDate
+					long diff = 1 + Math.round((tempEndDate.getTime() - startDate
 							.getTime()) / (double) 86400000);
 					long itemsSold = diff / ((int) (Math.random() + 1) * 5);
 					int mrp = rs.getInt("mrp");
