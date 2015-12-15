@@ -1,8 +1,8 @@
 package com.worksap.stm.SWARMS.controller;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,104 +25,118 @@ import com.worksap.stm.SWARMS.dao.NotificationDao;
 import com.worksap.stm.SWARMS.dao.TextSearchProductDao;
 import com.worksap.stm.SWARMS.dto.EmployeeDto;
 import com.worksap.stm.SWARMS.dto.NotificationDto;
+import com.worksap.stm.SWARMS.dto.PriceFeedbackDto;
 import com.worksap.stm.SWARMS.dto.WishListDto;
-import com.worksap.stm.SWARMS.entity.ProductProfitEntity;
 import com.worksap.stm.SWARMS.entity.ProductSearchFetchListEntity;
 import com.worksap.stm.SWARMS.entity.ProductSearchFilterEntity;
 import com.worksap.stm.SWARMS.service.spec.CustomerService;
+import com.worksap.stm.SWARMS.service.spec.FeedbackService;
 import com.worksap.stm.SWARMS.service.spec.MyProductService;
 import com.worksap.stm.SWARMS.service.spec.WishListService;
 
 @Controller
 public class SalesStaffController {
-	
+
 	@Autowired
 	private MyProductService myProductService;
-	
+
 	@Autowired
 	private WishListService wishListService;
-	
+
 	@Autowired
 	private CustomerService customerService;
-	
+
+	@Autowired
+	private FeedbackService feedbackService;
+
 	@Autowired
 	private TextSearchProductDao textSearchProductDao;
-	
+
 	@Autowired
 	private EmployeeDao employeeDao;
-	
+
 	@Autowired
 	private NotificationDao notificationDao;
 
 	@RequestMapping("/searchProduct")
-    public ModelAndView manageProduct(Principal principal) {
-        //return new ModelAndView("search-product");
-		return createModelAndView(principal, "search-product2");
-    }
-	
+	public ModelAndView manageProduct(Principal principal) {
+		return createModelAndView(principal, "sales-staff-product-view");
+	}
+
 	@RequestMapping("/ssDashBoard")
-    public ModelAndView ssDashboard(Principal principal) {
+	public ModelAndView ssDashboard(Principal principal) {
 		return createModelAndView(principal, "ss-dashboard");
-    }
-	
+	}
+
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/getSSNotifications", method = RequestMethod.GET)
 	@ResponseBody
-	public List<NotificationDto> getNotification(@RequestParam("user") String user) {
+	public List<NotificationDto> getNotification(
+			@RequestParam("user") String user) {
 		return notificationDao.getNotificationByUsername(user);
 	}
 
+	@SuppressWarnings("unchecked")
+	private ModelAndView createModelAndView(Principal principal, String htmlPage) {
+		UserDetails userDetails = (UserDetails) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal();
+		Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) userDetails
+				.getAuthorities();
 
-	
-	
-	private ModelAndView createModelAndView(Principal principal, String htmlPage){		
-		UserDetails userDetails =
-				 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Collection<SimpleGrantedAuthority> authorities  = (Collection<SimpleGrantedAuthority>) userDetails.getAuthorities();		
-		
-		Map<String,String> model = new HashMap<String,String>();
-		String role = authorities.iterator().next().getAuthority()+"";
+		Map<String, String> model = new HashMap<String, String>();
+		String role = authorities.iterator().next().getAuthority() + "";
 		model.put("role", role);
-		String username  = principal.getName();
-		EmployeeDto  employeeDto = employeeDao.getByUsername(username);
-		model.put("name", employeeDto.getFirstName() + " "+employeeDto.getLastName());
+		String username = principal.getName();
+		EmployeeDto employeeDto = employeeDao.getByUsername(username);
+		model.put("name",
+				employeeDto.getFirstName() + " " + employeeDto.getLastName());
 		ModelAndView model2 = new ModelAndView(htmlPage);
 		model2.addObject("model", model);
 		return model2;
-		
+
 	}
 
-	
-	
-		
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/addWishList", method = RequestMethod.POST)
 	@ResponseBody
 	public void addWishList(@RequestBody WishListDto wishListDto) {
 		System.out.println(wishListDto);
 		wishListService.insert(wishListDto);
-		
+
 	}
-	
+
+	@RequestMapping(value = "/addFeedback", method = RequestMethod.POST)
+	@ResponseBody
+	public void addWishList(@RequestBody PriceFeedbackDto feedbackDto) {
+		// setting todays date as current date
+		feedbackDto.setDateAdded(new Date());
+		feedbackService.insert(feedbackDto);
+	}
+
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/updateEmailId", method = RequestMethod.GET)
 	@ResponseBody
-	public void updateEmailId(@RequestParam("id") int id, @RequestParam("emailId") String emailId) {
-		System.out.println(id +" " + emailId);
-		customerService.updateEmailId(id,emailId);
+	public void updateEmailId(@RequestParam("id") int id,
+			@RequestParam("emailId") String emailId) {
+		System.out.println(id + " " + emailId);
+		customerService.updateEmailId(id, emailId);
 	}
-	
+
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/returnFilteredProducts", method = RequestMethod.POST)
 	@ResponseBody
-	public ProductSearchFetchListEntity returnFilteredProducts(@RequestBody ProductSearchFilterEntity productSearchFilterEntity) {
+	public ProductSearchFetchListEntity returnFilteredProducts(
+			@RequestBody ProductSearchFilterEntity productSearchFilterEntity) {
 		System.out.println("At productSearchFilterEntity");
 		System.out.println(productSearchFilterEntity);
-		//System.out.println("productFilterEntity = " + productFilterEntity.getGroupType());
-		//return new ProductSearchFetchListEntity(2,2,2,myProductService.returnFilteredProducts(productSearchFilterEntity));
-		//return new ProductSearchFetchListEntity(2,2,2,null);
-		return new ProductSearchFetchListEntity(2,2,2,textSearchProductDao.searchProductByFilter(productSearchFilterEntity));	
+		// System.out.println("productFilterEntity = " +
+		// productFilterEntity.getGroupType());
+		// return new
+		// ProductSearchFetchListEntity(2,2,2,myProductService.returnFilteredProducts(productSearchFilterEntity));
+		// return new ProductSearchFetchListEntity(2,2,2,null);
+		return new ProductSearchFetchListEntity(2, 2, 2,
+				textSearchProductDao
+						.searchProductByFilter(productSearchFilterEntity));
 	}
-		
-	
+
 }
