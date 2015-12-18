@@ -30,7 +30,7 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				redirectStrategy.sendRedirect(request, response, "/admin");
 			}
 			else if(authority.getAuthority().equals("ss")){
-				redirectStrategy.sendRedirect(request, response, "/searchProduct");
+				redirectStrategy.sendRedirect(request, response, "/ssDashBoard");
 			}
 			else if(authority.getAuthority().equals("cso")){
 				redirectStrategy.sendRedirect(request, response, "/csodashboard");

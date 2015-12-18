@@ -1,3 +1,6 @@
+var FeedbackData = [];
+var currIndex = 0;
+
 $(document).ready(function() {
 	var initPage = function() {
 		console.info("Displaying feedbacks");
@@ -11,9 +14,13 @@ var displayFeedbacks = function(evt) {
 	$.ajax({
 		url : 'getFeedbacks',
 		success : function(data) {
+			FeedbackData = [];
+			currIndex = 0;
 			$.each(data, function(index, element) {
 				getFeedbackString(element);
 			});
+			
+			console.info(FeedbackData);
 		}
 	});
 };
@@ -109,9 +116,42 @@ var getFeedbackString = function(element) {
 						+ ' Price: N/A';
 			}
 			addFeedbackBox(element, feedbackString);
+			element.ourPrices = prices.ourPrices;
+			element.amazonPrices = prices.amazonPrices;
+			element.ebayPrices = prices.ebayPrices;
+			element.feedbackString = feedbackString;
+			FeedbackData.push(element);
+			
 		}
 	});
 }
+
+function  populateFeedBackTable(feedbackEntities){
+	
+	var productRecommendationId = "#feedbackTable" + id ;
+	
+	console.info("feedbackEntities");
+	//console.info(data);
+	$(productRecommendationId).DataTable({
+    	data: feedbackEntities,
+    	columns: [
+					{ data: 'type' },
+		          	{ data: 'estimatedQty' },
+		          	{ data: 'type' },
+		          	{ data: 'estimatedQty' },
+		          	{ data: 'type' },
+		          	{ data: 'estimatedQty' },
+		      	],
+        filter: false,
+        sort: false,
+        paging: false,
+        bInfo : false,
+        destroy: true
+  });
+}
+
+
+
 
 var markResolve = function(feedbackId) {
 	$.ajax({
@@ -209,8 +249,7 @@ var populatePreviousMarkingTable = function(previousMarkings) {
 		filter : false,
 		sort : true,
 		"bLengthChange" : false,
-		"order": [[ 2, "asc" ]],
-		destroy: true
+		"order": [[ 2, "asc" ]]
 	});
 }
 

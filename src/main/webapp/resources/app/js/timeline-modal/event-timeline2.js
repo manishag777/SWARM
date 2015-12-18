@@ -245,6 +245,8 @@ var fetchEventList = function(){
 				$(".timeline-centered").append(createDiv(getEventType(data[i]), getFormattedDate(getStandardDate(data[i].fromDate)), getEventNumber(data[i]), data[i], i ));
 				//addListenerEvent(data[i].id);
 				setBreadCrumbStatusColor(data[i]);
+				//$("#meetingParamDiv"+data[i].id).attr("css","display:none");
+				$("#meetingParamDiv"+data[i].id).attr('style',' display:none;');
 				contactManagerRadioListener(data[i].id);
 				meetingRadioListener(data[i].id)
 				setDateTimePicker(data[i].id);
@@ -403,7 +405,7 @@ var getBreadCrumbPanel = function(eventId, data){
 		
 	var res = '<button type="button" id ='+ id1 +' onClick = "contactManager('+ eventId +')" class="btn btn-arrow-right contactManagerButton">Contact Manager</button>'
 	     + '<button type="button" id ='+ id2 +' onClick = "meeting('+ eventId +')" class="btn btn-arrow-right meetingButton">Meeting</button>'
-	    + '<button type="button" id ='+ id3 +' onClick = "assignTask('+ eventId +')" class="btn btn-arrow-right assignTaskButton">Assign Task</button>'
+	    + '<button type="button" id ='+ id3 +' onClick = "assignTask('+ eventId +')" class="btn btn-arrow-right assignTaskButton">Post-Meeting</button>'
 	    + '<button type="button" id ='+ id4 +' onClick = "eventStatus('+ eventId +')" class="btn btn-arrow-right eventStatusButton">Event Status</button>'
 	    + '<button type="button" id ='+ id5 +' onClick = "eventOuput('+ eventId +')" class="btn btn-arrow-right eventOutputButton">Event Analysis</button>' ;
 	

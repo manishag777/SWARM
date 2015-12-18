@@ -176,19 +176,18 @@ function saveMeetingTime(){
 	});
 }
 
-
 function meetingReschedule(id){
 	currentEventId = id;
 	console.info(id);
 	$("#set-timeModal").modal("show");
 }
 
-
 function callOnThisNumber(id){
 	$("#callOnThisNumberModal").modal("show");
 }
 
 function sendMail(id){
+
 	$("#send-mail-Modal").modal("show");
 	
 	$("#emailId").val(eventDataIdMap[id].coEmail);

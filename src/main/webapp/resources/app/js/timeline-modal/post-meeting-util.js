@@ -243,6 +243,6 @@ function saveMailStatus(){
 						swal("Successfully sent mail to the customers"); 
 						$("#email-Modal2").modal('hide');
 						saveMailStatusInDatabase();
-					}, $("#dropdown_customer").val()*100);  });
+					}, 20*100)  });
 }
 
