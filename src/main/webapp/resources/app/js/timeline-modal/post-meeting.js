@@ -37,7 +37,7 @@ function getRecommendedProductDiv(id){
 function getEventAwarenessDiv(id){
 	
 	var mid = id+'"';
-	var html = '<div class="col-md-4">'
+	var html = '<div class="col-md-4" style = "display:none">'
 				    +'<div class="box box-default">'
 				    +'<div class="box-header with-border">'
 				      +'<h3 class="box-title"><b>Event Awareness</b></h3>'
@@ -62,27 +62,30 @@ function getEventAwarenessDiv(id){
 
 var getPostMeetingDiv = function(id){
 
+
 	var divId = '"assignTaskDiv' + id+'" ' ;
 	var mid = id + '"';
     var html = '<div class = "col-md-12" id = '+divId+' style = "display:none;">'
 	    +'<div class="nav-tabs-custom">'
 	    +'<!-- Tabs within a box -->'
-	    +'<ul class="nav nav-tabs pull-right">'
-	      +'<li class="active"><a href="#revenue-chart" data-toggle="tab" id = "preEventTab'+mid+'>preEvent</a></li>'
-	      +'<li><a href="#sales-chart" data-toggle="tab" id = "postEventTab'+mid+'>pstEvent</a></li>'
-	      +'<li class="pull-left header"><i class="fa fa-inbox"></i> Sales</li>'
+	    +'<ul class="nav nav-tabs">'
+	      +'<li class="active"><a href="#revenue-chart" data-toggle="tab" id = "preEventTab'+mid+'>Before Event</a></li>'
+	      +'<li><a href="#sales-chart" data-toggle="tab" id = "postEventTab'+mid+'>During Event</a></li>'
+	      +'<li class="pull-right header"><i class="fa fa-inbox"></i> Sales strategy</li>'
 	    +'</ul>'
 	    +'<div class=" row tab-content no-padding">'
 	         +'<div class = "col-md-12"  id = "preEventDiv'+mid+'>'
 		         +'<div class ="row">'
-			         + getRecommendedProductDiv(id)
-			         + getRecommendedScheme(id)
-			         + getEventAwarenessDiv(id)
+		         	+ getRecommendedProductDiv(id)
+		         	+ getDiscountSchemeDiv(id)
+		         	+ getRecommendedScheme(id) 
+			        + getEventAwarenessDiv(id)
 		         +'</div>'
 	         +'</div>'
 	         +'<div class = "col-md-12" style="display:none"  id = "postEventDiv'+mid+'>'
 		         +'<div class ="row" style = "width:100%">'
 		         + getPostRecommendedScheme(id)
+		         + getCouponDiv(id)
 			     + getStallTaskAssignmentDiv(id)
 		         +'</div>'
 	         +'</div>'
@@ -96,6 +99,7 @@ var getPostMeetingDiv = function(id){
 }
 
 var acitvateSalesTab = function(id){
+
 
 	
 	console.info("acitvateSalesTab");
@@ -228,9 +232,70 @@ function setAssiginingTaskBody(stallCount, id){
 	
 }
 
+function getDiscountSchemeDiv(id){
+ 
+  var mid = id+'"';	
+  
+  var html = '<div class="col-xs-8">'  
+		    +'<div class="box box-primary">'
+		    + '<div class="box-header">' 
+		    +  '<h3 class="box-title">Set Discount</h3>'  
+		    +  '</div><!-- /.box-header -->'
+		    +  '<div class="box-body">'
+		    +   '<div class="row margin">' 
+		    +    '<div class="col-sm-12">'  
+		    +     '<p>Discount: <span id = "dper'+mid+'>20%</span></p>'   
+		    +      '<input type="text" id ="discSlider'+mid+'value="" class="slider form-control" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="20" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show" data-slider-id="red">'  
+		    +       '<br/>' 
+		    +        '<p>Expected Revenue -  &nbsp;&nbsp;<span id = "revenue'+mid+'>Rs. 20,000</span><span> &nbsp;&nbsp;&nbsp;&nbsp;</span><Button class="btn-info pull-right" style = "width:150px;" id = "maximizeRevenue'+mid+'>Maximize Revenue</Button></p>'
+		    +        '<p>Expected Profit - &nbsp;&nbsp;<span id = "profit'+mid+'>Rs. 20,00</span><span> &nbsp;&nbsp;&nbsp;&nbsp;'
+		    +        '</span><Button style = "width:150px;" class="pull-right btn-info" id = "maximizeProfit'+mid+'>Maximize Profit</Button></p>'
+		    +        '<Button style = "margin: auto" id = "GeneratePamphlet'+mid+' class = "btn btn-info">Generate Offers Pamphlet</Button>'
+		    +      '</div>'
+		    +    '</div>'
+		    +  '</div><!-- /.box-body -->'
+		    +'</div><!-- /.box -->'
+		  +'</div><!-- /.col -->';
+  
+  return html;
+  
+}
+
+
+function getCouponDiv(id){
+	 
+	  var mid = id+'"';	
+	  
+	  
+	  var html = '<div class="col-xs-6">'
+				      +'<div class="box box-primary">'
+				      +'<div class="box-header">'
+				        +'<h3 class="box-title">Generate Coupon</h3>'
+				      +'</div><!-- /.box-header -->'
+				      +'<div class="box-body">'
+				        +'<div class="row margin">'
+				          +'<div class="col-sm-12">'
+				            +'<p><b>Expected Number of coupon : &nbsp;</b><span id = "expCC'+mid+'>100</span></p>'
+				            +'<p><b>Set budget</b> <input type="number" id = "budget'+mid+'></input></p>'
+				           
+				            +'<p><b>Coupon Amount:</b> <span id = "cAmt'+mid+'>Rs. 1000</span></p>'
+				            +'<input type="text" id ="couponSlider'+mid+' value="" class="cAmtSlider slider form-control" data-slider-min="0" data-slider-max="1000" data-slider-step="50" data-slider-value="20" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show" data-slider-id="red">'
+				            +'<p><b>Number of coupon : &nbsp;</b><span id = "couponCount'+mid+'>100</span></p>'
+				            +'<Button style = "margin: auto" id = "generateCoupon'+mid+'>Generate Coupon</Button>'
+				            
+				          +'</div>'
+				        +'</div>'
+				      +'</div><!-- /.box-body -->'
+				    +'</div><!-- /.box -->'
+				  +'</div><!-- /.col -->';	  
+	  return html;
+} 
+
+
+
 function getPostRecommendedScheme(id){
 	   var mid = id+'"';	
-	   var html =  '<div class="col-md-6">'
+	   var html =  '<div class="col-md-6" style = "display:none">'
 	    + '<div class="box box-default">'
 	    	+  '<div class="box-header with-border">'
 	        		+'<h3 class="box-title"><b>Scheme selection</b></h3>'
@@ -257,7 +322,7 @@ function getPostRecommendedScheme(id){
 
 function getRecommendedScheme(id){
 	var mid = id+'"';	
-	   var html =  '<div class="col-md-4">'
+	   var html =  '<div class="col-md-4" style = "display:none">'
 	    + '<div class="box box-default">'
 	    	+  '<div class="box-header with-border">'
 	        		+'<h3 class="box-title"><b>Scheme selection</b></h3>'

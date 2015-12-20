@@ -103,7 +103,7 @@ function checkBoxUnit(data, isChecked, id, offerType){
 	console.info("isChecked" + isChecked);
 	if(isChecked==0){
 		var checkBoxHtml = '<div class="funkyradio-primary">'
-	    +'<input type="checkbox" name="offers" id = '+label+' value = "rishab"/>'
+	    +'<input type="radio" name="offers" id = '+label+' value = "rishab"/>'
 	    +'<label for='+label+'><small>'+ offerString +'</small></label>'
 	    +'</div>';
 		
@@ -111,7 +111,7 @@ function checkBoxUnit(data, isChecked, id, offerType){
 	}
 	else{
 		var checkBoxHtml = '<div class="funkyradio-primary">'
-		    +'<input type="checkbox" name="offers" id = '+label+' value = "rishab" checked/>'
+		    +'<input type="radio" name="offers" id = '+label+' value = "rishab" checked/>'
 		    +'<label for='+label+'><small>'+ offerString +'</small></label>'
 		    +'</div>';
 			

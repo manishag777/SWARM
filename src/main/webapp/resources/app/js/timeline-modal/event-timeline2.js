@@ -250,12 +250,13 @@ var fetchEventList = function(){
 				contactManagerRadioListener(data[i].id);
 				meetingRadioListener(data[i].id)
 				setDateTimePicker(data[i].id);
-				assignTaskButtonListener(data[i].id)
+				assignTaskButtonListener(data[i].id);
+		        //$('.slider').slider();
+				intializeDiscount(data[i].id);
+				intializeCoupon(data[i].id);
 				if(getEventNumber(data[i])==0){  //make all input read only
 					makePastEventReadOnly("#div"+data[i].id);
-				
-				
-			}
+				}
 				
 				addPostMeetingListener(data[i].id);
 			}
