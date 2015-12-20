@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.worksap.stm.SWARMS.dto.PriceFeedbackDto;
+import com.worksap.stm.SWARMS.dto.SetBestPriceReturnDto;
 import com.worksap.stm.SWARMS.entity.ComparativePrices;
 import com.worksap.stm.SWARMS.entity.PriceComparisonEntity;
 import com.worksap.stm.SWARMS.entity.ProductMarkingEntity;
@@ -21,4 +22,5 @@ public interface FeedbackService {
 	public List<PriceComparisonEntity> getAllPriceComparisons();
 	List<ProductMarkingEntity> getAllPreviousDiscounts(String pid);
 	int refreshPriceComparisons();
+	SetBestPriceReturnDto setBestPrices();
 }

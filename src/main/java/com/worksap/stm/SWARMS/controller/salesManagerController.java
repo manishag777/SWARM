@@ -36,6 +36,7 @@ import com.worksap.stm.SWARMS.dto.PriceFeedbackDto;
 import com.worksap.stm.SWARMS.dto.ProductDetailDto;
 import com.worksap.stm.SWARMS.dto.ProductDto;
 import com.worksap.stm.SWARMS.dto.ProfitDto;
+import com.worksap.stm.SWARMS.dto.SetBestPriceReturnDto;
 import com.worksap.stm.SWARMS.dto.SportDto;
 import com.worksap.stm.SWARMS.dto.StoreDto;
 import com.worksap.stm.SWARMS.dto.UpdateDiscountRequestDto;
@@ -205,20 +206,26 @@ public class salesManagerController {
 				.getAllPriceComparisons();
 		return priceComparisons;
 	}
-	
+
 	@RequestMapping(value = "/refreshPriceComparisons", method = RequestMethod.GET)
 	@ResponseBody
 	public int refreshPriceComparisons() {
 		return feedbackService.refreshPriceComparisons();
 	}
 
-    @RequestMapping(value = "/getPreviousDiscounts", method = RequestMethod.GET)
-    @ResponseBody
-    public List<ProductMarkingEntity> returnProductData(
-    		@RequestParam("product_id") String pid) {
-            return feedbackService.getAllPreviousDiscounts(pid);
-    }
-	
+	@RequestMapping(value = "/setBestPrices", method = RequestMethod.GET)
+	@ResponseBody
+	public SetBestPriceReturnDto setBestPrices() {
+		return feedbackService.setBestPrices();
+	}
+
+	@RequestMapping(value = "/getPreviousDiscounts", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ProductMarkingEntity> returnProductData(
+			@RequestParam("product_id") String pid) {
+		return feedbackService.getAllPreviousDiscounts(pid);
+	}
+
 	@RequestMapping(value = "/updateDiscountPrice", method = RequestMethod.POST)
 	@ResponseBody
 	public void updateDiscountPercent(

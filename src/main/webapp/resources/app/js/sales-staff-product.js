@@ -192,12 +192,13 @@ var retrieveProduct = function(element) {
 	});
 
 	var btn2 = document.createElement("BUTTON");
-	var t2 = document.createTextNode("Add Feedback");
+	var t2 = document.createTextNode("Price Feedback");
 	btn2.appendChild(t2);
 	btn2.setAttribute("data-target", "#product-feedback-modal");
 	btn2.setAttribute("data-toggle", "modal");
 	btn2.addEventListener("click", function() {
 		clearFeedbackModal();
+		populateComparisonPrices(element.productId);
 		feedbackItemPID = element.productId;
 	});
 
@@ -209,6 +210,21 @@ var retrieveProduct = function(element) {
 	li.appendChild(div);
 	parent.appendChild(li);
 };
+
+var populateComparisonPrices = function(productId) {
+	$
+			.ajax({
+				url : 'getComparativePrices',
+				data : {
+					'product_id' : productId
+				},
+				success : function(data) {
+					document.getElementById('addFeedbackOurPriceId').value = data.ourPrices;
+					document.getElementById('addFeedbackAmazonPriceId').value = data.amazonPrices;
+					document.getElementById('addFeedbackEbayPriceId').value = data.ebayPrices;
+				}
+			});
+}
 
 var displayProductInGrid = function(evt) {
 	var brand = $("#brand-type-filter").val();
@@ -230,6 +246,7 @@ var displayProductInGrid = function(evt) {
 
 	});
 };
+
 var ReloadGridProducts = function(evt) {
 
 	// Delete products
@@ -237,6 +254,7 @@ var ReloadGridProducts = function(evt) {
 	container.innerHTML = '';
 	displayProductInGrid();
 }
+
 var distributeProduct = function(element) {
 
 	console.info("pid =" + element.productId + " " + element.colors + " "

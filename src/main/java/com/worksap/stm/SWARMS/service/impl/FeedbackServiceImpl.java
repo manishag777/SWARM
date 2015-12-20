@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.worksap.stm.SWARMS.dao.PriceFeedbackDao;
 import com.worksap.stm.SWARMS.dto.PriceFeedbackDto;
+import com.worksap.stm.SWARMS.dto.SetBestPriceReturnDto;
 import com.worksap.stm.SWARMS.entity.ComparativePrices;
 import com.worksap.stm.SWARMS.entity.PriceComparisonEntity;
 import com.worksap.stm.SWARMS.entity.ProductMarkingEntity;
@@ -62,5 +63,10 @@ public class FeedbackServiceImpl implements FeedbackService{
 	@Override
 	public int refreshPriceComparisons() {
 		return feedbackDao.updatePriceComparisonTable();
+	}
+
+	@Override
+	public SetBestPriceReturnDto setBestPrices() {
+		return feedbackDao.setBestPrices();
 	}
 }

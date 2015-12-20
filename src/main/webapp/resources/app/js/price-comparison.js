@@ -103,7 +103,7 @@ var populatePriceComparisonTable = function(priceComparisons) {
 									}
 								} ],
 						sort : true,
-						"order": [[ 1, "asc" ]]
+						"order" : [ [ 1, "asc" ] ]
 					});
 	// Array to track the ids of the details displayed rows
 	var detailRows = [];
@@ -223,7 +223,7 @@ var populatePreviousMarkingTable = function(previousMarkings) {
 		filter : false,
 		sort : true,
 		"bLengthChange" : false,
-		"order": [[ 2, "desc" ]]
+		"order" : [ [ 2, "desc" ] ]
 	});
 }
 
@@ -323,9 +323,48 @@ var refreshPrices = function() {
 				success : function(data) {
 					var alertString = "Price of " + data
 							+ " products needs to be updated";
-					alert(alertString);
+					swal({
+						title : "Amazon and Ebay Prices Refreshed",
+						text : alertString,
+						type : "warning",
+						confirmButtonColor : "#DD6B55",
+						confirmButtonText : "OK",
+						closeOnConfirm : false
+					}, function() {
+						location.reload();
+					});
 				},
 			}).done(function() {
-		location.reload();
+	});
+}
+
+var setBestPrices = function() {
+	console.info("Setting best prices for every products")
+	$.ajax(
+			{
+				url : 'setBestPrices',
+				async : false,
+				contentType : "application/json",
+				success : function(data) {
+					console.info(data);
+					var totalUpdated = (data.updatedPrice + data.atMinMarginPrice); 
+					var alertString1 = "Price of "
+							+ totalUpdated
+							+ " products updated to their best price";
+					var alertString2 = data.atMinMarginPrice
+							+ " products at their min margin price";
+
+					swal({
+						title : alertString1,
+						text : alertString2,
+						type : "warning",
+						confirmButtonColor : "#DD6B55",
+						confirmButtonText : "OK",
+						closeOnConfirm : false
+					}, function() {
+						location.reload();
+					});
+				},
+			}).done(function() {
 	});
 }

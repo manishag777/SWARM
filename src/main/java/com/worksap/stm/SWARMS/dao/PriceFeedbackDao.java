@@ -1,11 +1,11 @@
 package com.worksap.stm.SWARMS.dao;
 
-import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
 import com.worksap.stm.SWARMS.dto.PriceFeedbackDto;
+import com.worksap.stm.SWARMS.dto.SetBestPriceReturnDto;
 import com.worksap.stm.SWARMS.entity.ComparativePrices;
 import com.worksap.stm.SWARMS.entity.PriceComparisonEntity;
 import com.worksap.stm.SWARMS.entity.ProductMarkingEntity;
@@ -141,23 +142,82 @@ public class PriceFeedbackDao {
 
 	public List<ProductMarkingEntity> getAllPreviousDiscounts(String pid) {
 		// TODO Auto-generated method stub
-		return template.query(
-				GET_ALL_PROFIT_MARKINGS,
-				(rs, rownum) -> {
-					Date startDate = rs.getDate("start_date");
-					Date endDate = rs.getDate("end_date");
-					Date tempEndDate = endDate != null ? endDate : new Date();
-					long diff = 1 + Math.round((tempEndDate.getTime() - startDate
-							.getTime()) / (double) 86400000);
-					long itemsSold = diff / ((int) (Math.random() + 1) * 5);
-					int mrp = rs.getInt("mrp");
-					int discount = rs.getInt("discount_percent");
-					int sellingPrice = mrp - mrp * discount / 100;
-					return new ProductMarkingEntity(rs.getString("pid"),
-							startDate, endDate, rs.getInt("procurment_price"),
-							mrp, discount,
-							(int) (sellingPrice * itemsSold / diff));
-				}, pid);
+		return template
+				.query(GET_ALL_PROFIT_MARKINGS,
+						(rs, rownum) -> {
+							Date startDate = rs.getDate("start_date");
+							Date endDate = rs.getDate("end_date");
+							Date tempEndDate = endDate != null ? endDate
+									: new Date();
+							long diff = 1 + Math.round((tempEndDate.getTime() - startDate
+									.getTime()) / (double) 86400000);
+							long itemsSold = diff
+									/ ((int) (Math.random() + 1) * 5);
+							int mrp = rs.getInt("mrp");
+							int discount = rs.getInt("discount_percent");
+							int sellingPrice = mrp - mrp * discount / 100;
+							return new ProductMarkingEntity(
+									rs.getString("pid"), startDate, endDate, rs
+											.getInt("procurment_price"), mrp,
+									discount,
+									(int) (sellingPrice * itemsSold / diff));
+						}, pid);
+	}
+
+	public SetBestPriceReturnDto setBestPrices() {
+		List<PriceComparison> priceComparisons = new ArrayList<>();
+		String sql = "SELECT a.pid, a.procurment_price, a.mrp, a.min_margin_percent, b.our_price, b.amazon_price, b.ebay_price "
+				+ "from profit_marking a, price_comparisons b WHERE a.pid = b.pid AND a.end_date IS NULL";
+		template.query(sql, new RowCallbackHandler() {
+
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				PriceComparison comparison = new PriceComparison(rs
+						.getString("pid"), rs.getInt("procurment_price"), rs
+						.getInt("mrp"), rs.getInt("min_margin_percent"), rs
+						.getInt("our_price"), rs.getInt("amazon_price"), rs
+						.getInt("ebay_price"));
+				priceComparisons.add(comparison);
+			}
+		});
+		int count1 = 0;
+		int count2=0;
+		
+		for (PriceComparison comparison : priceComparisons) {
+			int lowerPrice = comparison.amazonPrice;
+			if (lowerPrice > comparison.ebayPrice) {
+				lowerPrice = comparison.ebayPrice;
+			}
+
+			if (comparison.ourPrice > lowerPrice) {
+				int minMarginPercent = comparison.minMarginPercent == 0 ? 5
+						: comparison.minMarginPercent;
+				int minPrice = comparison.procurementPrice
+						+ (int) (minMarginPercent * 1.0
+								* comparison.procurementPrice / 100.0);
+				int maxDiscountPercentAllowed = (int) ((comparison.mrp - minPrice) * 100.0 / comparison.mrp);
+				int bestDiscount = (int) ((comparison.mrp - lowerPrice) * 100.0 / comparison.mrp);
+				bestDiscount = getNearestFiveMultiple(bestDiscount);
+				if (bestDiscount > maxDiscountPercentAllowed) {
+					updateDiscountPercent(comparison.pid,
+							maxDiscountPercentAllowed,
+							comparison.procurementPrice, comparison.mrp);
+					count1++;
+				} else {
+					updateDiscountPercent(comparison.pid, bestDiscount,
+							comparison.procurementPrice, comparison.mrp);
+					count2++;
+				}
+			}
+		}
+		return new SetBestPriceReturnDto(count2, count1);
+	}
+
+	private int getNearestFiveMultiple(int x) {
+		while (x % 5 != 0) {
+			x++;
+		}
+		return x;
 	}
 
 	public int updatePriceComparisonTable() {
@@ -200,6 +260,28 @@ public class PriceFeedbackDao {
 			this.pid = pid;
 			this.price = price;
 			this.discount = discount;
+		}
+	}
+
+	private static class PriceComparison {
+		String pid;
+		int procurementPrice;
+		int mrp;
+		int minMarginPercent;
+		int ourPrice;
+		int amazonPrice;
+		int ebayPrice;
+
+		public PriceComparison(String pid, int procurementPrice, int mrp,
+				int minMarginPercent, int ourPrice, int amazonPrice,
+				int ebayPrice) {
+			this.pid = pid;
+			this.procurementPrice = procurementPrice;
+			this.mrp = mrp;
+			this.minMarginPercent = minMarginPercent;
+			this.ourPrice = ourPrice;
+			this.amazonPrice = amazonPrice;
+			this.ebayPrice = ebayPrice;
 		}
 	}
 }
