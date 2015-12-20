@@ -1,14 +1,19 @@
 package com.worksap.stm.SWARMS.dao;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
 import com.worksap.stm.SWARMS.dto.ProductDto;
+import com.worksap.stm.SWARMS.dto.ProductWithPrice;
 
 @Repository
 public class ProductDao {
@@ -149,6 +154,24 @@ public List<ProductDto> getProductsListByFilter(String sport_id, String brand, S
 				(rs, rownum) -> {
 					return rs.getString("brand"); 
 				},sportId);
+	}
+	
+	public List<ProductWithPrice> getProductWithPrice(String sport_id) {
+		List<ProductWithPrice> products = new ArrayList<>();
+		String sql = "SELECT a.pid, a.name, b.procurment_price, b.mrp, b.discount_percent FROM product a,profit_marking b "
+				+ "WHERE a.sport_id=? AND b.end_date IS NULL AND a.pid=b.pid";
+		
+		template.query(sql, new RowCallbackHandler() {
+
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				ProductWithPrice product =  new ProductWithPrice(rs.getString("pid"), rs
+						.getString("name"), rs.getInt("procurment_price"), rs
+						.getInt("mrp"), rs.getInt("discount_percent"));
+				products.add(product);
+			}
+		}, sport_id);
+		return products;
 	}
 
 }

@@ -8,13 +8,7 @@ function intializeCoupon(id){
  	couponSliderEvent(id);
  	document.getElementById("expCC"+id).innerHTML = expectedCouponCount[id];
  	
- //	
- 	
-// 	$('#budget'+id).keyup(function(e){
-//		    var val = $(this).val();
-//			console.info(val);
-//			updateCouponSlider(val, id, 25);
-//	});
+
  	$('#couponCountDetail'+id).click(function(e){
 	   	//console.info(val);
  		$("#event-coupon-detail").modal("show");
@@ -102,6 +96,21 @@ var setCouponCount = function(val,id){
 	var couponCount = (remainingBudgetIdMap[id]/val).toFixed(0);
 	document.getElementById("cAmt"+id).innerHTML = val;
 	document.getElementById("couponCount"+id).innerHTML = couponCount;
+}
+
+function shareCouponOnFacebook(){
+	swal("Coupon scheme shared on the facebook page","","success");
+}
+
+function shareRegistrationOnFacebook(){
+	swal("Registration scheme shared on the facebook page","","success");
+}
+
+
+function shareDiscountOnFacebook(){
+	
+	swal("Discount scheme shared on the facebook page","","success");
+	
 }
 
 

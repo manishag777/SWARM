@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.worksap.stm.SWARMS.dao.EventDao;
 import com.worksap.stm.SWARMS.dao.NotificationDao;
+import com.worksap.stm.SWARMS.dao.ProductDao;
 import com.worksap.stm.SWARMS.dao.StallEventDao;
 import com.worksap.stm.SWARMS.dto.ProductDto;
+import com.worksap.stm.SWARMS.dto.ProductWithPrice;
 import com.worksap.stm.SWARMS.dto.RecProductDto;
 import com.worksap.stm.SWARMS.dto.RecommendedProductDto;
 import com.worksap.stm.SWARMS.dto.SchemeDto;
@@ -37,6 +39,16 @@ public class EventController {
 
 	@Autowired
 	NotificationDao notificationDao;
+	
+	@Autowired
+	ProductDao productDao;
+	
+	@RequestMapping(value = "/getProductsWithPrice", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ProductWithPrice> getAllProduct(
+			@RequestParam("sport_id") String sport_id) {
+		return productDao.getProductWithPrice(sport_id);
+	}
 	
 	@PreAuthorize("hasAuthority('MD')")
 	@RequestMapping(value = "/getRecommendedProductDtoList", method = RequestMethod.GET)
