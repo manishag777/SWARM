@@ -41,6 +41,9 @@ function getRow(data){
 	var id = "'"+data.id+"'";
 	console.info(id);
 	var html = '<td>'+data.eventName+'</td>';
+	var tag = "";
+	
+	html = html + '<td>'+'<b>'+data.relevanceFactor+'</b>&nbsp;&nbsp;'+getRelevanceTag(data.relevanceFactor)+'</td>' ;
 	if(data.isSeen==0)
 		html+='<td><span class="label label-danger">New</span></td>';
 	else
@@ -51,6 +54,18 @@ function getRow(data){
 		html+='<td><Button>View Status</Button></td>';
 	console.info(html);
 	return html;
+}
+
+function getRelevanceTag(relevanceFactor){
+	if(relevanceFactor > 6){
+		return '<span class="label label-danger">High<span>';
+	}
+	else if(relevanceFactor > 4 ){
+		return '<span class="label label-info">Medium<span>';
+	}
+	else{
+		return '<span class="label label-success">Low<span>';
+	}
 }
 
 function openEventAdder(eventId){

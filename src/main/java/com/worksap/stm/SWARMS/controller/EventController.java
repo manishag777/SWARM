@@ -332,6 +332,12 @@ public class EventController {
 		stallEventDto4.setEventName("Freedom Run and Ride Noida UP");
 		stallEventDto5.setEventName("Run to Feed - New Delhi New Delhi DL");
 		
+		stallEventDto1.setRelevanceFactor(8);
+		stallEventDto2.setRelevanceFactor(6);
+		stallEventDto3.setRelevanceFactor(4);
+		stallEventDto4.setRelevanceFactor(9);
+		stallEventDto5.setRelevanceFactor(5);
+		
 		stallEventDto1.setDetail("A Pleasant morning with a bit of fog. We are hosting CARDIO FITNESS RUN at the core of Delhi. All participants of 12 Km will get T-shirt, finisher medals, certificate, and refreshment. The participants of 6 Km will get finisher medal, participation certificate and refreshment. Timing Certificates will be emailed or given on the Spot.");
 		stallEventDto2.setDetail("The Sportive Ride and The Straits Times Ride both , starting at the Delhi Sports Hub and ending inside the National Stadium. Cyclists of The Sportive Ride also took a short ‘journey to the West’ via the Keppel viaduct.");
 
