@@ -2,28 +2,27 @@
 function getRecommendedProductDiv(id){
 	
 	var mid = id + '"';
-    var html = '<div class="col-md-4">'
+    var html = '<div class="col-md-8">'
     	+ '<div class="box box-default">'
     		+ '<div class="box-header with-border">'
         		+ '<h3 class="box-title"><b>Sales Forecasting</b></h3>' 
         	+ '</div><!-- /.box-header -->'
         + '<div class="box-body">'
-        + '<h4>Product Recommendation</h4>' 
-        + '<hr/>'
         + '<table id = "productRecommendation'+mid+'  class="table table-striped table-bordered" >' 
         	+'<thead>'
         	+ '<tr class = "table-header">'   
         		+ '<td><h5>Product type</h5></td>'     
-        		+ '<td><h5> &nbsp;&nbsp;&nbsp; Expected sales(qty.)</h5></td> '     
+        		+ '<td><h5> &nbsp;&nbsp;&nbsp; Expected sales(qty.)</h5></td> '
+        		+ '<td><h5> &nbsp;&nbsp;&nbsp; Expected Revenue(Rs.)</h5></td> '
+        		+ '<td><h5> &nbsp;&nbsp;&nbsp; Expected Profit(Rs.)</h5></td> '
         	+ '</tr>'
         	+'</thead>'
         + '</table>' 
          + '<hr/>'
-        + '<h4>Expected Revenue <span class= "pull-right" id = "expectedRevenue'+mid+'>Rs. 45000</span></h4>' 
+        + '<h4>Expected Revenue <span class= "pull-right" id = "expectedRevenue'+mid+'>Rs. 45000</span></h4>'
+        + '<h4>Expected Revenue <span class= "pull-right" id = "expectedProfit'+mid+'>Rs. 45000</span></h4>'
+        + '<h4>Set Expenditure Budget <span class= "pull-right"><input type="number" id = "setExpenditureBudget'+mid+'></input><button class="btn btn-info" style = "margin-left:5px;" id = "setExpenditureBudgetButton'+mid+'>Update Budget</button></span></h4>'
         + '<hr/>'
-        + '<Button class = "pull-right btn btn-info" id= "notifySalesManager'+mid+'> Notify Sales Manager</Button>' 
-
-
 
        +'</div>'
      +'</div>'
@@ -63,32 +62,44 @@ function getEventAwarenessDiv(id){
 var getPostMeetingDiv = function(id){
 
 
+
 	var divId = '"assignTaskDiv' + id+'" ' ;
 	var mid = id + '"';
     var html = '<div class = "col-md-12" id = '+divId+' style = "display:none;">'
 	    +'<div class="nav-tabs-custom">'
 	    +'<!-- Tabs within a box -->'
 	    +'<ul class="nav nav-tabs">'
-	      +'<li class="active"><a href="#revenue-chart" data-toggle="tab" id = "preEventTab'+mid+'>Before Event</a></li>'
+	      +'<li class="active"><a data-toggle="tab" id = "budgetAnalysisTab'+mid+'>Budget Analysis</a></li>'
+	      +'<li><a data-toggle="tab" id = "preEventTab'+mid+'>Before Event</a></li>'
 	      +'<li><a href="#sales-chart" data-toggle="tab" id = "postEventTab'+mid+'>During Event</a></li>'
+	      +'<li><a href="#sales-chart" data-toggle="tab" id = "assignTaskTab'+mid+'>AssignTask</a></li>'
 	      +'<li class="pull-right header"><i class="fa fa-inbox"></i> Sales strategy</li>'
 	    +'</ul>'
 	    +'<div class=" row tab-content no-padding">'
-	         +'<div class = "col-md-12"  id = "preEventDiv'+mid+'>'
+		    +'<div class = "col-md-12"  id = "budgetAnalysisDiv'+mid+'>'
+		        +'<div class ="row">'
+		        	+ getRecommendedProductDiv(id)
+		        +'</div>'
+		    +'</div>'
+	         +'<div class = "col-md-12" style="display:none" id = "preEventDiv'+mid+'>'
 		         +'<div class ="row">'
-		         	+ getRecommendedProductDiv(id)
 		         	+ getDiscountSchemeDiv(id)
-		         	+ getRecommendedScheme(id) 
-			        + getEventAwarenessDiv(id)
 		         +'</div>'
 	         +'</div>'
 	         +'<div class = "col-md-12" style="display:none"  id = "postEventDiv'+mid+'>'
 		         +'<div class ="row" style = "width:100%">'
-		         + getPostRecommendedScheme(id)
 		         + getCouponDiv(id)
-			     + getStallTaskAssignmentDiv(id)
+		         +getRegistrationDiv(id)
 		         +'</div>'
 	         +'</div>'
+	         +'<div class = "col-md-12" style="display:none"  id = "assignTaskTabDiv'+mid+'>'
+	         +'<div class ="row" style = "width:100%">'
+		     + getStallTaskAssignmentDiv(id)
+		     + getPostRecommendedScheme(id)
+		     + getPostRecommendedScheme(id)
+		     + getEventAwarenessDiv(id)
+	         +'</div>'
+         +'</div>'
 	      +'</div>'
 	    +'</div><!-- /.nav-tabs-custom -->'
 	+'</div>';
@@ -99,21 +110,42 @@ var getPostMeetingDiv = function(id){
 }
 
 var acitvateSalesTab = function(id){
-
-
-	
 	console.info("acitvateSalesTab");
+	
+	$("#budgetAnalysisTab"+id).click(function(e){
+		console.info("budgetAnalysisTab");
+		$("#postEventDiv"+id).css("display", "none");
+		$("#preEventDiv"+id).css("display", "none");
+		$("#assignTaskTabDiv"+id).css("display", "none");
+		$("#budgetAnalysisDiv"+id).attr('style',' width: 100%; display:show;');
+	});
+	
 	
 	$("#preEventTab"+id).click(function(e){
 		console.info("preEventTab");
 		$("#postEventDiv"+id).css("display", "none");
+		$("#budgetAnalysisDiv"+id).css("display", "none");
+		$("#assignTaskTabDiv"+id).css("display", "none");
 		$("#preEventDiv"+id).attr('style',' width: 100%; display:show;');
 	});
 
 	$("#postEventTab"+id).click(function(e){
 		console.info("postEventTab");
-		$("#postEventDiv"+id).attr('style',' width: 100%; display:show;');
 		$("#preEventDiv"+id).css("display", "none");
+		$("#budgetAnalysisDiv"+id).css("display", "none");
+		$("#assignTaskTabDiv"+id).css("display", "none");
+		$("#postEventDiv"+id).attr('style','width: 100%; display:show;');
+
+	});
+	
+	$("#assignTaskTab"+id).click(function(e){
+		console.info("postEventTab");
+		$("#preEventDiv"+id).css("display", "none");
+		$("#budgetAnalysisDiv"+id).css("display", "none");
+		$("#postEventDiv"+id).css("display", "none");
+		$("#assignTaskTabDiv"+id).attr('style','width: 100%; display:show;');
+		
+
 	});
 }
 
@@ -270,7 +302,7 @@ function getCouponDiv(id){
 	  var html = '<div class="col-xs-6">'
 				      +'<div class="box box-primary">'
 				      +'<div class="box-header">'
-				        +'<h3 class="box-title">Generate Coupon</h3>'
+				        +'<h3 class="box-title">Coupon Scheme</h3>'
 				      +'</div><!-- /.box-header -->'
 				      +'<div class="box-body">'
 				        +'<div class="row margin">'
@@ -282,8 +314,27 @@ function getCouponDiv(id){
 				            +'<input type="text" id ="couponSlider'+mid+' value="" class="cAmtSlider slider form-control" data-slider-min="0" data-slider-max="1000" data-slider-step="50" data-slider-value="20" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show" data-slider-id="red">'
 				            +'<p><b>Number of coupon : &nbsp;</b><span id = "couponCount'+mid+'>100</span></p>'
 				            +'<Button style = "margin: auto" id = "generateCoupon'+mid+'>Generate Coupon</Button>'
-				            +'<hr/>'
-				            +'<br/>'
+				          +'</div>'
+				        +'</div>'
+				      +'</div><!-- /.box-body -->'
+				    +'</div><!-- /.box -->'
+				  +'</div><!-- /.col -->';	  
+	  return html;
+} 
+
+function getRegistrationDiv(id){
+	
+	var mid = id+'"';	
+	  
+	  
+	  var html = '<div class="col-xs-6">'
+				      +'<div class="box box-primary">'
+				      +'<div class="box-header">'
+				        +'<h3 class="box-title">Registration Scheme</h3>'
+				      +'</div><!-- /.box-header -->'
+				      +'<div class="box-body">'
+				        +'<div class="row margin">'
+				          +'<div class="col-sm-12">'
 				            +'<p><b>Set discount amount on registration</b> <input type="number" id = "registration'+mid+'></input><Button style = "height:30px;"class = "btn btn-info pull-right"  id = "registratioDetail'+mid+'>Detail</Button></p>'
 				            +'<p style = "color:green">Make sure resgistration amount is greater than coupon Amount</p>'
 				            +'<p><b>Set Registration Expiry Date</b> <input type="text" id = "registrationExpiry'+mid+'></input></p>'
@@ -293,7 +344,8 @@ function getCouponDiv(id){
 				    +'</div><!-- /.box -->'
 				  +'</div><!-- /.col -->';	  
 	  return html;
-} 
+	
+}
 
 
 

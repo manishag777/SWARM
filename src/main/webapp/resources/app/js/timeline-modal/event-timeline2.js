@@ -5,7 +5,7 @@ var eventType1 = 'past-event"';
 var currentEventId = '';
 var eventData;
 var eventDataIdMap = new Object();
-
+var expenditureBudgetIdMap = new Object();
 
 var modelProductMap = new Object();
 

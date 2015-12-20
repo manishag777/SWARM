@@ -1,48 +1,54 @@
 
-var  fillProductRecommendationDataTable = function(id){
-
+var fillProductRecommendationDataTable = function(id){
 	
-	var dataTableId = "#productRecommendation"+id;
-	console.info("#productRecommendation12");
-	data = {eventId:id, sportType: eventDataIdMap[id].sportType, participationCount: $('#participationCount'+id).val()};
-	console.info(data);
-	$.ajax({
-		url : 'getRecommendedProductDtoList',
-		data : {eventId:id, sportType: eventDataIdMap[id].sportType, participationCount: $('#participationCount'+id).val()},
-		type : 'GET',
-		contentType : "application/json",
-		success : function(data) {
-			console.info(data);
-			populateProductRecommendationTable(data, id);
-		},
-		
-		error : function(e) {
-			//alert ("sorry! Due to some problem couldn't update the gift-card details");
-		},
-	}).done(function() {
-		//console.log("Done adding gift-card details");
+	var newData = modifyRecommendProductData(id);
+	    $('#productRecommendation'+id).DataTable( {
+	        data: newData,
+	        columns: [
+	            { title: "Product Type" },
+	            { title: "Expected sales(qty.)" },
+	            { title: " Expected Revenue(Rs.)" },
+	            { title: "Expected Profit(Rs.)" },
+	        ],
+	        filter: false,
+	        sort: false,
+	        paging: false,
+	        bInfo : false,
+	        destroy: true	
+	    } );
+	  
+	    
+}
+
+function modifyRecommendProductData(id){
+	var particpantCount = $('#participationCount'+id).val();
+	console.info("particpantCount = "+particpantCount);
+	newData = recommendedProductData;
+	var totalProfit=0;
+	var totalRevenue = 0;
+	for(var i=0; i<newData.length; i++){
+		newData[i][1] = particpantCount*newData[i][1];
+		newData[i][2] = newData[i][1]*newData[i][2];
+		newData[i][3] = newData[i][1]*newData[i][3];
+		totalProfit += newData[i][3];
+		totalRevenue += newData[i][2];
+	}
+	
+	document.getElementById("expectedRevenue"+id).innerHTML = "Rs."+totalRevenue;
+	document.getElementById("expectedProfit"+id).innerHTML = "Rs."+totalProfit;
+	
+	$('#setExpenditureBudgetButton'+id).click(function(e){
+		expenditureBudgetIdMap[id] = $("#setExpenditureBudget"+id).val();
+		swal("Budget updated successfully!","","success");
 	});
+	
+	return newData;
 }
 
-function  populateProductRecommendationTable(productEntities, id){
+function expenditureBudget(){
 	
-	var productRecommendationId = "#productRecommendation" + id ;
-	
-	console.info("populateProductRecommendationTable");
-	//console.info(data);
-	$(productRecommendationId).DataTable({
-    	data: productEntities,
-    	columns: [
-					{ data: 'type' },
-		          	{ data: 'estimatedQty' },
-		      	],
-        filter: false,
-        sort: false,
-        paging: false,
-        bInfo : false,
-        destroy: true
-  });
 }
+
 
 function getSchemeOfferList(id, offerType){
 	
