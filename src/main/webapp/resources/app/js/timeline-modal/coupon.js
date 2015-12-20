@@ -1,4 +1,5 @@
 var expectedCouponCount = new Object();
+var remainingBudgetIdMap = new Object();
 
 
 
@@ -6,12 +7,14 @@ function intializeCoupon(id){
 	expectedCouponCount[id] = ($('#participationCount'+id).val()*0.06/0.25).toFixed(0);
  	couponSliderEvent(id);
  	document.getElementById("expCC"+id).innerHTML = expectedCouponCount[id];
-
- 	$('#budget'+id).keyup(function(e){
-		    var val = $(this).val();
-			console.info(val);
-			updateCouponSlider(val, id, 25);
-	});
+ 	
+ //	
+ 	
+// 	$('#budget'+id).keyup(function(e){
+//		    var val = $(this).val();
+//			console.info(val);
+//			updateCouponSlider(val, id, 25);
+//	});
  	$('#couponCountDetail'+id).click(function(e){
 	   	//console.info(val);
  		$("#event-coupon-detail").modal("show");
@@ -25,6 +28,16 @@ function intializeCoupon(id){
  	});
  	
 }
+
+var updateCouponScheme = function(id, remainingBudget){
+	
+	//var remainingBudget = 20000;
+	remainingBudgetIdMap[id] = remainingBudget;
+ 	document.getElementById('remainingBudgetCoupon'+id).innerHTML = "Rs."+remainingBudget;
+ 	updateCouponSlider(remainingBudget, id);
+}
+
+
 
 var populateCouponTable = function(){
 	    $('#coupon-detail').DataTable( {
@@ -84,8 +97,9 @@ var updateCouponSlider = function(val, id){
 	
 }
 
+
 var setCouponCount = function(val,id){
-	var couponCount = ($('#budget'+id).val()/val).toFixed(0);
+	var couponCount = (remainingBudgetIdMap[id]/val).toFixed(0);
 	document.getElementById("cAmt"+id).innerHTML = val;
 	document.getElementById("couponCount"+id).innerHTML = couponCount;
 }

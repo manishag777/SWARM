@@ -23,6 +23,7 @@ var fillProductRecommendationDataTable = function(id){
 function modifyRecommendProductData(id){
 	var particpantCount = $('#participationCount'+id).val();
 	console.info("particpantCount = "+particpantCount);
+	console.info(recommendedProductData);
 	newData = recommendedProductData;
 	var totalProfit=0;
 	var totalRevenue = 0;
@@ -36,10 +37,18 @@ function modifyRecommendProductData(id){
 	
 	document.getElementById("expectedRevenue"+id).innerHTML = "Rs."+totalRevenue;
 	document.getElementById("expectedProfit"+id).innerHTML = "Rs."+totalProfit;
+	var stallFees = $("#fees"+id).val();
+	document.getElementById('stallInstallmentExpense'+id).innerHTML = "Rs."+stallFees;
 	
 	$('#setExpenditureBudgetButton'+id).click(function(e){
 		expenditureBudgetIdMap[id] = $("#setExpenditureBudget"+id).val();
 		swal("Budget updated successfully!","","success");
+		var stallFees = $("#fees"+id).val();
+		var remBudget = $("#setExpenditureBudget"+id).val() - stallFees;
+		document.getElementById('stallInstallmentExpense'+id).innerHTML = "Rs."+stallFees;
+		document.getElementById('remainingBudget'+id).innerHTML = "Rs."+remBudget;
+		updateCouponScheme(id,remBudget);
+		
 	});
 	
 	return newData;

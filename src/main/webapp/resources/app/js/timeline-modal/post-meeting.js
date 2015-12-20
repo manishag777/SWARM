@@ -22,6 +22,9 @@ function getRecommendedProductDiv(id){
         + '<h4>Expected Revenue <span class= "pull-right" id = "expectedRevenue'+mid+'>Rs. 45000</span></h4>'
         + '<h4>Expected Revenue <span class= "pull-right" id = "expectedProfit'+mid+'>Rs. 45000</span></h4>'
         + '<h4>Set Expenditure Budget <span class= "pull-right"><input type="number" id = "setExpenditureBudget'+mid+'></input><button class="btn btn-info" style = "margin-left:5px;" id = "setExpenditureBudgetButton'+mid+'>Update Budget</button></span></h4>'
+        + '</br>'
+        + '<h4>Stall Installment Expenditure<span class= "pull-right" id = "stallInstallmentExpense'+mid+'>Rs. 45000</span></h4>'
+        + '<h4>Remaining Budget<span class= "pull-right" id = "remainingBudget'+mid+'>Rs.-</span></h4>'
         + '<hr/>'
 
        +'</div>'
@@ -308,6 +311,7 @@ function getCouponDiv(id){
 				        +'<div class="row margin">'
 				          +'<div class="col-sm-12">'
 				            +'<p><b>Suggested Number of coupon : &nbsp;</b><span id = "expCC'+mid+'>100</span><Button style = "height:30px;"class = "btn btn-info pull-right"  id = "couponCountDetail'+mid+'>Detail</Button></p>'
+				            +'<p><b>Remaining Budget is </b> <span id = "remainingBudgetCoupon'+mid+'></span></p>'
 				            +'<p><b>Set budget</b> <input type="number" id = "budget'+mid+'></input></p>'
 				            +'<p><b>Set Coupon Expiry Date</b> <input type="text" id = "couponExpiry'+mid+'></input></p>'
 				            +'<p><b>Coupon Amount:</b> <span id = "cAmt'+mid+'>Rs. 1000</span></p>'
