@@ -14,6 +14,6 @@ var recommendedProductData = [["Running shoes", 0.050, 780, 180],
                     ["T-shirt", 0.035, 245, 115 ],
                     ["Jacket", 0.043, 890, 250 ]];
 
-var discountDetailData = [["Day Breaker Half Marathon Gurgaon HR","15", "25,000", "126"],
-                          ["Golden Jubilee Half New Delhi DL", "20" ,"38,000", "6","187"],
-                          ["Run For the health of Delhi", "25", "32,000", "210"]];
+var discountDetailData = [["Day Breaker Half Marathon Gurgaon HR","35", "25,000", "126"],
+                          ["Golden Jubilee Half New Delhi DL", "40" ,"38,000", "6","187"],
+                          ["Run For the health of Delhi", "45", "32,000", "210"]];

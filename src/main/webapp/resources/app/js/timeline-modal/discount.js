@@ -1,5 +1,5 @@
 
-var discountPercentage=0;
+var discountPercentage=40;
 var selected = [];
 var eventId;
 
@@ -68,11 +68,15 @@ var populateSelectProductModal = function() {
 	});
 }
 
+var selectedLength=0;
+
 var getSelectedItems = function() {
 	var table = $('#select-product-table').DataTable();
 	selectedRows = table.rows('.selected').data();
 	$('#select-product-modal').modal('hide');
+	selectedLength = selectedRows.length;
 	console.info(selectedRows.length);
+	document.getElementById("productSelectedCount"+eventId).innerHTML = selectedRows.length;
 }
 
 var getAllItems = function() {
@@ -80,10 +84,18 @@ var getAllItems = function() {
 	var selectedRows = table.data();
 	$('#select-product-modal').modal('hide');
 	console.info(selectedRows.length);
+	selectedLength = selectedRows.length;
 	document.getElementById("productSelectedCount"+eventId).innerHTML = selectedRows.length;
 	
 }
 
+
+var ApplyDiscountOnSelected = function(){
+	var table = $('#select-product-table').DataTable();
+	var selectedRows = table.data();
+	console.info("Discounts of "+ selectedLength+" items have been updated");
+	swal("Discounts of "+ selectedLength+" items have been updated", " ", "success");
+}
 
 
 var discountPercentTable = function(){
@@ -105,7 +117,7 @@ var discountPercentTable = function(){
 }
 
 var setBestDiscountPercent = function(id){
-	updateValues(20, id);
+	updateValues(discountPercentage, id);
 }
 
 
