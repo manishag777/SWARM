@@ -69,8 +69,7 @@
 									<!-- inner menu: contains the messages -->
 									<ul class="menu" id="out-of-stock-list">
 
-									</ul>
-									<!-- /.menu -->
+									</ul> <!-- /.menu -->
 								</li>
 								<li class="footer"><a href="#">See All Messages</a></li>
 							</ul>
@@ -79,8 +78,8 @@
 
 
 						<!-- User Account Menu -->
-						<li class="dropdown user user-menu" >
-							<!-- Menu Toggle Button --> <a  class="dropdown-toggle"
+						<li class="dropdown user user-menu">
+							<!-- Menu Toggle Button --> <a class="dropdown-toggle"
 							data-toggle="dropdown"> <!-- The user image in the navbar-->
 								<img src="resources/app/img/md.png" class="user-image"
 								alt="User Image" /> <!-- hidden-xs hides the username on small devices so only the image appears. -->
@@ -146,12 +145,12 @@
 						th:if="${session.roles.contains('sm')}"><i class="fa fa-link"></i>
 							<span>Dashboard</span></a></li>
 					<li class="active"><a href="ssDashBoard"
-							th:if="${session.roles.contains('ss')}"><i class="fa fa-link"></i>
-								<span>Dashboard</span></a></li>
-					
+						th:if="${session.roles.contains('ss')}"><i class="fa fa-link"></i>
+							<span>Dashboard</span></a></li>
+
 					<li><a href="./manageEvent"
-						th:if="${session.roles.contains('cso')}"><i
-							class="fa fa-link"></i> <span>Event Management</span></a></li>
+						th:if="${session.roles.contains('cso')}"><i class="fa fa-link"></i>
+							<span>Event Management</span></a></li>
 					<li><a href="./suggestionForOpeningNewStore"
 						th:if="${session.roles.contains('cso')}"><i class="fa fa-link"></i>
 							<span>Store Suggestion</span></a></li>
@@ -179,9 +178,12 @@
 					<li><a href="./manageProduct"
 						th:if="${session.roles.contains('sm')}"><i class="fa fa-link"></i>
 							<span>Manage Products</span></a></li>
-					<li><a href="./logout"
-						><i class="fa fa-link"></i>
-							<span>Log out</span></a></li>		
+					<li><a href="./facebookAnalysis"
+						th:if="${session.roles.contains('sm')}"><i class="fa fa-link"></i>
+							<span>Facebook Analysis</span></a></li>
+
+					<li><a href="./logout"><i class="fa fa-link"></i> <span>Log
+								out</span></a></li>
 				</ul>
 				<!-- /.sidebar-menu -->
 			</section>

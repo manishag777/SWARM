@@ -140,6 +140,11 @@ public class salesManagerController {
 	public ModelAndView managePriceComparisons(Principal principal) {
 		return createModelAndView(principal, "price-comparisons");
 	}
+	
+	@RequestMapping("/facebookAnalysis")
+	public ModelAndView manageFacebookPosts(Principal principal) {
+		return createModelAndView(principal, "facebook-analysis");
+	}
 
 	@SuppressWarnings("unchecked")
 	private ModelAndView createModelAndView(Principal principal, String htmlPage) {
