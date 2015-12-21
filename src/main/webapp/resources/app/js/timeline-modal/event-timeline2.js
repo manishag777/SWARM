@@ -259,6 +259,15 @@ var fetchEventList = function(){
 				}
 				
 				addPostMeetingListener(data[i].id);
+				
+				 $('#couponExpiry'+data[i].id).datepicker({
+				     dateFormat: 'dd-mm-yy',     
+				 });
+				 
+				 $('#registrationExpiry'+data[i].id).datepicker({
+				     dateFormat: 'dd-mm-yy',     
+				 });
+				 
 			}
 		},
 	}).done(function() {
@@ -508,12 +517,12 @@ function fillTheDiv(eventId, data){
 	var regCustCountId = "regCustCountId"+eventId; 
 	var eventStatusHeaderId = "eventStatusHeaderId" + eventId;
 	
-	document.getElementById(leadGeneratedId).innerHTML = data.rcustomer ;
-	document.getElementById(leadConvertedId).innerHTML = data.acustomer ;
-	document.getElementById(inputCostId).innerHTML = (data.profit * 0.40).toFixed(0);
-	document.getElementById(revenueId).innerHTML = data.revenue;
-	document.getElementById(profitId).innerHTML = data.profit;
-	document.getElementById(regCustCountId).innerHTML = data.rcustomer;
+//	document.getElementById(leadGeneratedId).innerHTML = data.rcustomer ;
+//	document.getElementById(leadConvertedId).innerHTML = data.acustomer ;
+//	document.getElementById(inputCostId).innerHTML = (data.profit * 0.40).toFixed(0);
+//	document.getElementById(revenueId).innerHTML = data.revenue;
+//	document.getElementById(profitId).innerHTML = data.profit;
+//	document.getElementById(regCustCountId).innerHTML = data.rcustomer;
 	
 	var eventStatusHeaderTitle = "";
 	if(data.eventStatus==-1) eventStatusHeaderTitle = "Event has Finished" ;     // finished

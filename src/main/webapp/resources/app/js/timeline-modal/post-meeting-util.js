@@ -24,15 +24,15 @@ function modifyRecommendProductData(id){
 	var particpantCount = $('#participationCount'+id).val();
 	console.info("particpantCount = "+particpantCount);
 	console.info(recommendedProductData);
-	newData = recommendedProductData;
+	newData = cloneData(recommendedProductData);
 	var totalProfit=0;
 	var totalRevenue = 0;
 	for(var i=0; i<newData.length; i++){
-		newData[i][1] = particpantCount*newData[i][1];
-		newData[i][2] = newData[i][1]*newData[i][2];
-		newData[i][3] = newData[i][1]*newData[i][3];
-		totalProfit += newData[i][3];
-		totalRevenue += newData[i][2];
+		newData[i][1] = (particpantCount*newData[i][1]).toFixed(0);
+		newData[i][2] = (newData[i][1]*newData[i][2]).toFixed(0);
+		newData[i][3] = (newData[i][1]*newData[i][3]).toFixed(0);
+		totalProfit = parseInt(totalProfit) + parseInt(newData[i][3]);
+		totalRevenue = parseInt(totalRevenue) + parseInt(newData[i][2]);
 	}
 	
 	document.getElementById("expectedRevenue"+id).innerHTML = "Rs."+totalRevenue;
@@ -50,6 +50,21 @@ function modifyRecommendProductData(id){
 		updateCouponScheme(id,remBudget);
 		
 	});
+	
+	return newData;
+}
+
+function cloneData(data){
+	
+	var newData = [];
+	for(var i=0; i<data.length; i++){
+		var subArray=[];
+		subArray.push(data[i][0]);
+		subArray.push(data[i][1]);
+		subArray.push(data[i][2]);
+		subArray.push(data[i][3]);
+		newData.push(subArray);
+	}
 	
 	return newData;
 }

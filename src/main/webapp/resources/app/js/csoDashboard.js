@@ -43,7 +43,9 @@ function getRow(data){
 	var html = '<td>'+data.eventName+'</td>';
 	var tag = "";
 	
-	html = html + '<td>'+'<b>'+data.relevanceFactor+'</b>&nbsp;&nbsp;'+getRelevanceTag(data.relevanceFactor)+'</td>' ;
+	//html = html + '<td>'+'<b>'+data.relevanceFactor+'</b>&nbsp;&nbsp;'+getRelevanceTag(data.relevanceFactor)+'</td>' ;
+	html = html + '<td>'+getRelevanceTag(data.relevanceFactor)+'</td>' ;
+
 	if(data.isSeen==0)
 		html+='<td><span class="label label-danger">New</span></td>';
 	else

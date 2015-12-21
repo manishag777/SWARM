@@ -26,9 +26,10 @@ function intializeCoupon(id){
 var updateCouponScheme = function(id, remainingBudget){
 	
 	//var remainingBudget = 20000;
-	remainingBudgetIdMap[id] = remainingBudget;
+	remainingBudgetIdMap[id] = 4*remainingBudget;
  	document.getElementById('remainingBudgetCoupon'+id).innerHTML = "Rs."+remainingBudget;
- 	updateCouponSlider(remainingBudget, id);
+ 	document.getElementById('couponDistributionAmount'+id).innerHTML = "Rs."+remainingBudget*4;
+ 	updateCouponSlider(4*remainingBudget, id);
 }
 
 
@@ -81,9 +82,12 @@ var couponSliderEvent = function(id){
 
 var updateCouponSlider = function(val, id){
 	
+	expectedCouponCount[id] = ($('#participationCount'+id).val()*0.06/0.25).toFixed(0);
+ 	document.getElementById("expCC"+id).innerHTML = expectedCouponCount[id];
+
 	var couponVal = (val/expectedCouponCount[id]).toFixed(0);
-	console.info("couponVal = "+ couponVal);
-	couponVal = (((couponVal)/50).toFixed(0)) *(50) ;
+	console.info("val = "+ val+" couponVal = "+ couponVal);
+	couponVal = (((couponVal)/10).toFixed(0)) *(10) ;
 	$("#couponSlider"+id).slider('setValue', couponVal)
 	var couponCount = (val/couponVal).toFixed(0);
 	document.getElementById("cAmt"+id).innerHTML = couponVal;
@@ -109,8 +113,15 @@ function shareRegistrationOnFacebook(){
 
 function shareDiscountOnFacebook(){
 	
-	swal("Discount scheme shared on the facebook page","","success");
-	
+	swal("Discount scheme shared on the facebook page","","success");	
+}
+
+function generateAndSaveCoupon(){
+	swal("Coupons generated and saved!","","success");
+}
+
+function saveRegistrationDetails(){
+	swal("Registration details saved!","","success");
 }
 
 
