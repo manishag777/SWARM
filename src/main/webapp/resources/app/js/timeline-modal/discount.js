@@ -117,7 +117,8 @@ var discountPercentTable = function(){
 }
 
 var setBestDiscountPercent = function(id){
-	updateValues(discountPercentage, id);
+	//updateValues(discountPercentage, id);
+	updateValues(40, id);
 }
 
 

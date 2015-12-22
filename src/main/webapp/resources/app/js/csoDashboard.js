@@ -23,6 +23,8 @@ $(document).ready(function () {
 			$('#save-event').click(function(e){
 				addEvent();
 			});
+	
+	
 });
 
 
@@ -33,14 +35,19 @@ function fillEventTable(data){
 		var table = document.getElementById("eventTable");
 		var row = table.insertRow(-1);
 		row.innerHTML = getRow(data[i]);
+		addToolTipEvent(data[i]);
 	}
+	
+
 	
 }
 
 function getRow(data){
 	var id = "'"+data.id+"'";
 	console.info(id);
-	var html = '<td>'+data.eventName+'</td>';
+	var mid = data.id+'"';
+	
+	var html = '<td id = "toolTip'+mid+'><a>'+data.eventName+'</a></td>';
 	var tag = "";
 	
 	//html = html + '<td>'+'<b>'+data.relevanceFactor+'</b>&nbsp;&nbsp;'+getRelevanceTag(data.relevanceFactor)+'</td>' ;
@@ -57,6 +64,33 @@ function getRow(data){
 	console.info(html);
 	return html;
 }
+
+function addToolTipEvent(data){
+	
+	$('#toolTip'+data.id).tooltipster({
+        content: $(getToolTipBody(data))
+  });
+}
+
+
+function getToolTipHeader(data){
+	console.info(data.eventName);
+	return "Manish Agrawal";
+}
+
+function getToolTipBody(data){
+	//return "body";
+	console.info(data);
+	var html = '<p style="margin-top:2px;"><b>Event Date: </b><span>'+data.fromDate +'<span></p>'
+	+'<p style="margin-top:2px;"><b>Sport: </b><span>'+data.sportType +'<span></p>'
+    +'<p style="margin-top:2px;"><b>Place of event: </b><span>'+data.placeEvent+'<span></p>'
+    +'<p style="margin-top:2px; margin-bottom:10px;"><b>Event Co-ordintor: </b><span>'+data.coName+'<br/><span><b>Phone no.</b><span id = "phoneId">'+data.coPhone
+    +'<br/></span><b>Email-Id: </b><span >'+data.coEmail +'</span></p>';
+	
+	return html;
+}
+
+
 
 function getRelevanceTag(relevanceFactor){
 	if(relevanceFactor > 6){

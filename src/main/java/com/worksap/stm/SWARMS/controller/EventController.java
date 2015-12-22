@@ -354,11 +354,17 @@ public class EventController {
 		stallEventDto2.setDetail("The Sportive Ride and The Straits Times Ride both , starting at the Delhi Sports Hub and ending inside the National Stadium. Cyclists of The Sportive Ride also took a short ‘journey to the West’ via the Keppel viaduct.");
 
 		
-		stallEventDto1.setEventDate("12/29/2015 - 12/29/2015");
-		stallEventDto2.setEventDate("12/25/2015 - 12/25/2015");
-		stallEventDto3.setEventDate("12/23/2015 - 12/23/2015");
-		stallEventDto4.setEventDate("12/22/2015 - 12/22/2015");
-		stallEventDto5.setEventDate("12/20/2015 - 12/20/2015");
+		stallEventDto1.setEventDate("01/05/2016 - 12/29/2015");
+		stallEventDto2.setEventDate("12/29/2015 - 12/25/2015");
+		stallEventDto3.setEventDate("12/27/2015 - 12/23/2015");
+		stallEventDto4.setEventDate("12/26/2015 - 12/22/2015");
+		stallEventDto5.setEventDate("12/24/2015 - 12/20/2015");
+		
+		stallEventDto1.setFromDate("01/05/2016");
+		stallEventDto2.setFromDate("12/29/2015");
+		stallEventDto3.setFromDate("12/27/2015");
+		stallEventDto4.setFromDate("12/26/2015");
+		stallEventDto5.setFromDate("12/24/2015");
 
 		stallEventDto1.setSportType("marathon");
 		stallEventDto2.setSportType("Cycling");

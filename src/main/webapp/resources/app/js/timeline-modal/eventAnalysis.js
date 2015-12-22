@@ -94,7 +94,7 @@ function getRegistrationAnalysisBody(id){
 	        +'<li><a href="#"><b>Lead converted</b> &nbsp; <p class="pull-right">70</p></a></li>'
 	      +'</ul>'
 	      +'</hr>'
-	      + '<p class = "label label-success">Highly Effective</p>'
+	      + '<p class = "label label-success">Effective</p>'
 	    +'</div>'
 
 	    return html;
