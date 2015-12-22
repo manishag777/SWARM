@@ -140,6 +140,10 @@ var updateValues = function(value, id){
 
 }
 
+var generatePamphlet = function(){
+	swal("Pamphlets have been generated and saved!", " ", "success");	
+}
+
 
 
 

@@ -31,7 +31,8 @@ function getEventStatusBody(id){
 	var regCustCountId = '"regCustCountId' + id + '"' ;
 	var html = '<div class="box-body">'
     +'<ul class="nav nav-pills nav-stacked">'
-     +'<li><a><b>No. of customer registered</b> &nbsp;<p class="pull-right" id = '+ regCustCountId +'>0</p></a></li>'   
+     +'<li><a><b>No. of customer registered</b> &nbsp;<p class="pull-right" id = '+ regCustCountId +'>65</p></a></li>'
+     +'<li><a><b>No. of coupon distributed</b> &nbsp;<p class="pull-right" >210</p></a></li>'
       +'</ul>'
     +'</div>';
 

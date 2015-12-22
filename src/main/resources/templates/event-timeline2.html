@@ -45,6 +45,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						  <div class="box box-danger">
 		                    <div class="box-header with-border">
 		                    
+		                    <div class = "box-title col-md-5">
+		                    	<h3>Sports Event Timeline</h3>
+		                    </div>
 		                    <div class = "box-title col-md-5" style = "display:none">
 			                    <h>Store: &nbsp;</h>
 			                      <div class="box-title">
@@ -371,7 +374,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					<h4 class="modal-title" id="myModalLabel">Coupon Distribution analysis for events</h4>					
 				</div>
 				<div class="modal-body">
-                	<h4><b>Average percentage of participant visit is</b> <span id = "expectedTarget"> </span> 6</h4>
+                	<h4><b>Average percentage of participant visited is</b> <span id = "expectedTarget"> </span> 6</h4>
                 	<h4><b>Average percentage of coupon used is</b> <span id = "setTarget"> </span> 25 </h4>
 					<div id= "top-product">
 						<div class ="col-md-12 tableDiv" id = "future-tableDiv">
@@ -385,8 +388,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			                    	</tr>
 			                    </thead>
 				              </table>
+				           <h4><b>The best multiplier for minimum purchase amount for coupon: </b> <span id = "setTarget"></span> 3 </h4><br/>
+				           <table id="coupon-multiplier-detail" class="table table-striped table-bordered">
+							</table>
+				           
+				              
 						</div>
 					</div>
+					
 				</div>
 				<div class="modal-footer">
 					<button type="button" onClick = "saveProductTarget()" class="btn btn-primary">Done</button>
@@ -410,7 +419,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				</div>
 				<div class="modal-body">
                 	<h4><b>Average percentage of participant visit through registration is</b> <span id = "expectedTarget"> </span> 3</h4>
-                	<h4><b>Average percentage of Successful Registration is</b> <span id = "setTarget"> </span> 30 </h4>
+                	<h4><b>Average percentage of successful registration is</b> <span id = "setTarget"> </span> 30 </h4>
 					<div id= "top-product">
 						<div class ="col-md-12 tableDiv" id = "future-tableDiv">
 							<table id="registration-detail" class="table table-striped table-bordered">
@@ -423,8 +432,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			                    	</tr>
 			                    </thead>
 				              </table>
+				           <h4><b>The best multiplier for minimum purchase amount for registration: </b> <span id = "setTarget"></span> 3 </h4><br/>
+				           <table id="registration-multiplier-detail" class="table table-striped table-bordered">
+							</table>
+				              
 						</div>
 					</div>
+					
 				</div>
 				<div class="modal-footer">
 					<button type="button" onClick = "saveProductTarget()" class="btn btn-primary">Done</button>

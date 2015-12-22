@@ -21,6 +21,17 @@ function intializeCoupon(id){
  		populateRegistrationTable();
  	});
  	
+ 	$('#registrationAmt'+id).keyup(function(e){
+	   	//console.info(val);
+ 		//$("#event-registration-detail").modal("show");
+ 		//populateRegistrationTable();
+ 		document.getElementById("suggestedMinimumPurchaseOnRegistration"+id).innerHTML = "Rs."+3*$('#registrationAmt'+id).val();
+
+ 	});
+
+ 	
+ 	
+ 	
 }
 
 var updateCouponScheme = function(id, remainingBudget){
@@ -49,6 +60,23 @@ var populateCouponTable = function(){
 	        bInfo : false,
 	        destroy: true	
 	    } );
+	    
+	    $('#coupon-multiplier-detail').DataTable( {
+	        data: couponMultiplierDetailData,
+	        columns: [
+	            { title: "Event Name" },
+	            { title: "Multiplier" },
+	            { title: "Profit through coupon(Rs.)" },
+	            { title: "Coupon Used(%)" },
+	        ],
+	        filter: false,
+	        sort: false,
+	        paging: false,
+	        bInfo : false,
+	        destroy: true	
+	    } );
+	    
+	    
 }
 
 var populateRegistrationTable = function(){
@@ -66,6 +94,23 @@ var populateRegistrationTable = function(){
         bInfo : false,
         destroy: true	
     } );
+    
+    
+    $('#registration-multiplier-detail').DataTable( {
+        data: registrationMultiplierDetailData,
+        columns: [
+  	            { title: "Event Name" },
+  	            { title: "Multiplier" },
+  	            { title: "Profit through registration(Rs.)" },
+  	            { title: "Registration Successful(%)" },
+  	        ],
+        filter: false,
+        sort: false,
+        paging: false,
+        bInfo : false,
+        destroy: true	
+    } );
+
 }
 
 
@@ -92,6 +137,7 @@ var updateCouponSlider = function(val, id){
 	var couponCount = (val/couponVal).toFixed(0);
 	document.getElementById("cAmt"+id).innerHTML = couponVal;
 	document.getElementById("couponCount"+id).innerHTML = couponCount;
+	document.getElementById("suggestedMinimumPurchaseOnCoupon"+id).innerHTML = "Rs."+3*couponVal;
 	
 }
 
@@ -99,6 +145,7 @@ var updateCouponSlider = function(val, id){
 var setCouponCount = function(val,id){
 	var couponCount = (remainingBudgetIdMap[id]/val).toFixed(0);
 	document.getElementById("cAmt"+id).innerHTML = val;
+	document.getElementById("suggestedMinimumPurchaseOnCoupon"+id).innerHTML = 3*val;
 	document.getElementById("couponCount"+id).innerHTML = couponCount;
 }
 

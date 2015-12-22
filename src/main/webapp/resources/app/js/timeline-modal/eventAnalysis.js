@@ -57,7 +57,7 @@ function getDiscountAnalysisBody(id){
         +'<li><a href="#"><b>Coupons redeemed</b> &nbsp; <p class="pull-right">180</p></a></li>'
       +'</ul>'
       +'</hr>'
-      + '<p class = "label label-success">HighlyEffective</p>'
+      + '<p class = "label label-success">Highly Effective</p>'
     +'</div>'
 
     return html;
@@ -94,7 +94,7 @@ function getRegistrationAnalysisBody(id){
 	        +'<li><a href="#"><b>Lead converted</b> &nbsp; <p class="pull-right">70</p></a></li>'
 	      +'</ul>'
 	      +'</hr>'
-	      + '<p class = "label label-success">HighlyEffective</p>'
+	      + '<p class = "label label-success">Highly Effective</p>'
 	    +'</div>'
 
 	    return html;
@@ -130,7 +130,7 @@ function getProfitAnalysisBody(id){
       +'<li><a href="#"><b>Profit generated</b> &nbsp;<p class="pull-right">Rs. 28,753</p></a></li>'  
       +'</ul>'
       +'</hr>'
-      + '<p class = "label label-danger">In-effective</p>'
+      + '<p class = "label label-danger">Less-effective</p>'
     +'</div>'
 
     return html;
@@ -165,7 +165,7 @@ function getRevenueAnalysisBody(id){
       +'<li><a><b>Revenue generated</b> &nbsp;<p id = '+ leadConvertedId +' class="pull-right"><small>Rs. 348,560</small></p></a></li>'  
       +'</ul>'
       +'</hr>'
-      + '<p class = "label label-success">Highly-Effective</p>'
+      + '<p class = "label label-success">Highly Effective</p>'
     +'</div>'
 
     return html;
