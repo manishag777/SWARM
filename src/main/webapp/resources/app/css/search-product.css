@@ -1,0 +1,92 @@
+#row2 hr,h4, h3{
+	margin:5px;
+	background-color;
+	display:inline-block;
+}
+
+#col2 img{
+	margin-left:5px;
+	margin-top:40px;
+}
+
+#col3{
+	height:100%;
+	width:15%;
+	float:left;
+}
+
+
+#col2{
+	height:100%;
+	width:70%;
+	float:left;
+}
+
+#prev-button{
+	height:30px;
+	width:30px;
+	margin:120px 10px;
+}
+
+#next-button{
+	height:30px;
+	width:30px;
+	margin:120px 7px;
+}
+
+
+#col1{
+	height:100%;
+	width:15%;
+	float:left;
+	display: table-cell;
+   	vertical-align: middle;
+}
+
+#row1{
+	height:70%;
+}
+
+#row2{
+	height:20%;
+}
+
+
+#productListDiv{
+	margin-left:80px;
+}
+
+#relatedProductDiv{
+	height:400px;
+	width:300px;
+}
+
+#groupDiscountDiv{
+	margin-top:0px;
+	height:400px;
+	width:300px;
+}
+#s_name {
+    margin-top:15px;
+    display:inline-block;
+}
+
+#searchProductButton {
+  margin-top:50px;
+  margin-left:50px;
+}
+
+ tr:hover td{
+    background-color: #D4FFAA !important;
+}
+
+tr.table-header {
+	background-color: #4D4DFF !important;
+	color : white;
+}
+
+.search-box{
+	float:right;
+	width:50%;
+	margin: 20px -10px 0 0;
+}

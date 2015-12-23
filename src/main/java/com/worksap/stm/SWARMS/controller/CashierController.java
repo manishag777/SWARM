@@ -1,0 +1,238 @@
+package com.worksap.stm.SWARMS.controller;
+
+import java.security.Principal;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.worksap.stm.SWARMS.dao.CustomerDao;
+import com.worksap.stm.SWARMS.dao.EmployeeDao;
+import com.worksap.stm.SWARMS.dao.ProductDetailDao;
+import com.worksap.stm.SWARMS.dto.CustomerDto;
+import com.worksap.stm.SWARMS.dto.EmployeeDto;
+import com.worksap.stm.SWARMS.dto.GiftCardDetailDto;
+import com.worksap.stm.SWARMS.dto.GiftCardDto;
+import com.worksap.stm.SWARMS.dto.OrderDto;
+import com.worksap.stm.SWARMS.dto.ProductDetailDto;
+import com.worksap.stm.SWARMS.dto.ProductDto;
+import com.worksap.stm.SWARMS.entity.OrderEntity;
+import com.worksap.stm.SWARMS.entity.ProductFetchEntity;
+import com.worksap.stm.SWARMS.entity.ProductSearchFetchEntity;
+import com.worksap.stm.SWARMS.service.spec.CustomerRelationService;
+import com.worksap.stm.SWARMS.service.spec.CustomerService;
+import com.worksap.stm.SWARMS.service.spec.GiftCardService;
+import com.worksap.stm.SWARMS.service.spec.MyProductService;
+import com.worksap.stm.SWARMS.service.spec.OrderService;
+
+@Controller
+public class CashierController {
+	
+	@Autowired
+	 private CustomerService customerService;
+	@Autowired
+	 private CustomerDao customerDao;
+	
+	@Autowired
+	 private MyProductService productService;
+	
+	@Autowired
+	private CustomerRelationService customerRelationService;
+	
+	@Autowired
+	private OrderService orderService;
+	
+	@Autowired
+	private GiftCardService giftCardService;
+	
+	@Autowired
+	EmployeeDao employeeDao;
+	
+	@Autowired
+	ProductDetailDao productDetailDao;
+	
+	
+
+	
+	@RequestMapping("/manageTransaction")
+    public ModelAndView helloAjaxTest(Principal principal) {
+		//System.out.println("you called Cashier");
+       // return new ModelAndView("billing", "message", "Crunchify Spring MVC with Ajax and JQuery Demo..");
+        return createModelAndView(principal,"transaction");
+
+    }
+	
+	private ModelAndView createModelAndView(Principal principal, String htmlPage){
+		
+		UserDetails userDetails =
+				 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Collection<SimpleGrantedAuthority> authorities  = (Collection<SimpleGrantedAuthority>) userDetails.getAuthorities();
+		
+		Map<String,String> model = new HashMap<String,String>();
+		String role = authorities.iterator().next().getAuthority()+"";
+		model.put("role", role);
+		String username  = principal.getName();
+		EmployeeDto  employeeDto = employeeDao.getByUsername(username);
+		model.put("name", employeeDto.getFirstName() + " "+employeeDto.getLastName());
+		ModelAndView model2 = new ModelAndView(htmlPage);
+		model2.addObject("model", model);
+		return model2;
+		
+	}
+	
+	
+	
+	
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/addCustomer", method = RequestMethod.POST )
+	@ResponseBody
+	public int addCustomer(@RequestBody CustomerDto customerDto) {	
+		System.out.println(customerDto);
+		//return 5;
+		return customerService.insert(customerDto);
+	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/editCustomer", method = RequestMethod.POST )
+	@ResponseBody
+	public void editCustomer(@RequestBody CustomerDto customerDto) {	
+		System.out.println(customerDto);
+		customerService.update(customerDto);
+	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getProductInfoByPid", method = RequestMethod.GET )
+	@ResponseBody
+	public ProductDto GetProductInfoByPid(@RequestParam("pid") String pid) {	
+		
+		System.out.println(pid);
+		//return productDetailDao.
+		return productService.getProductById(pid);
+	}
+	
+	
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getProductDetailByIdAndStore", method = RequestMethod.GET )
+	@ResponseBody
+	public ProductSearchFetchEntity getProductDetailByIdAndStore(@RequestParam("id") String id, @RequestParam("storeId") String storeId) {	
+		  
+		storeId = "delhi";
+		System.out.println(id + " "+ storeId);
+		
+		try{
+			ProductSearchFetchEntity res =  productDetailDao.getProductDetailByIdAndStore(id,storeId);
+			System.out.println(res);
+			return res;
+			//System.out.println("In controller color = " +res.getColor());
+			//return res;
+		}
+		catch(Exception e){
+			return null;
+		}
+		//return productService.getProductById(pid);
+	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getProductDetails", method = RequestMethod.GET )
+	@ResponseBody
+	public ProductDetailDto GetProductDetails(@RequestParam("pid") String pid, @RequestParam("size") String size, @RequestParam("color") String color) {	
+		
+		System.out.println(pid);
+		return productService.getProductDetail(pid,"ranchi",size,color);
+	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getCustomerInfoById", method = RequestMethod.GET )
+	@ResponseBody
+	public CustomerDto GetCustomerInfoById(@RequestParam("id") String id) {	
+		//System.out.println(id);
+		return customerService.getCustomerById(Integer.parseInt(id));
+	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getCustomerInfoByPhoneNo", method = RequestMethod.GET )
+	@ResponseBody
+	public CustomerDto getCustomerInfoByPhoneNo(@RequestParam("phoneNo") String phoneNo) {	
+		//System.out.println(id);
+		return customerDao.getCustomerInfoByPhoneNo(phoneNo);
+	}
+		
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/giftCardStatusByCustomerId", method = RequestMethod.GET )
+	@ResponseBody
+	public GiftCardDetailDto getGiftCardSpecification(@RequestParam("id") int id) {	
+		return customerRelationService.getGiftCardSpecification(id);
+	}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/saveOrderDetail", method = RequestMethod.POST )
+	@ResponseBody
+	public void saveOrderDetail(@RequestBody OrderEntity orderEntity) {	
+		System.out.println(orderEntity.getOrderDto());
+		
+		int orderId =  orderService.saveOrder(orderEntity.getOrderDto());
+		
+		orderService.saveOrderDetailList(orderEntity.getOrderDetailDtoList(),orderId);
+		GiftCardDetailDto giftCardDetailDto = orderEntity.getGiftCardDetailDto();
+		System.out.println(giftCardDetailDto);
+
+		if(giftCardDetailDto.getId()==0 || giftCardDetailDto.getAmt()==0) return;
+		
+		if(giftCardDetailDto.getId()==-1){
+			System.out.println("step1 done");
+			int giftCardId = giftCardService.insertGiftCard(giftCardDetailDto);
+			System.out.println("step2 done");
+			int custId = orderEntity.getOrderDto().getCustId();
+			System.out.println("step3 done");
+			customerService.updateGiftCardId(custId,giftCardId);
+			System.out.println("step4 done");
+			CustomerDto customerDetail = customerService.getCustomerById(custId);
+			System.out.println(customerDetail);
+			
+			if(customerDetail.getIsNewCustomer()==0){
+				customerService.updateCustomerIsNotNew(custId);
+				System.out.println("step5 done" + "refferalId = " + customerDetail.getReferrerId());
+				if(customerDetail.getReferrerId()!=0)
+					customerService.updateGiftCardForReffering(custId, customerDetail.getReferrerId(), giftCardDetailDto);
+				System.out.println("step6 done");
+
+			}
+		}
+		else{
+			giftCardService.updateGiftCard(giftCardDetailDto);
+		}
+		
+		System.out.println(giftCardDetailDto.getId());	
+}
+	
+	@PreAuthorize("hasAuthority('MD')")
+	@RequestMapping(value = "/getSalesStaffListByStoreId", method = RequestMethod.GET )
+	@ResponseBody
+	public List<EmployeeDto> getSalesStaffListByStoreId(@RequestParam("storeId") String storeId) {	
+		
+		System.out.println(storeId);
+		//return productDetailDao.
+		return employeeDao.getSalesStaffListByStoreId(storeId);
+	}
+	
+	
+	
+
+	
+	
+}

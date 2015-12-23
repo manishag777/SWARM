@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:remove="tag" th:fragment="commonhead">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="resources/lib/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+<link rel="stylesheet"
+	href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+<link rel="stylesheet" href="resources/app/css/AdminLTE.min.css" />
+<link rel="stylesheet" href="resources/app/css/skin-blue.min.css" />
+<link rel="stylesheet" href="resources/app/css/swarm.css" />
+<link rel="stylesheet" href="resources/lib/css/datatables.min.css" />
+<link rel="stylesheet" href="resources/lib/css/select2.min.css" />
+<link rel="stylesheet"
+	href="resources/lib/css/select2-bootstrap.min.css" />
+<link rel="stylesheet"
+	href="resources/lib/css/bootstrap-multiselect.css" type="text/css" />
+<link rel="stylesheet"
+	href="resources/lib/css/bootstrap3-wysihtml5.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+<link rel="stylesheet" href="resources/lib/css/datepicker.css" />
+<link rel="stylesheet" type="text/css"
+	href="resources/lib/css/sweetalert.css" />
+<link rel="stylesheet" type="text/css" href="resources/lib/css/tooltipster.css" />
+
+</head>
+
+<body>
+	<div th:fragment="header">
+		<header class="main-header">
+
+			<!-- Logo -->
+			<a href="index2.html" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
+				<span class="logo-mini"><b>S</b>WARMS</span> <!-- logo for regular state and mobile devices -->
+				<span class="logo-lg"><b>Sport</b>WARMS</span>
+			</a>
+
+			<nav class="navbar navbar-static-top" role="navigation">
+				<!-- Sidebar toggle button-->
+				<a href="#" class="sidebar-toggle" data-toggle="offcanvas"
+					role="button"> <span class="sr-only">Toggle navigation</span>
+				</a>
+				<!-- Navbar Right Menu -->
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+
+						<!--              	Out-of-stock notification -->
+						<!-- Messages: style can be found in dropdown.less-->
+						<li class="dropdown messages-menu" id="out-of-stock-notification"
+							style="display: none;">
+							<!-- Menu toggle button --> <a href="#" class="dropdown-toggle"
+							data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <span
+								class="label label-success" id="out-of-stock-warning">0</span>
+						</a>
+							<ul class="dropdown-menu">
+								<li class="header" id="out-of-stock-header"></li>
+								<li>
+
+
+									<ul class=" seen-unseen nav nav-pills nav-justified">
+										<li id="unseen" class="active"><a href="#"> Not Seen</a></li>
+										<li><a href="#" id="seen">Seen</a></li>
+									</ul>
+
+								</li>
+								<li>
+									<!-- inner menu: contains the messages -->
+									<ul class="menu" id="out-of-stock-list">
+
+									</ul> <!-- /.menu -->
+								</li>
+								<li class="footer"><a href="#">See All Messages</a></li>
+							</ul>
+						</li>
+						<!-- /.messages-menu -->
+
+
+						<!-- User Account Menu -->
+						<li class="dropdown user user-menu">
+							<!-- Menu Toggle Button --> <a class="dropdown-toggle"
+							data-toggle="dropdown"> <!-- The user image in the navbar-->
+								<img src="resources/app/img/md.png" class="user-image"
+								alt="User Image" /> <!-- hidden-xs hides the username on small devices so only the image appears. -->
+								<span class="hidden-xs" th:text="${model.name}">Manisha
+									Agrawal</span>
+						</a>
+							<ul class="dropdown-menu">
+								<!-- The user image in the menu -->
+								<li class="user-header"><img src="resources/app/img/md.png"
+									class="img-circle" alt="User Image" />
+									<p th:text="${model.name}">
+										Manishs Agrawal <small th:text="${model.role}">
+											Managing Director</small>
+									</p></li>
+
+								<!-- Menu Footer-->
+								<li class="user-footer">
+									<div class="pull-left">
+										<a href="#" class="btn btn-default btn-flat">Profile</a>
+									</div>
+									<div class="pull-right">
+										<a href="./logout" class="btn btn-default btn-flat">Sign
+											out</a>
+									</div>
+								</li>
+							</ul>
+						</li>
+
+					</ul>
+				</div>
+			</nav>
+
+		</header>
+
+		<aside class="main-sidebar">
+
+			<!-- sidebar: style can be found in sidebar.less -->
+			<section class="sidebar">
+
+				<!-- Sidebar user panel (optional) -->
+				<div class="user-panel">
+					<div class="pull-left image">
+						<img src="resources/app/img/md.png" class="img-circle"
+							alt="User Image" />
+					</div>
+					<div class="pull-left info">
+						<p th:text="${model.name}"></p>
+						<!-- Status -->
+						<a href="#" th:text="${model.role}"><i
+							class="fa fa-circle text-success"></i> MD </a>
+					</div>
+				</div>
+
+
+				<!-- Sidebar Menu -->
+				<ul class="sidebar-menu">
+					<li class="header">Dashboard</li>
+					<!-- Optionally, you can add icons to the links -->
+					<li class="active"><a href="./csodashboard"
+						th:if="${session.roles.contains('cso')}"><i class="fa fa-link"></i>
+							<span>Dashboard</span></a></li>
+					<li class="active"><a href="./smDashboard"
+						th:if="${session.roles.contains('sm')}"><i class="fa fa-link"></i>
+							<span>Dashboard</span></a></li>
+					<li class="active"><a href="ssDashBoard"
+						th:if="${session.roles.contains('ss')}"><i class="fa fa-link"></i>
+							<span>Dashboard</span></a></li>
+
+					<li><a href="./manageEvent"
+						th:if="${session.roles.contains('cso')}"><i class="fa fa-link"></i>
+							<span>Event Management</span></a></li>
+					<li><a href="./suggestionForOpeningNewStore"
+						th:if="${session.roles.contains('cso')}"><i class="fa fa-link"></i>
+							<span>Store Suggestion</span></a></li>
+					<li><a href="./templateMailingManagement"
+						th:if="${session.roles.contains('cso')}"><i class="fa fa-link"></i>
+							<span>Template Mailing</span></a></li>
+					<li><a href="./manageGiftCard"
+						th:if="${session.roles.contains('cso')}"><i class="fa fa-link"></i>
+							<span>Gift card</span></a></li>
+					<li><a href="./searchProduct"
+						th:if="${session.roles.contains('ss')}"><i class="fa fa-link"></i>
+							<span>Products</span></a></li>
+					<li><a href="./manageTransaction"
+						th:if="${session.roles.contains('ss')} or ${session.roles.contains('cashier')}"><i
+							class="fa fa-link"></i> <span>Transaction</span></a></li>
+					<li><a href="./employeeManagement"
+						th:if="${session.roles.contains('cso')}"><i class="fa fa-link"></i>
+							<span>Employee</span></a></li>
+					<li><a href="./feedbacks"
+						th:if="${session.roles.contains('sm')}"><i class="fa fa-link"></i>
+							<span>Price Feedbacks</span></a></li>
+					<li><a href="./priceComparisons"
+						th:if="${session.roles.contains('sm')}"><i class="fa fa-link"></i>
+							<span>Price Comparisons</span></a></li>
+					<li><a href="./manageProduct"
+						th:if="${session.roles.contains('sm')}"><i class="fa fa-link"></i>
+							<span>Manage Products</span></a></li>
+					<li><a href="./facebookAnalysis"
+						th:if="${session.roles.contains('cso')}"><i class="fa fa-link"></i>
+							<span>Facebook Analysis</span></a></li>
+
+					<li><a href="./logout"><i class="fa fa-link"></i> <span>Log
+								out</span></a></li>
+				</ul>
+				<!-- /.sidebar-menu -->
+			</section>
+			<!-- /.sidebar -->
+		</aside>
+
+
+
+	</div>
+</body>
+</html>

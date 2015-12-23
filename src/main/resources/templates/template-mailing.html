@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>SportWarms</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>	
+	<ct th:replace="fragments/header :: commonhead"></ct>
+	
+	
+	<link rel="stylesheet" href="resources/app/css/template-mailing.css"/>   
+	 
+	 <style>
+      .templates-modal .modal {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        margin-left: 15%;
+        display: block;
+        z-index: 1;
+        width: 70%;
+      }
+      .example-modal .modal {
+        background: transparent !important;
+      }
+      
+      </style>
+  </head>
+    
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+ <!-- Main Header -->
+		<div th:replace="fragments/header :: header"></div>
+	            
+       
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+         	<div class="container" id="layout">
+		<div class="row" id = "template-modal-list">
+			<div class="col-lg-12 col-sm-12 table-buttons">
+				<!-- Buttons -->
+				<button type="button" id = "create_template" class="btn btn-default btn-md"
+					data-toggle="modal" data-target="#template-modal">
+					<span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
+					<span >Create a template</span>
+				</button>
+			</div>
+				
+<!-- 			 <div class="templates-modal"  > -->
+<!--             <div class="modal modal-primary"> -->
+<!--               <div class=""> -->
+<!--                 <div class="modal-content"> -->
+<!--                   <div class="modal-header"> -->
+<!--                     <div class = "row" > -->
+<!-- 	                    <div class="form-group col-lg-4"> -->
+<!-- 		                    <p><b> Tag: </b> #offer </p> -->
+<!-- 		                 </div> -->
+		                 
+<!-- 	                    <button type="button" id = "editTemplate" class="btn btn-default btn-md" -->
+<!-- 							data-toggle="modal" data-target="#customer-modal"> -->
+<!-- 							<span class="glyphicon glyphicon-plus" aria-hidden="true" ></span> -->
+<!-- 							<span >Edit Template</span> -->
+<!-- 						</button> -->
+<!--                      </div> -->
+                     
+                    
+<!--                   </div> -->
+<!--                  <div class="modal-body">                 -->
+<!-- 	                <div class="row"> -->
+<!--             			<div class="col-xs-12"> -->
+<!--               				<div class="box"> -->
+<!-- 			                    <div class="box-body table-responsive no-padding"> -->
+<!-- 			                    	<div class="box-body pad"> -->
+<!-- 			                    		<div id = "subject"> -->
+<!-- 			                    			<p> <b>Subject : </b> <span id = "mailSubject"></span></p> -->
+<!-- 			                    			<p> <b>Body <br/> </b> <span id = "mailBody"></span></p> -->
+<!-- 			                    		</div> -->
+<!-- 			                		</div>	 -->
+			                   		
+			                   		
+<!-- 			                    </div> -->
+<!--                   		</div> -->
+<!--                   		<div> -->
+                  		
+                  			
+<!--                   		</div> -->
+                  		
+<!--                   	</div> -->
+	                
+<!-- 				</div>	 -->
+				
+<!-- 				</div> -->
+                  
+                 
+<!--                 </div>/.modal-content -->
+<!--               </div>/.modal-dialog -->
+<!--             </div>/.modal -->
+<!--           </div>/.example-modal -->
+          
+          
+			
+			
+		</div>
+		
+		<div class="modal fade" id="template-modal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-mode="add">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Create Email Template</h4>
+				</div>
+				<div class="modal-body">
+					<form id="template-form">
+						
+						<div class="box">
+			                <div class="box-header">
+							  
+							  <label for="tage">Template tag</label> 
+							  <input name="tagText"
+								type="text" class="form-control" id="tag"/><br/>
+								
+			                  <label for="subject">Subject</label> <input name="subjectText"
+								type="text" class="form-control" id="subjectId"/>
+			                 
+			                </div><!-- /.box-header -->
+			                <div class="box-body pad" id = "textarea-div">
+<!-- 			                	<label for="body">Body</label> -->
+<!-- 			                    <textarea class="textarea form-control" id="textarea-id" name="bodyText"  placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">ghhg</textarea> -->
+			                </div>
+			                
+			                
+			                
+			                
+            			</div>
+						
+					</form>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button id="save-template" type="button" class="btn btn-primary">Save Template</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+
+</div>
+	
+	 
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+          <!-- Your Page Content Here -->
+
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+
+
+
+
+
+      <!-- Main Footer -->
+      <footer class="main-footer">
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+          Anything you want
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
+      </footer>
+      
+       <div class="control-sidebar-bg"></div>
+    </div><!-- ./wrapper -->
+    
+     <!-- jQuery 2.1.4 -->
+    <script src="resources/lib/js/jquery-2.1.4.min.js" type="text/javascript"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="resources/lib/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- AdminLTE App -->
+    <script src="resources/app/js/app.min.js" type="text/javascript"></script>
+    <script src="resources/app/js/common.js" type="text/javascript"></script>
+    <script src="resources/lib/js/datatables.min.js" type="text/javascript"></script>
+    <script src="resources/lib/js/bootstrap3-wysihtml5.all.min.js"></script>
+    
+    
+<!--     <script> -->
+//       $(function () {
+       	
+//     	$("#textarea-id").val("<b>manish</b>");  
+//         $("#textarea-id").wysihtml5();
+        
+//       });
+<!--     </script> -->
+    
+    <script src="resources/app/js/email-template.js" type="text/javascript"></script>
+    
+    
+  </body>
+  </html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>SportWarms</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+
+    <ct th:replace="fragments/header :: commonhead"></ct>
+	<link rel="stylesheet" href="resources/app/css/store-suggestion.css"/>
+	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css"/>
+	
+	
+  </head>
+    
+  <body class="hold-transition skin-blue sidebar-mini">
+  
+  
+    <div class="wrapper">
+    
+	<!-- Main Header -->
+	<div th:replace="fragments/header :: header"></div>
+	    <div class="content-wrapper">
+       		 <section class="content-header">
+         		
+         		<div class = "col-md-4 col-sm-4 col-xs-12" id = "panelDiv">
+         			<div class = "panelDivContent">
+         				 <div class="panelDivContent1 box box-primary">
+			                <div class="box-header with-border">
+			                  <h3 class="box-title">New Store location suggestion panel</h3>
+			                </div><!-- /.box-header -->
+			                
+			                <div id = "store-adder">
+			              		
+			              		<div class = "col-md-8 col-sm-4 col-xs-12">
+				                	<select id="store-type-filter" class=" form-control select-box-inline office-selects">
+<!-- 										<option name = "sportId" selected="selected" value='0' >Select Store</option> -->
+<!-- 										<option name = "sportId" value='ranchi' >Ranchi</option> -->
+<!-- 										<option name = "sportId" value='delhi' >Delhi</option> -->
+									</select>
+								</div>
+								
+								<div class = "col-md-4 col-sm-4 col-xs-12">
+									<button type="button" id = "addStore" class="btn btn-default btn-md pull-right">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
+										<span >Add</span>
+									</button>
+								</div>
+						 
+			                </div>
+			                
+			                <div id = "selected-store">
+			                	<table id = "store-table">
+				                    	<tr>
+					                    		<td style= 'width: 4%'></td>
+					                    		<td style= 'width:  30%'><b>Store</b></td>
+					                    		<td style= 'width: 66%' ><b>Target Customer</b></td>
+				                    	
+				                    	</tr>
+			                   </table>
+			                </div>
+			                
+			                <div class = "col-md-12 col-sm-4 col-xs-12">
+									<button type="button" id = "getSuggestion" class="btn btn-default btn-md pull-right">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
+										<span >Get Suggestion</span>
+									</button>
+							</div>
+							
+							<hr/>
+							
+							<div class="progress xs">
+							    <div class="progress-bar progress-bar-info  progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100% ">
+							     
+							    </div>
+							 </div>
+							 
+							 <div id = "suggestion-block" style = "display:none">
+							 
+								 <div  class = "col-md-5 col-sm-4 col-xs-12" id = "sales-chart2">
+								 	 <div  id = "sales-chart">
+								 	</div>
+								 </div>
+							 
+								<div class="col-md-6 col-sm-4 col-xs-12 w3-card w3-white" id = "suggestion-sticker">
+									<h6><small>Suggested Location</small></h6>
+									 <p><img src = "resources/app/img/map-marker/blue-dot.png" style = "height:40px; width:40px"/> <small><span id = "saddress"></span></small></p>
+									 <h6><b><small>Targeting Customer</small></b></h6>
+									 <p> &nbsp; &nbsp;<span id="sharePercent"></span></p><br/><br/> 
+								</div>
+							
+								<div class="col-md-12 col-sm-4 col-xs-12">
+									 <h2 class = "w3-white"><small>Customize suggested location</small> </h2>
+									 <table>
+										 <tr>
+										 	<td><img src = "resources/app/img/map-marker/red-dot.png" style = "height:40px; width:40px"/></td>
+										 	<td>Long&nbsp;&nbsp;</td>
+										 	<td><input name="long" type="text" class="form-control" id="clong" readonly = "readonly" style = "width:150px" /></td>
+										 	<td>Lat&nbsp;&nbsp;</td>
+										 	 <td><input name="lat" type="text" class="form-control" id="clat" readonly = "readonly" style = "width:150px" /></td>
+									 	</tr>
+									 	<tr>
+										 	<td> <h3 class = "w3-white"><small>Address</small> </h3></td>
+									 	</tr>
+									 	<tr>
+										 	<td colspan="4"><p><small><span id = "caddress"></span></small></p></td>
+									 	</tr>
+									 	
+									 	<tr>
+										 	<td colspan="2"><button  onclick="NotifyMD()"  class="btn btn-block btn-success" style="width:150px;  margin-top:-7px;" ><small>Save and Notify MD</small></button></td>
+									 	</tr>
+									 	
+								
+									 </table> 
+								</div>
+			                
+			                </div>
+			               
+              			</div><!-- /.box -->
+         			</div>
+         		</div>
+         		<div class = "col-md-8 col-sm-8 col-xs-12" id = "mapDiv">
+	         		<div class = "mapDivContent">
+	         			<div id = "map">
+	         			
+	         			</div>
+	         			
+	         		</div>
+         		</div>
+         			
+		
+		
+	 
+       		 </section>
+
+       
+        	<section class="content">
+
+         
+
+       		 </section>
+     </div>
+     
+     <div th:replace="fragments/footer :: footer"></div>
+     
+     
+  </div>    
+  	
+  	<script src="resources/app/js/store-suggestion-panel.js" type="text/javascript"></script>
+ 	<script src="resources/app/js/store-suggestion.js" type="text/javascript"></script>
+ 	<script src="http://maps.googleapis.com/maps/api/js?library=place"></script> 
+ 	<script type="text/javascript" src="resources/lib/js/morris.min.js"></script>
+ 	<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+ 	
+ 	
+</body>
+</html>

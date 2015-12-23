@@ -1,0 +1,31 @@
+.navbar-inner{
+	width: 80%;
+	background: none;
+	background-color : #2d3538;
+}
+
+
+
+.navbar-inner .navbar-nav > li > a { width: 50%; padding-top:5px !important; padding-bottom:5px !important; padding-left :20px; padding:right : 20px;}
+.navbar-inner .navbar {min-height:32px !important}
+
+#nav {
+  display: table;
+  table-layout: fixed;
+  text-align: center;
+}
+#nav li {
+  display: table-cell;
+  width: 25%;
+  padding-right: 1px;
+  height: auto;
+  vertical-align: bottom;
+}
+#nav a {
+  display: block;
+  min-height: 100%;
+  padding: 4px 10px;
+  background-color: #222;
+  color: white;
+  border-radius: 6px 6px 0 0;
+}

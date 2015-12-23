@@ -1,0 +1,23 @@
+.minfo-box{display:block;background:#fff;width:100%;box-shadow:0 1px 1px rgba(0,0,0,0.1);border-radius:2px;margin-bottom:15px; display: inline-block;}
+.minfo-box .mheader {padding: 10px 10px 10px 10px;}
+.minfo-box h2,h3{margin:0; padding:0;}
+.minfo-box hr{margin:0; padding:0;}
+.minfo-box p{margin-top:5px;}
+.minfo-box p span{float:right}
+.minfo-box .mcontent{margin-top:20px; padding:20;}
+.selector{ width:100px;}
+.dummy-div{height:33px; width:100px; visibility:hidden;}
+.store-selector2{float:right; margin-top:-16px;}
+.date-interval-selector{display: inline-block}
+#rangeDiv1, #rangeDiv2, #rangeDiv3, #rangeDiv4{display: inline-block; width:100%;}
+#reportrange1, #reportrange2, #reportrange3, #reportrange4 {float: right; border-radius: 5px; background: #F8F8F8 ; cursor: pointer; margin: 5px 5px; padding: 5px 5px; border: 1px solid #ccc; display: inline-block;}
+.info-box{background:#F8F8F8;}
+
+
+
+/* Revenue.js css */
+
+/* .modal-dialog .modal-body{
+    height:700px;
+} */
+
