@@ -20,11 +20,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="resources/app/css/statusbar.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"/>
     <link rel="stylesheet" href="resources/lib/css/slider.css"/>
+<!--     <link rel="stylesheet" href="resources/app/css/rating.css"/> -->
     
-    
-    
-	
-	
 	
   </head>
     
@@ -105,6 +102,66 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	                    </span>
                     </div></td>
                     <td style = "width:20%"><button type="button" onClick = "saveMeetingTime()" class="btn btn-default" data-dismiss="modal">Save</button></td>
+                    </tr>
+                    </table>
+					
+					
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-mode="add">
+		<div class="modal-dialog customer-modal" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					
+					<h4 class="modal-title">Add proposal item</h4>
+					<table style = "width:100%; margin-top:10px;">
+						<tr>
+                    <td style = "width:80%"><div class='input-group date'>
+	                    <input type='text' id = "proposalTask" class="form-control" />
+	                    <span class="input-group-addon">
+	                        <i class="fa fa-edit"></i>
+	                    </span>
+                    </div></td>
+                    <td style = "width:20%"><button type="button" onClick = "addProposalTask()" class="btn btn-default" data-dismiss="modal">Save</button></td>
+                    </tr>
+                    </table>
+					
+					
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+		<div class="modal fade" id="addCommentModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-mode="add">
+		<div class="modal-dialog customer-modal" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					
+					<h4 class="modal-title">Add comment</h4>
+					<table style = "width:100%; margin-top:10px;">
+						<tr>
+                    <td style = "width:80%"><div class='input-group date'>
+	                    <input type='text' id = "commentUnit" class="form-control" />
+	                    <span class="input-group-addon">
+	                        <i class="fa fa-commenting-o"></i>
+	                    </span>
+                    </div></td>
+                    <td style = "width:20%"><button type="button" onClick = "addCommentUnit()" class="btn btn-default" data-dismiss="modal">Save</button></td>
                     </tr>
                     </table>
 					

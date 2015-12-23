@@ -51,6 +51,7 @@ function getRow(data){
 	var tag = "";
 	
 	//html = html + '<td>'+'<b>'+data.relevanceFactor+'</b>&nbsp;&nbsp;'+getRelevanceTag(data.relevanceFactor)+'</td>' ;
+	html = html + '<td>'+data.sportType+'</td>';
 	html = html + '<td>'+getRelevanceTag(data.relevanceFactor)+'</td>' ;
 
 	if(data.isSeen==0)

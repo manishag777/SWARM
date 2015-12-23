@@ -259,6 +259,7 @@ var fetchEventList = function(){
 				}
 				
 				addPostMeetingListener(data[i].id);
+				acitvateMeetingTab(data[i].id);
 				
 				 $('#couponExpiry'+data[i].id).datepicker({
 				     dateFormat: 'dd-mm-yy',     
@@ -267,6 +268,8 @@ var fetchEventList = function(){
 				 $('#registrationExpiry'+data[i].id).datepicker({
 				     dateFormat: 'dd-mm-yy',     
 				 });
+				 $(".dropdown-toggle").dropdown();
+				 actionOnClickingRating();
 				 
 			}
 		},
